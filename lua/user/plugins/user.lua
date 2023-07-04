@@ -9,7 +9,20 @@ return {
   --     require("lsp_signature").setup()
   --   end,
   -- },
-  { "shaunsingh/nord.nvim", name = "nord", event = "VimEnter" },
+  { "nyoom-engineering/oxocarbon.nvim", name = "oxocarbon", event = "VimEnter" },
+  --[[ {
+    'olivercederborg/poimandres.nvim',
+    name = "poimandres",
+    event = "VimEnter",
+    config = function()
+      require('poimandres').setup({
+        -- leave this setup function empty for default config
+        -- or refer to the configuration section
+        -- for configuration options
+      })
+    end
+  }, { "shaunsingh/nord.nvim",        name = "nord",      event = "VimEnter" },
+ ]] --
   --[[ {
     'rose-pine/neovim',
     name = 'rose-pine',

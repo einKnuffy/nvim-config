@@ -19,9 +19,13 @@ return {
     -- this is useful for naming menus
     ["<leader>b"] = { name = "Buffers" },
     -- ["<l-shift><tab>"] = { ":bprev!<cr>", desc = "Prev Tab" },
-    ["<tab>"] = { ":bnext!<cr>", desc = "Next Tab" }
-    -- quick save
-    -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
+    ["<tab>"] = { ":bnext!<cr>", desc = "Next Tab" },
+    ["<leader>t"] = { name = "Terminal" },
+    ["<leader>to"] = { ":vsplit term://bash <cr>", desc = "Open tab" },
+    ["<leader>gc"] = { ":!git fetch <cr> :!git add * <cr> :!git commit -m main <cr> :!git push <cr>", desc =
+    "Commit all (*) changes to (main branch)" }
+    -- REMINDER:
+    -- Ctrl + W + [h, l] = Switch splitted open files to left or right;
   },
   t = {
     -- setting a mapping to false will disable it
