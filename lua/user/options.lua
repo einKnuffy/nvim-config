@@ -1,5 +1,5 @@
 -- set vim options here (vim.<first_key>.<second_key> = value)
-return {
+--[[return {
   opt = {
     -- set to true or false etc.
     relativenumber = false, -- sets vim.opt.relativenumber
@@ -7,6 +7,7 @@ return {
     spell = false,          -- sets vim.opt.spell
     signcolumn = "auto",    -- sets vim.opt.signcolumn to auto
     wrap = false,           -- sets vim.opt.wrap
+    guifont = "Hack Nerd Font Mono:h12"
   },
   g = {
     mapleader = " ",                 -- sets vim.g.mapleader
@@ -18,7 +19,8 @@ return {
     ui_notifications_enabled = true, -- disable notifications when toggling UI elements
     resession_enabled = false,       -- enable experimental resession.nvim session management (will be default in AstroNvim v4)
   },
-}
+}]]
+--
 -- If you need more control, you can use the function()...end notation
 -- return function(local_vim)
 --   local_vim.opt.relativenumber = true
@@ -28,3 +30,23 @@ return {
 --
 --   return local_vim
 -- end
+--
+return function(local_vim)
+  local keymap = vim.api.nvim_set_keymap
+  local opts = { noremap = true };
+
+  local_vim.opt.relativenumber = false;
+  local_vim.opt.number = true;
+  local_vim.opt.guifont = "Hack Nerd Font Mono:h12";
+
+  --  vim.api.nvim_command('SOMECOMMAND')
+  -- vim.api.nvim_command("<leader>e");
+  -- vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<leader>Sl', true, true, true), 'n', true);
+  -- local termcodes = vim.api.nvim_replace_termcodes('<Space>', true, true, true);
+  -- vim.api.nvim_feedkeys(termcodes, 'n', true);
+
+  -- termcodes = vim.api.nvim_replace_termcodes('e', true, true, true);
+  -- vim.api.nvim_feedkeys(termcodes, 'n', true);
+
+  return local_vim;
+end

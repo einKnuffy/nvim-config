@@ -20,8 +20,9 @@ return {
     ["<leader>b"] = { name = "Buffers" },
     -- ["<l-shift><tab>"] = { ":bprev!<cr>", desc = "Prev Tab" },
     ["<tab>"] = { ":bnext!<cr>", desc = "Next Tab" },
-    ["<leader>t"] = { name = "Terminal" },
-    ["<leader>to"] = { ":vsplit term://bash <cr>", desc = "Open tab" },
+    -- ["<leader>t"] = { name = "Terminal" },
+    ["<leader>to"] = { ":split term://bash <cr>", desc = "Open terminal in split view" },
+    ["<leader>td"] = { ":exit <cr>", desc = "Close (delete) terminal in split view" },
     ["<leader>gc"] = { ":!git fetch <cr> :!git add * <cr> :!git commit -m main <cr> :!git push <cr>", desc =
     "Commit all (*) changes to (main branch)" }
     -- REMINDER:
@@ -30,5 +31,6 @@ return {
   t = {
     -- setting a mapping to false will disable it
     -- ["<esc>"] = false,
+    -- ["<leader>td"] = { "exit <cr> <cr>", desc = "Close (delete) terminal in split view" },
   },
 }
