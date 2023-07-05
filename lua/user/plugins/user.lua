@@ -43,133 +43,62 @@ return {
       })
     end
   }, ]] --
+  { 'weilbith/nvim-code-action-menu',   event = "VimEnter" },
   { "nyoom-engineering/oxocarbon.nvim", name = "oxocarbon", event = "VimEnter" },
-  --[[ {
-    'olivercederborg/poimandres.nvim',
-    name = "poimandres",
-    event = "VimEnter",
+  {
+    "hrsh7th/nvim-cmp",
+    name = "cmp",
+    event = "InsertEnter",
     config = function()
-      require('poimandres').setup({
-        -- leave this setup function empty for default config
-        -- or refer to the configuration section
-        -- for configuration options
+      local cmp = require('cmp');
+
+      require("cmp").setup({
+        preselect = cmp.PreselectMode.Item,
       })
     end
-  }, { "shaunsingh/nord.nvim",        name = "nord",      event = "VimEnter" },
- ]] --
-  --[[ {
-    'rose-pine/neovim',
-    name = 'rose-pine',
+  },
+  {
+    "ray-x/lsp_signature.nvim",
+    name = "lsp_signature",
     event = "VimEnter",
     config = function()
-      require('rose-pine').setup({
-        --- @usage 'auto'|'main'|'moon'|'dawn'
-        variant = 'auto',
-        --- @usage 'main'|'moon'|'dawn'
-        dark_variant = 'main',
-        bold_vert_split = false,
-        dim_nc_background = false,
-        disable_background = false,
-        disable_float_background = false,
-        disable_italics = false,
+      require("lsp_signature").setup({
 
-        --- @usage string hex value or named color from rosepinetheme.com/palette
-        groups = {
-          background = 'base',
-          background_nc = '_experimental_nc',
-          panel = 'surface',
-          panel_nc = 'base',
-          border = 'highlight_med',
-          comment = 'muted',
-          link = 'iris',
-          punctuation = 'subtle',
-
-          error = 'love',
-          hint = 'iris',
-          info = 'foam',
-          warn = 'gold',
-
-          headings = {
-            h1 = 'iris',
-            h2 = 'foam',
-            h3 = 'rose',
-            h4 = 'gold',
-            h5 = 'pine',
-            h6 = 'foam',
-          }
-          -- or set all headings at once
-          -- headings = 'subtle'
-        },
-
-        -- Change specific vim highlight groups
-        -- https://github.com/rose-pine/neovim/wiki/Recipes
-        highlight_groups = {
-          ColorColumn = { bg = 'rose' },
-
-          -- Blend colours against the "base" background
-          CursorLine = { bg = 'foam', blend = 10 },
-          StatusLine = { fg = 'love', bg = 'love', blend = 10 },
-        }
       })
     end
-  }]] --
-  --[[{
-    "catppuccin/nvim",
-    name = "catppuccin",
-    event = "VimEnter",
-    config = function()
-      require("catppuccin").setup({
-        --       flavour = "latte", -- latte, frappe, macchiato, mocha
-        background = { -- :h background
-          light = "latte",
-          dark = "mocha",
-        },
-        --      transparent_background = true, -- disables setting the background color.
-        show_end_of_buffer = false, -- shows the '~' characters after the end of buffers
-        term_colors = false,        -- sets terminal colors (e.g. `g:terminal_color_-1`)
-        dim_inactive = {
-          enabled = false,          -- dims the background color of inactive window
-          shade = "dark",
-          percentage = -1.15,        -- percentage of the shade to apply to the inactive window
-        },
-        no_italic = false,          -- Force no italic
-        no_bold = false,            -- Force no bold
-        no_underline = false,       -- Force no underline
-        styles = {                  -- Handles the styles of general hi groups (see `:h highlight-args`):
-          comments = { "italic" },  -- Change the style of comments
-          conditionals = { "italic" },
-          loops = {},
-          functions = {},
-          keywords = {},
-          strings = {},
-          variables = {},
-          numbers = {},
-          booleans = {},
-          properties = {},
-          types = {},
-          operators = {},
-        },
-        color_overrides = {
-        },
-        custom_highlights = function(colors)
-          return {
-            Comment = { fg = colors.flamingo },
-            TabLineSel = { bg = colors.pink },
-            CmpBorder = { fg = colors.surface1 },
-            Pmenu = { bg = colors.none },
-          }
-        end
-        ,
-        integrations = {
-          cmp = true,
-          gitsigns = true,
-          nvimtree = true,
-          telescope = true,
-          notify = true,
-          mini = false,
-          -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
-        },
-      })
-    end
-  }]] --
+  }, {
+  'rmagatti/goto-preview',
+  event = "VimEnter",
+  config = function()
+    require('goto-preview').setup({
+      width = 120,                                         -- Width of the floating window
+      height = 15,                                         -- Height of the floating window
+      border = { "↖", "─", "┐", "│", "┘", "─", "└", "│" }, -- Border characters of the floating window
+      default_mappings = true,                             -- Bind default mappings
+      debug = false,                                       -- Print debug information
+      opacity = nil,                                       -- 0-100 opacity level of the floating window where 100 is fully transparent.
+      resizing_mappings = false,                           -- Binds arrow keys to resizing the floating window.
+      post_open_hook = nil,                                -- A function taking two arguments, a buffer and a window to be ran as a hook.
+      references = {                                       -- Configure the telescope UI for slowing the references cycling window.
+        telescope = require("telescope.themes").get_dropdown({ hide_preview = false })
+      },
+
+      -- default keybinds
+      -- nnoremap gpd <cmd>lua require('goto-preview').goto_preview_definition()<CR>
+      --nnoremap gpt <cmd>lua require('goto-preview').goto_preview_type_definition()<CR>
+      --nnoremap gpi <cmd>lua require('goto-preview').goto_preview_implementation()<CR>
+      --nnoremap gP <cmd>lua require('goto-preview').close_all_win()<CR>
+      --nnoremap gpr <cmd>lua require('goto-preview').goto_preview_references()<CR>
+
+
+      -- These two configs can also be passed down to the goto-preview definition and implementation calls for one off "peak" functionality.
+      focus_on_open = true,                                        -- Focus the floating window when opening it.
+      dismiss_on_move = false,                                     -- Dismiss the floating window when moving the cursor.
+      force_close = true,                                          -- passed into vim.api.nvim_win_close's second argument. See :h nvim_win_close
+      bufhidden = "wipe",                                          -- the bufhidden option to set on the floating window. See :h bufhidden
+      stack_floating_preview_windows = true,                       -- Whether to nest floating windows
+      preview_window_title = { enable = true, position = "left" }, -- Whether to set the preview window title as the filename
+    })
+  end
+}
 }

@@ -6,25 +6,19 @@
 return {
   -- first key is the mode
   n = {
-    -- second key is the lefthand side of the map
-    -- mappings seen under group name "Buffer"
-    -- ["<leader>bn"] = { "<cmd>tabnew<cr>", desc = "New tab" },
-    -- ["<leader>bD"] = {
-    --  function()
-    --     require("astronvim.utils.status").heirline.buffer_picker(function(bufnr) require("astronvim.utils.buffer").close(bufnr) end)
-    --   end,
-    --    desc = "Pick to close",
-    --  },
-    -- tables with the `name` key will be registered with which-key if it's installed
-    -- this is useful for naming menus
+    -- Buffer
     ["<leader>b"] = { name = "Buffers" },
-    -- ["<l-shift><tab>"] = { ":bprev!<cr>", desc = "Prev Tab" },
     ["<tab>"] = { ":bnext!<cr>", desc = "Next Tab" },
-    -- ["<leader>t"] = { name = "Terminal" },
     ["<leader>to"] = { ":split term://bash <cr>", desc = "Open terminal in split view" },
     ["<leader>td"] = { ":exit <cr>", desc = "Close (delete) terminal in split view" },
+    -- Git
     ["<leader>gc"] = { ":!git fetch <cr> :!git add * <cr> :!git commit -m main <cr> :!git push <cr>", desc =
-    "Commit all (*) changes to (main branch)" }
+    "Commit all (*) changes to (main branch)" },
+    -- Aerial Toggle
+    ["<leader>a"] = { ":AerialToggle <cr>", desc = "Toggle Aerial Window" },
+    -- Code Action Menu Toggle
+    ["<leader>i"] = { ':CodeActionMenu <cr>',
+      desc = "Toggle Code Action Menu", }
     -- REMINDER:
     -- Ctrl + W + [h, l] = Switch splitted open files to left or right;
   },

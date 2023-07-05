@@ -31,6 +31,15 @@ return {
       return opts
     end,
   },
+  --{
+  --  "hrsh7th/nvim-cmp",
+  --  config = function(plugin, opts)
+  --    require "plugins.configs.nvim-cmp" (plugin, opts) -- include the default astronvim config that calls the setup call
+  --
+  --    local nvim_cmp = require "nvim-cmp";
+  --  nvim_cmp.preselect = nvim_cmp.PreselectMode.Item;
+  -- end
+  -- }
   -- You can disable default plugins as follows:
   -- { "max397574/better-escape.nvim", enabled = false },
   --
