@@ -16,6 +16,7 @@ return {
       desc = "Toggle Code Action Menu", }
     -- REMINDER:
     -- Ctrl + W + [h, l] = Switch splitted open files to left or right;
+    -- gcc: line comment toggle; gbc: block comment toggle
   },
   t = {
     -- setting a mapping to false will disable it
