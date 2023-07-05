@@ -32,8 +32,8 @@
 -- end
 --
 return function(local_vim)
-  local keymap = vim.api.nvim_set_keymap
-  local opts = { noremap = true };
+  -- local keymap = vim.api.nvim_set_keymap
+  --local opts = { noremap = true };
 
   local_vim.opt.relativenumber = false;
   local_vim.opt.number = true;
