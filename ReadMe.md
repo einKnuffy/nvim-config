@@ -13,6 +13,6 @@
 
 - Do this on second nvim run with this cmdline run code:
 
-```
+```sh
 nvim -c "MasonUninstallAll" -c "MasonInstall eslint-lsp eslint_d json-lsp jsonld-lsp jsonlint lua-language-server markdown-toc marksman markdownlint prettier prettierd rust-analyzer stylelint stylelint-lsp tailwindcss-language-server ts-standard typescript-language-server" -c "TSInstall javascript tsx jsx typescript lua rust" -c "MasonUpdateAll" -c "!echo 'When everything is done.... you can now close nvim with :q (maybe 3x times)'"
 ```
