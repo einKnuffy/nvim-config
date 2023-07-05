@@ -12,7 +12,7 @@ return {
     ["<leader>to"] = { ":split term://bash <cr>", desc = "Open terminal in split view" },
     ["<leader>td"] = { ":exit <cr>", desc = "Close (delete) terminal in split view" },
     -- Git
-    ["<leader>gc"] = { ":!git fetch <cr> :!git add * <cr> :!git commit -m main <cr> :!git push <cr>", desc =
+    ["<leader>gc"] = { ":!git fetch <cr> :!git add * <cr> :!git commit -m main <cr> :!git push <cr> <cr>", desc =
     "Commit all (*) changes to (main branch)" },
     -- Aerial Toggle
     ["<leader>a"] = { ":AerialToggle <cr>", desc = "Toggle Aerial Window" },
