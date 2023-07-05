@@ -1,7 +1,7 @@
 return {
   -- You can also add new plugins here as well:
   -- Add plugins, the lazy syntax
- --[[  {
+  --[[  {
     "Dhanus3133/LeetBuddy.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -19,27 +19,47 @@ return {
     },
   }, ]]
   {
-    "CRAG666/code_runner.nvim",
-    name = "code-runner",
+    "samodostal/image.nvim",
+    name = "image",
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    event = "VimEnter",
     config = function()
-      require("code-runner").setup({
-        filetype = {
-          java = {
-            "cd $dir &&",
-            "javac $fileName &&",
-            "java $fileNameWithoutExt"
-          },
-          python = "python3 -u",
-          typescript = "pnpm dev",
-          rust = {
-            "cd $dir &&",
-            "rustc $fileName &&",
-            "$dir/$fileNameWithoutExt"
-          },
+      require('image').setup({
+        render = {
+          min_padding = 5,
+          show_label = true,
+          show_image_dimensions = true,
+          use_dither = true,
+          foreground_color = false,
+          background_color = true
         },
-      });
+        events = {
+          update_on_nvim_resize = true,
+        },
+      })
     end
-  },
+  }, {
+  "CRAG666/code_runner.nvim",
+  name = "code-runner",
+  config = function()
+    require("code-runner").setup({
+      filetype = {
+        java = {
+          "cd $dir &&",
+          "javac $fileName &&",
+          "java $fileNameWithoutExt"
+        },
+        python = "python3 -u",
+        typescript = "pnpm dev",
+        rust = {
+          "cd $dir &&",
+          "rustc $fileName &&",
+          "$dir/$fileNameWithoutExt"
+        },
+      },
+    });
+  end
+},
   { "ThePrimeagen/vim-be-good", },
   --[[   {
     "andweeb/presence.nvim",
