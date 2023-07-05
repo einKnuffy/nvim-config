@@ -1,13 +1,8 @@
--- Mapping data with "desc" stored directly by vim.keymap.set().
---
--- Please use this mappings table to set keyboard mapping since this is the
--- lower level configuration and more robust one. (which-key will
--- automatically pick-up stored data by this setting.)
 return {
   -- first key is the mode
   n = {
     -- Buffer
-    ["<leader>b"] = { name = "Buffers" },
+    -- ["<leader>b"] = { name = "Buffers" },
     ["<tab>"] = { ":bnext!<cr>", desc = "Next Tab" },
     ["<leader>to"] = { ":split term://bash <cr>", desc = "Open terminal in split view" },
     ["<leader>td"] = { ":exit <cr>", desc = "Close (delete) terminal in split view" },
