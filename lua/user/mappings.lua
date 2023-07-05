@@ -4,6 +4,7 @@ return {
     -- Buffer
     -- ["<leader>b"] = { name = "Buffers" },
     ["<tab>"] = { ":bnext!<cr>", desc = "Next Tab" },
+    ["<leader>c"] = { name = "Competitive Coding" },
     ["<leader>to"] = { ":split term://bash <cr>", desc = "Open terminal in split view" },
     ["<leader>td"] = { ":exit <cr>", desc = "Close (delete) terminal in split view" },
     -- Git

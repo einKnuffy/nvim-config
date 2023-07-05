@@ -1,19 +1,81 @@
 return {
   -- You can also add new plugins here as well:
   -- Add plugins, the lazy syntax
-  -- "andweeb/presence.nvim",
-  -- {
-  --   "ray-x/lsp_signature.nvim",
-  --   event = "BufRead",
-  --   config = function()
-  --     require("lsp_signature").setup()
-  --   end,
-  -- },
-  --[[ {
+  --[[   {
+    "Dhanus3133/LeetBuddy.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
+    config = function()
+      require("leetbuddy").setup({})
+    end,
+    keys = {
+      { "<leader>cq", "<cmd>LBQuestions<cr>", desc = "List Questions" },
+      { "<leader>cl", "<cmd>LBQuestion<cr>",  desc = "View Question" },
+      { "<leader>cr", "<cmd>LBReset<cr>",     desc = "Reset Code" },
+      { "<leader>ct", "<cmd>LBTest<cr>",      desc = "Run Code" },
+      { "<leader>cs", "<cmd>LBSubmit<cr>",    desc = "Submit Code" },
+    },
+  }, ]]
+  {
+    "CRAG666/code_runner.nvim",
+    name = "code-runner",
+    config = function()
+      require("code-runner").setup({
+        filetype = {
+          java = {
+            "cd $dir &&",
+            "javac $fileName &&",
+            "java $fileNameWithoutExt"
+          },
+          python = "python3 -u",
+          typescript = "pnpm dev",
+          rust = {
+            "cd $dir &&",
+            "rustc $fileName &&",
+            "$dir/$fileNameWithoutExt"
+          },
+        },
+      });
+    end
+  },
+  { "ThePrimeagen/vim-be-good", },
+  --[[   {
+    "andweeb/presence.nvim",
+    -- event = "AstroFile",
+    name = "presence",
+    config = function()
+      require("presence").setup({
+        -- General options
+        auto_update         = true,                       -- Update activity based on autocmd events (if `false`, map or manually execute `:lua package.loaded.presence:update()`)
+        neovim_image_text   = "The One True Text Editor", -- Text displayed when hovered over the Neovim image
+        main_image          = "neovim",                   -- Main image display (either "neovim" or "file")
+        client_id           = "793271441293967371",       -- Use your own Discord application client id (not recommended)
+        log_level           = "debug",                    -- Log messages at or above this level (one of the following: "debug", "info", "warn", "error")
+        debounce_timeout    = 10,                         -- Number of seconds to debounce events (or calls to `:lua package.loaded.presence:update(<filename>, true)`)
+        enable_line_number  = false,                      -- Displays the current line number instead of the current project
+        blacklist           = {},                         -- A list of strings or Lua patterns that disable Rich Presence if the current file name, path, or workspace matches
+        buttons             = true,                       -- Configure Rich Presence button(s), either a boolean to enable/disable, a static table (`{{ label = "<label>", url = "<url>" }, ...}`, or a function(buffer: string, repo_url: string|nil): table)
+        file_assets         = {},                         -- Custom file asset definitions keyed by file names and extensions (see default config at `lua/presence/file_assets.lua` for reference)
+        show_time           = true,                       -- Show the timer
+
+        -- Rich Presence text options
+        editing_text        = "Editing %s",         -- Format string rendered when an editable file is loaded in the buffer (either string or function(filename: string): string)
+        file_explorer_text  = "Browsing %s",        -- Format string rendered when browsing a file explorer (either string or function(file_explorer_name: string): string)
+        git_commit_text     = "Committing changes", -- Format string rendered when committing changes in git (either string or function(filename: string): string)
+        plugin_manager_text = "Managing plugins",   -- Format string rendered when managing plugins (either string or function(plugin_manager_name: string): string)
+        reading_text        = "Reading %s",         -- Format string rendered when a read-only or unmodifiable file is loaded in the buffer (either string or function(filename: string): string)
+        workspace_text      = "Working on %s",      -- Format string rendered when in a git repository (either string or function(project_name: string|nil, filename: string): string)
+        line_number_text    = "Line %s out of %s",  -- Format string rendered when `enable_line_number` is set to true (either string or function(line_number: number, line_count: number): string)
+      });
+    end
+  }, ]]
+  --[[  {
     "rktjmp/hotpot.nvim",
     name = "hotpot",
     event = "VimEnter",
-    --[[  config = function()
+    config = function()
       require("hotpot").setup({
         -- allows you to call `(require :fennel)`.
         -- recommended you enable this unless you have another fennel in your path.
@@ -43,54 +105,8 @@ return {
       })
     end
   }, ]] --
-  -- {}
   { 'weilbith/nvim-code-action-menu',   event = "VimEnter" },
   { "nyoom-engineering/oxocarbon.nvim", name = "oxocarbon", event = "VimEnter" },
-  --[[  {
-    'm-demare/hlargs.nvim',
-    name = "hlargs",
-    event = "VimEnter",
-    config = function()
-      require("hlargs").setup({
-        color = '#0aeeee',
-        highlight = {
-
-        },
-        excluded_filetypes = {},
-        paint_arg_declarations = true,
-        paint_arg_usages = true,
-        paint_catch_blocks = {
-          declarations = true,
-          usages = true
-        },
-        extras = {
-          named_parameters = false,
-        },
-        hl_priority = 10000,
-        excluded_argnames = {
-          declarations = {},
-          usages = {
-            python = { 'self', 'cls' },
-            lua = { 'self' }
-          }
-        },
-        performance = {
-          parse_delay = 1,
-          slow_parse_delay = 50,
-          max_iterations = 400,
-          max_concurrent_partial_parses = 30,
-          debounce = {
-            partial_parse = 3,
-            partial_insert_mode = 100,
-            total_parse = 700,
-            slow_parse = 5000
-          }
-        }
-
-      })
-      require("hlargs").enable();
-    end
-  },]] --
   {
     "hrsh7th/nvim-cmp",
     name = "cmp",
