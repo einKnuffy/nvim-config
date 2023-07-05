@@ -17,6 +17,8 @@ return {
     },
   },
 
+  -- LOLLLLLLLLLLL
+
   -- Set colorscheme to use
   colorscheme = "oxocarbon", --"astrodark",
 
