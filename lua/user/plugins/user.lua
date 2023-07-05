@@ -18,19 +18,20 @@ return {
       { "<leader>cs", "<cmd>LBSubmit<cr>",    desc = "Submit Code" },
     },
   }, ]]
+  { "m00qek/baleia.nvim" },
   {
     "samodostal/image.nvim",
-    name = "image",
-    dependencies = { 'nvim-lua/plenary.nvim' },
+    --  name = "image-previewer",
+    dependencies = { "nvim-lua/plenary.nvim" },
     event = "VimEnter",
     config = function()
-      require('image').setup({
+      require("image").setup({
         render = {
-          min_padding = 5,
+          min_padding = 4,
           show_label = true,
           show_image_dimensions = true,
           use_dither = true,
-          foreground_color = false,
+          foreground_color = true,
           background_color = true
         },
         events = {
