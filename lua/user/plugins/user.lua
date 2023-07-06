@@ -18,6 +18,13 @@ return {
       { "<leader>cs", "<cmd>LBSubmit<cr>",    desc = "Submit Code" },
     },
   }, ]]
+  {
+    "smjonas/inc-rename.nvim",
+    event = "VimEnter",
+    config = function()
+      require("inc_rename").setup({})
+    end
+  },
   { "m00qek/baleia.nvim" },
   {
     "samodostal/image.nvim",
