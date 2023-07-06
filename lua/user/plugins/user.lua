@@ -41,9 +41,9 @@ return {
     end
   }, {
   "CRAG666/code_runner.nvim",
-  name = "code-runner",
+  event = "VimEnter",
   config = function()
-    require("code-runner").setup({
+    require("code_runner").setup({
       filetype = {
         java = {
           "cd $dir &&",
