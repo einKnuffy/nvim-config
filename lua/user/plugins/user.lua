@@ -62,13 +62,13 @@ return {
       })
     end
   }, ]]
-  {
+--[[   {
     'neoclide/coc.nvim',
     event = "VimEnter",
     config = function()
 
     end
-  },
+  }, ]]
   {
     "smjonas/inc-rename.nvim",
     event = "VimEnter",
