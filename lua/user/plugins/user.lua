@@ -62,13 +62,11 @@ return {
       })
     end
   }, ]]
---[[   {
+  --[[   {
     'neoclide/coc.nvim',
     event = "VimEnter",
-    config = function()
-
-    end
-  }, ]]
+  },
+  { 'OmniSharp/omnisharp-vim', event = "VimEnter" }, ]]
   {
     "smjonas/inc-rename.nvim",
     event = "VimEnter",
