@@ -1,8 +1,264 @@
 return {
   -- You can also add new plugins here as well:
   -- Add plugins, the lazy syntax
+  {
+    'akinsho/toggleterm.nvim',
+    event = "VimEnter",
+    enabled = true,
+    config = function()
+      require("toggleterm").setup({
+        shell = "bash",
+        direction = "float"
+      })
+    end
+  },
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    enabled = true,
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim",
+    },
+    config = function()
+      -- If you want icons for diagnostic errors, you'll need to define them somewhere:
+      vim.fn.sign_define("DiagnosticSignError",
+        { text = " ", texthl = "DiagnosticSignError" })
+      vim.fn.sign_define("DiagnosticSignWarn",
+        { text = " ", texthl = "DiagnosticSignWarn" })
+      vim.fn.sign_define("DiagnosticSignInfo",
+        { text = " ", texthl = "DiagnosticSignInfo" })
+      vim.fn.sign_define("DiagnosticSignHint",
+        { text = "󰌵", texthl = "DiagnosticSignHint" })
 
-  { "nvim-neo-tree/neo-tree.nvim", enabled = true }, -- DISABLE LATER
+      require("neo-tree").setup({
+        close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
+        popup_border_style = "rounded",
+        enable_git_status = true,
+        enable_diagnostics = true,
+        enable_normal_mode_for_inputs = false,                             -- Enable normal mode for input dialogs.
+        open_files_do_not_replace_types = { "terminal", "trouble", "qf" }, -- when opening files, do not use windows containing these filetypes or buftypes
+        sort_case_insensitive = false,                                     -- used when sorting files and directories in the tree
+        sort_function = nil,                                               -- use a custom function for sorting files and directories in the tree
+        -- sort_function = function (a,b)
+        --       if a.type == b.type then
+        --           return a.path > b.path
+        --       else
+        --           return a.type > b.type
+        --       end
+        --   end , -- this sorts files and directories descendantly
+        default_component_configs = {
+          container = {
+            enable_character_fade = true
+          },
+          indent = {
+            indent_size = 2,
+            padding = 1, -- extra padding on left hand side
+            -- indent guides
+            with_markers = true,
+            indent_marker = "│",
+            last_indent_marker = "└",
+            highlight = "NeoTreeIndentMarker",
+            -- expander config, needed for nesting files
+            with_expanders = nil, -- if nil and file nesting is enabled, will enable expanders
+            expander_collapsed = "",
+            expander_expanded = "",
+            expander_highlight = "NeoTreeExpander",
+          },
+          icon = {
+            folder_closed = "",
+            folder_open = "",
+            folder_empty = "󰜌",
+            -- The next two settings are only a fallback, if you use nvim-web-devicons and configure default icons there
+            -- then these will never be used.
+            default = "*",
+            highlight = "NeoTreeFileIcon"
+          },
+          modified = {
+            symbol = "[+]",
+            highlight = "NeoTreeModified",
+          },
+          name = {
+            trailing_slash = false,
+            use_git_status_colors = true,
+            highlight = "NeoTreeFileName",
+          },
+          git_status = {
+            symbols = {
+              -- Change type
+              added     = "",  -- or "✚", but this is redundant info if you use git_status_colors on the name
+              modified  = "",  -- or "", but this is redundant info if you use git_status_colors on the name
+              deleted   = "✖", -- this can only be used in the git_status source
+              renamed   = "󰁕", -- this can only be used in the git_status source
+              -- Status type
+              untracked = "",
+              ignored   = "",
+              unstaged  = "󰄱",
+              staged    = "",
+              conflict  = "",
+            }
+          },
+        },
+        -- A list of functions, each representing a global custom command
+        -- that will be available in all sources (if not overridden in `opts[source_name].commands`)
+        -- see `:h neo-tree-custom-commands-global`
+        commands = {},
+        window = {
+          position = "float",
+          width = 40,
+          mapping_options = {
+            noremap = true,
+            nowait = true,
+          },
+          mappings = {
+            ["<space>"] = {
+              "toggle_node",
+              nowait = false, -- disable `nowait` if you have existing combos starting with this char that you want to use
+            },
+            ["<2-LeftMouse>"] = "open",
+            ["<cr>"] = "open",
+            ["<esc>"] = "cancel", -- close preview or floating neo-tree window
+            ["P"] = { "toggle_preview", config = { use_float = true } },
+            ["l"] = "focus_preview",
+            ["S"] = "open_split",
+            ["s"] = "open_vsplit",
+            -- ["S"] = "split_with_window_picker",
+            -- ["s"] = "vsplit_with_window_picker",
+            ["t"] = "open_tabnew",
+            -- ["<cr>"] = "open_drop",
+            -- ["t"] = "open_tab_drop",
+            ["w"] = "open_with_window_picker",
+            --["P"] = "toggle_preview", -- enter preview mode, which shows the current node without focusing
+            ["C"] = "close_node",
+            -- ['C'] = 'close_all_subnodes',
+            ["z"] = "close_all_nodes",
+            --["Z"] = "expand_all_nodes",
+            ["a"] = {
+              "add",
+              -- this command supports BASH style brace expansion ("x{a,b,c}" -> xa,xb,xc). see `:h neo-tree-file-actions` for details
+              -- some commands may take optional config options, see `:h neo-tree-mappings` for details
+              config = {
+                show_path = "none" -- "none", "relative", "absolute"
+              }
+            },
+            ["A"] = "add_directory", -- also accepts the optional config.show_path option like "add". this also supports BASH style brace expansion.
+            ["d"] = "delete",
+            ["r"] = "rename",
+            ["y"] = "copy_to_clipboard",
+            ["x"] = "cut_to_clipboard",
+            ["p"] = "paste_from_clipboard",
+            ["c"] = "copy", -- takes text input for destination, also accepts the optional config.show_path option like "add":
+            -- ["c"] = {
+            --  "copy",
+            --  config = {
+            --    show_path = "none" -- "none", "relative", "absolute"
+            --  }
+            --}
+            ["m"] = "move", -- takes text input for destination, also accepts the optional config.show_path option like "add".
+            ["q"] = "close_window",
+            ["R"] = "refresh",
+            ["?"] = "show_help",
+            ["<"] = "prev_source",
+            [">"] = "next_source",
+          }
+        },
+        nesting_rules = {},
+        filesystem = {
+          filtered_items = {
+            visible = false, -- when true, they will just be displayed differently than normal items
+            hide_dotfiles = true,
+            hide_gitignored = true,
+            hide_hidden = true, -- only works on Windows for hidden files/directories
+            hide_by_name = {
+              --"node_modules"
+            },
+            hide_by_pattern = { -- uses glob style patterns
+              --"*.meta",
+              --"*/src/*/tsconfig.json",
+            },
+            always_show = { -- remains visible even if other settings would normally hide it
+              --".gitignored",
+            },
+            never_show = { -- remains hidden even if visible is toggled to true, this overrides always_show
+              --".DS_Store",
+              --"thumbs.db"
+            },
+            never_show_by_pattern = { -- uses glob style patterns
+              --".null-ls_*",
+            },
+          },
+          follow_current_file = {
+            enabled = false,                      -- This will find and focus the file in the active buffer every time
+            --               -- the current file is changed while the tree is open.
+            leave_dirs_open = false,              -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
+          },
+          group_empty_dirs = false,               -- when true, empty folders will be grouped together
+          hijack_netrw_behavior = "open_default", -- netrw disabled, opening a directory opens neo-tree
+          -- in whatever position is specified in window.position
+          -- "open_current",  -- netrw disabled, opening a directory opens within the
+          -- window like netrw would, regardless of window.position
+          -- "disabled",    -- netrw left alone, neo-tree does not handle opening dirs
+          use_libuv_file_watcher = false, -- This will use the OS level file watchers to detect changes
+          -- instead of relying on nvim autocmd events.
+          window = {
+            mappings = {
+              ["<bs>"] = "navigate_up",
+              ["."] = "set_root",
+              ["H"] = "toggle_hidden",
+              ["/"] = "fuzzy_finder",
+              ["D"] = "fuzzy_finder_directory",
+              ["#"] = "fuzzy_sorter", -- fuzzy sorting using the fzy algorithm
+              -- ["D"] = "fuzzy_sorter_directory",
+              ["f"] = "filter_on_submit",
+              ["<c-x>"] = "clear_filter",
+              ["[g"] = "prev_git_modified",
+              ["]g"] = "next_git_modified",
+            },
+            fuzzy_finder_mappings = { -- define keymaps for filter popup window in fuzzy_finder_mode
+              ["<down>"] = "move_cursor_down",
+              ["<C-n>"] = "move_cursor_down",
+              ["<up>"] = "move_cursor_up",
+              ["<C-p>"] = "move_cursor_up",
+            },
+          },
+
+          commands = {} -- Add a custom command or override a global one using the same function name
+        },
+        buffers = {
+          follow_current_file = {
+            enabled = true,          -- This will find and focus the file in the active buffer every time
+            --              -- the current file is changed while the tree is open.
+            leave_dirs_open = false, -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
+          },
+          group_empty_dirs = true,   -- when true, empty folders will be grouped together
+          show_unloaded = true,
+          window = {
+            mappings = {
+              ["bd"] = "buffer_delete",
+              ["<bs>"] = "navigate_up",
+              ["."] = "set_root",
+            }
+          },
+        },
+        git_status = {
+          window = {
+            position = "float",
+            mappings = {
+              ["A"]  = "git_add_all",
+              ["gu"] = "git_unstage_file",
+              ["ga"] = "git_add_file",
+              ["gr"] = "git_revert_file",
+              ["gc"] = "git_commit",
+              ["gp"] = "git_push",
+              ["gg"] = "git_commit_and_push",
+            }
+          }
+        }
+      })
+
+      vim.cmd([[nnoremap \ :Neotree reveal<cr>]])
+    end
+  }, -- DISABLE LATER
   --[[ {
     "xiyaowong/transparent.nvim",
     event = "VimEnter",
@@ -33,100 +289,6 @@ return {
     return opts
   end,
 },
-  --[[   {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    config = function()
-      require("catppuccin").setup({
-        flavour = "mocha", -- latte, frappe, macchiato, mocha
-        background = {     -- :h background
-          light = "latte",
-          dark = "mocha",
-        },
-        transparent_background = true, -- disables setting the background color.
-        show_end_of_buffer = false,    -- shows the '~' characters after the end of buffers
-        term_colors = true,            -- sets terminal colors (e.g. `g:terminal_color_0`)
-        dim_inactive = {
-          enabled = false,             -- dims the background color of inactive window
-          shade = "dark",
-          percentage = 0.15,           -- percentage of the shade to apply to the inactive window
-        },
-        no_italic = false,             -- Force no italic
-        no_bold = false,               -- Force no bold
-        no_underline = false,          -- Force no underline
-        styles = {                     -- Handles the styles of general hi groups (see `:h highlight-args`):
-          comments = { "italic" },     -- Change the style of comments
-          conditionals = { "italic" },
-          loops = {},
-          functions = {},
-          keywords = {},
-          strings = {},
-          variables = {},
-          numbers = {},
-          booleans = {},
-          properties = {},
-          types = {},
-          operators = {},
-        },
-        color_overrides = {},
-        custom_highlights = {},
-        integrations = {
-          cmp = true,
-          gitsigns = true,
-          nvimtree = true,
-          treesitter = true,
-          notify = false,
-          mini = false,
-          -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
-        },
-      })
-    end
-  }, ]]
-  --[[  {
-    "folke/tokyonight.nvim",
-    config = function()
-      require("tokyonight").setup({
-        -- your configuration comes here
-        -- or leave it empty to use the default settings
-        style = "moon",        -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
-        light_style = "night",  -- The theme is used when the background is set to light
-        transparent = true,     -- Enable this to disable setting the background color
-        terminal_colors = true, -- Configure the colors used when opening a `:terminal` in [Neovim](https://github.com/neovim/neovim)
-        styles = {
-          -- Style to be applied to different syntax groups
-          -- Value is any valid attr-list value for `:help nvim_set_hl`
-          comments = { italic = true },
-          keywords = { italic = true },
-          functions = {},
-          variables = {},
-          -- Background styles. Can be "dark", "transparent" or "normal"
-          sidebars = "dark",              -- style for sidebars, see below
-          floats = "dark",                -- style for floating windows
-        },
-        sidebars = { "qf", "help" },      -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
-        day_brightness = 0.3,             -- Adjusts the brightness of the colors of the **Day** style. Number between 0 and 1, from dull to vibrant colors
-        hide_inactive_statusline = false, -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
-        dim_inactive = false,             -- dims inactive windows
-        lualine_bold = false,             -- When `true`, section headers in the lualine theme will be bold
-
-        --- You can override specific color groups to use other groups or a hex color
-        --- function will be called with a ColorScheme table
-        ---@param colors ColorScheme
-        on_colors = function(colors) end,
-
-        --- You can override specific highlights to use other groups or a hex color
-        --- function will be called with a Highlights and ColorScheme table
-        ---@param highlights Highlights
-        ---@param colors ColorScheme
-        on_highlights = function(highlights, colors) end,
-      })
-    end
-  }, ]]
-  --[[   { 'kyazdani42/nvim-web-devicons', event = "VimEnter" }, ]]
-  {
-    "theprimeagen/harpoon",
-    event = "VimEnter"
-  },
   --[[  {
     "tamago324/lir.nvim",
     event = "VimEnter",
@@ -197,7 +359,6 @@ return {
       })
     end
   }, ]]
-  { "rebelot/kanagawa.nvim",       event = "VimEnter" },
   --[[   {
     "nvim-telescope/telescope-file-browser.nvim",
     event = "VimEnter",
@@ -228,101 +389,6 @@ return {
 
   -- END
 
-
-  --[[   {
-    "andweeb/presence.nvim",
-    config = function()
-      require("presence").setup({
-        -- General options
-        auto_update         = true,                   -- Update activity based on autocmd events (if `false`, map or manually execute `:lua package.loaded.presence:update()`)
-        neovim_image_text   = "The One True Text Editor", -- Text displayed when hovered over the Neovim image
-        main_image          = "neovim",               -- Main image display (either "neovim" or "file")
-        client_id           = "793271441293967371",   -- Use your own Discord application client id (not recommended)
-        log_level           = nil,                    -- Log messages at or above this level (one of the following: "debug", "info", "warn", "error")
-        debounce_timeout    = 10,                     -- Number of seconds to debounce events (or calls to `:lua package.loaded.presence:update(<filename>, true)`)
-        enable_line_number  = false,                  -- Displays the current line number instead of the current project
-        blacklist           = {},                     -- A list of strings or Lua patterns that disable Rich Presence if the current file name, path, or workspace matches
-        buttons             = true,                   -- Configure Rich Presence button(s), either a boolean to enable/disable, a static table (`{{ label = "<label>", url = "<url>" }, ...}`, or a function(buffer: string, repo_url: string|nil): table)
-        file_assets         = {},                     -- Custom file asset definitions keyed by file names and extensions (see default config at `lua/presence/file_assets.lua` for reference)
-        show_time           = true,                   -- Show the timer
-
-        -- Rich Presence text options
-        editing_text        = "Editing %s",     -- Format string rendered when an editable file is loaded in the buffer (either string or function(filename: string): string)
-        file_explorer_text  = "Browsing %s",    -- Format string rendered when browsing a file explorer (either string or function(file_explorer_name: string): string)
-        git_commit_text     = "Committing changes", -- Format string rendered when committing changes in git (either string or function(filename: string): string)
-        plugin_manager_text = "Managing plugins", -- Format string rendered when managing plugins (either string or function(plugin_manager_name: string): string)
-        reading_text        = "Reading %s",     -- Format string rendered when a read-only or unmodifiable file is loaded in the buffer (either string or function(filename: string): string)
-        workspace_text      = "Working on %s",  -- Format string rendered when in a git repository (either string or function(project_name: string|nil, filename: string): string)
-        line_number_text    = "Line %s out of %s", -- Format string rendered when `enable_line_number` is set to true (either string or function(line_number: number, line_count: number): string)
-      })
-    end
-  }, ]]
-  --[[  {
-    "Dhanus3133/LeetBuddy.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope.nvim",
-    },
-    config = function()
-      require("leetbuddy").setup({})
-    end,
-    keys = {
-      { "<leader>cq", "<cmd>LBQuestions<cr>", desc = "List Questions" },
-      { "<leader>cl", "<cmd>LBQuestion<cr>",  desc = "View Question" },
-      { "<leader>cr", "<cmd>LBReset<cr>",     desc = "Reset Code" },
-      { "<leader>ct", "<cmd>LBTest<cr>",      desc = "Run Code" },
-      { "<leader>cs", "<cmd>LBSubmit<cr>",    desc = "Submit Code" },
-    },
-  }, ]]
-  --[[  {
-    "MunifTanjim/prettier.nvim",
-    event = "VimEnter",
-    config = function()
-      require("prettier").setup({
-        bin = 'prettier', -- or `'prettierd'` (v0.23.3+)
-        filetypes = {
-          "css",
-          "graphql",
-          "html",
-          "javascript",
-          "javascriptreact",
-          "json",
-          "less",
-          "markdown",
-          "scss",
-          "typescript",
-          "typescriptreact",
-          "yaml",
-        },
-
-        -- cli_options = {
-        arrow_parens = "always",
-        bracket_spacing = true,
-        bracket_same_line = true,
-        embedded_language_formatting = "auto",
-        end_of_line = "lf",
-        html_whitespace_sensitivity = "css",
-        -- jsx_bracket_same_line = false,
-        jsx_single_quote = true,
-        print_width = 80,
-        prose_wrap = "preserve",
-        quote_props = "as-needed",
-        semi = true,
-        single_attribute_per_line = false,
-        single_quote = true,
-        tab_width = 4,
-        trailing_comma = "es5",
-        use_tabs = true,
-        vue_indent_script_and_style = false,
-        --  },
-      })
-    end
-  }, ]]
-  --[[   {
-    'neoclide/coc.nvim',
-    event = "VimEnter",
-  },
-  { 'OmniSharp/omnisharp-vim', event = "VimEnter" }, ]]
   {
     "smjonas/inc-rename.nvim",
     event = "VimEnter",
@@ -374,36 +440,6 @@ return {
   end
 }, ]]
   { "ThePrimeagen/vim-be-good",         event = "VimEnter" },
-  --[[   {
-    "andweeb/presence.nvim",
-    -- event = "AstroFile",
-    name = "presence",
-    config = function()
-      require("presence").setup({
-        -- General options
-        auto_update         = true,                       -- Update activity based on autocmd events (if `false`, map or manually execute `:lua package.loaded.presence:update()`)
-        neovim_image_text   = "The One True Text Editor", -- Text displayed when hovered over the Neovim image
-        main_image          = "neovim",                   -- Main image display (either "neovim" or "file")
-        client_id           = "793271441293967371",       -- Use your own Discord application client id (not recommended)
-        log_level           = "debug",                    -- Log messages at or above this level (one of the following: "debug", "info", "warn", "error")
-        debounce_timeout    = 10,                         -- Number of seconds to debounce events (or calls to `:lua package.loaded.presence:update(<filename>, true)`)
-        enable_line_number  = false,                      -- Displays the current line number instead of the current project
-        blacklist           = {},                         -- A list of strings or Lua patterns that disable Rich Presence if the current file name, path, or workspace matches
-        buttons             = true,                       -- Configure Rich Presence button(s), either a boolean to enable/disable, a static table (`{{ label = "<label>", url = "<url>" }, ...}`, or a function(buffer: string, repo_url: string|nil): table)
-        file_assets         = {},                         -- Custom file asset definitions keyed by file names and extensions (see default config at `lua/presence/file_assets.lua` for reference)
-        show_time           = true,                       -- Show the timer
-
-        -- Rich Presence text options
-        editing_text        = "Editing %s",         -- Format string rendered when an editable file is loaded in the buffer (either string or function(filename: string): string)
-        file_explorer_text  = "Browsing %s",        -- Format string rendered when browsing a file explorer (either string or function(file_explorer_name: string): string)
-        git_commit_text     = "Committing changes", -- Format string rendered when committing changes in git (either string or function(filename: string): string)
-        plugin_manager_text = "Managing plugins",   -- Format string rendered when managing plugins (either string or function(plugin_manager_name: string): string)
-        reading_text        = "Reading %s",         -- Format string rendered when a read-only or unmodifiable file is loaded in the buffer (either string or function(filename: string): string)
-        workspace_text      = "Working on %s",      -- Format string rendered when in a git repository (either string or function(project_name: string|nil, filename: string): string)
-        line_number_text    = "Line %s out of %s",  -- Format string rendered when `enable_line_number` is set to true (either string or function(line_number: number, line_count: number): string)
-      });
-    end
-  }, ]]
   --[[  {
     "rktjmp/hotpot.nvim",
     name = "hotpot",
@@ -443,7 +479,7 @@ return {
   {
     "hrsh7th/nvim-cmp",
     name = "cmp",
-    event = "InsertEnter",
+    event = "VimEnter",
     config = function()
       local cmp = require('cmp');
 
