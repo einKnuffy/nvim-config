@@ -2,10 +2,11 @@ return {
   -- You can also add new plugins here as well:
   -- Add plugins, the lazy syntax
 
-  { "nvim-neo-tree/neo-tree.nvim", enabled = false },
-  {
+  { "nvim-neo-tree/neo-tree.nvim", enabled = true }, -- DISABLE LATER
+  --[[ {
     "xiyaowong/transparent.nvim",
     event = "VimEnter",
+    enabled = false,
     config = function()
       require("transparent").setup({
         groups = { -- table: default groups
@@ -15,21 +16,219 @@ return {
           'SignColumn', 'CursorLineNr', 'EndOfBuffer',
         },
         extra_groups = {
-          "HarpoonMenu"
+          "BufferLineTabClose",
+          "BufferlineBufferSelected",
+          "BufferLineFill",
+          "BufferLineBackground",
+          "BufferLineSeparator",
+          "BufferLineIndicatorSelected",
         },                   -- table: additional groups that should be cleared
         exclude_groups = {}, -- table: groups you don't want to clear
       })
     end
-  }, {
+  },  ]] {
   "rebelot/heirline.nvim",
   opts = function(_, opts)
     opts.tabline = nil -- remove tabline
     return opts
   end,
 },
+  --[[   {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    config = function()
+      require("catppuccin").setup({
+        flavour = "mocha", -- latte, frappe, macchiato, mocha
+        background = {     -- :h background
+          light = "latte",
+          dark = "mocha",
+        },
+        transparent_background = true, -- disables setting the background color.
+        show_end_of_buffer = false,    -- shows the '~' characters after the end of buffers
+        term_colors = true,            -- sets terminal colors (e.g. `g:terminal_color_0`)
+        dim_inactive = {
+          enabled = false,             -- dims the background color of inactive window
+          shade = "dark",
+          percentage = 0.15,           -- percentage of the shade to apply to the inactive window
+        },
+        no_italic = false,             -- Force no italic
+        no_bold = false,               -- Force no bold
+        no_underline = false,          -- Force no underline
+        styles = {                     -- Handles the styles of general hi groups (see `:h highlight-args`):
+          comments = { "italic" },     -- Change the style of comments
+          conditionals = { "italic" },
+          loops = {},
+          functions = {},
+          keywords = {},
+          strings = {},
+          variables = {},
+          numbers = {},
+          booleans = {},
+          properties = {},
+          types = {},
+          operators = {},
+        },
+        color_overrides = {},
+        custom_highlights = {},
+        integrations = {
+          cmp = true,
+          gitsigns = true,
+          nvimtree = true,
+          treesitter = true,
+          notify = false,
+          mini = false,
+          -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
+        },
+      })
+    end
+  }, ]]
+  --[[  {
+    "folke/tokyonight.nvim",
+    config = function()
+      require("tokyonight").setup({
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+        style = "moon",        -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
+        light_style = "night",  -- The theme is used when the background is set to light
+        transparent = true,     -- Enable this to disable setting the background color
+        terminal_colors = true, -- Configure the colors used when opening a `:terminal` in [Neovim](https://github.com/neovim/neovim)
+        styles = {
+          -- Style to be applied to different syntax groups
+          -- Value is any valid attr-list value for `:help nvim_set_hl`
+          comments = { italic = true },
+          keywords = { italic = true },
+          functions = {},
+          variables = {},
+          -- Background styles. Can be "dark", "transparent" or "normal"
+          sidebars = "dark",              -- style for sidebars, see below
+          floats = "dark",                -- style for floating windows
+        },
+        sidebars = { "qf", "help" },      -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
+        day_brightness = 0.3,             -- Adjusts the brightness of the colors of the **Day** style. Number between 0 and 1, from dull to vibrant colors
+        hide_inactive_statusline = false, -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
+        dim_inactive = false,             -- dims inactive windows
+        lualine_bold = false,             -- When `true`, section headers in the lualine theme will be bold
+
+        --- You can override specific color groups to use other groups or a hex color
+        --- function will be called with a ColorScheme table
+        ---@param colors ColorScheme
+        on_colors = function(colors) end,
+
+        --- You can override specific highlights to use other groups or a hex color
+        --- function will be called with a Highlights and ColorScheme table
+        ---@param highlights Highlights
+        ---@param colors ColorScheme
+        on_highlights = function(highlights, colors) end,
+      })
+    end
+  }, ]]
+  --[[   { 'kyazdani42/nvim-web-devicons', event = "VimEnter" }, ]]
   {
     "theprimeagen/harpoon",
+    event = "VimEnter"
   },
+  --[[  {
+    "tamago324/lir.nvim",
+    event = "VimEnter",
+    dependencies = {
+      'nvim-lua/plenary.nvim'
+    },
+    config = function()
+      local actions = require 'lir.actions'
+      local mark_actions = require 'lir.mark.actions'
+      local clipboard_actions = require 'lir.clipboard.actions'
+
+      require('lir').setup({
+        show_hidden_files = true,
+        ignore = {},                -- { ".DS_Store", "node_modules" } etc.
+        devicons = {
+          enable = false,           --true,
+          highlight_dirname = false --true
+        },
+        mappings = {
+          ['<cr>']  = actions.edit,
+          ['<C-s>'] = actions.split,
+          ['<C-v>'] = actions.vsplit,
+          ['<C-t>'] = actions.tabedit,
+
+          ['<BS>']  = actions.up,
+          ['<Esc>'] = actions.quit,
+
+          ['K']     = actions.mkdir,
+          ['N']     = actions.newfile,
+          ['R']     = actions.rename,
+          ['@']     = actions.cd,
+          ['Y']     = actions.yank_path,
+          ['.']     = actions.toggle_show_hidden,
+          ['D']     = actions.delete,
+
+          ['J']     = function()
+            mark_actions.toggle_mark()
+            vim.cmd('normal! j')
+          end,
+          ['C']     = clipboard_actions.copy,
+          ['X']     = clipboard_actions.cut,
+          ['P']     = clipboard_actions.paste,
+        },
+        float = {
+          winblend = 0,
+          curdir_window = {
+            enable = false,
+            highlight_dirname = false
+          },
+
+          -- -- You can define a function that returns a table to be passed as the third
+          -- -- argument of nvim_open_win().
+          -- win_opts = function()
+          --   local width = math.floor(vim.o.columns * 0.8)
+          --   local height = math.floor(vim.o.lines * 0.8)
+          --   return {
+          --     border = {
+          --       "+", "─", "+", "│", "+", "─", "+", "│",
+          --     },
+          --     width = width,
+          --     height = height,
+          --     row = 1,
+          --     col = math.floor((vim.o.columns - width) / 2),
+          --   }
+          -- end,
+        },
+        hide_cursor = true
+      })
+    end
+  }, ]]
+  { "rebelot/kanagawa.nvim",       event = "VimEnter" },
+  --[[   {
+    "nvim-telescope/telescope-file-browser.nvim",
+    event = "VimEnter",
+    config = function()
+      require("telescope").setup({
+        extensions = {
+          file_browser = {
+            theme = "dropdown",
+            -- disables netrw and use telescope-file-browser in its place
+            hijack_netrw = true,
+            mappings = {
+              ["i"] = {
+                -- your custom insert mode mappings
+              },
+              ["n"] = {
+                -- your custom normal mode mappings
+              },
+            },
+          },
+        },
+      })
+
+
+      require("telescope").load_extension "file_browser"
+    end,
+    dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }
+  }, ]]
+
+  -- END
+
+
   --[[   {
     "andweeb/presence.nvim",
     config = function()

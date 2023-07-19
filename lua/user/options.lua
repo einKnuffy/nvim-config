@@ -1,5 +1,5 @@
 -- set vim options here (vim.<first_key>.<second_key> = value)
-return {
+--[[ return {
   opt = {
     -- set to true or false etc.
     relativenumber = false, -- sets vim.opt.relativenumber
@@ -20,8 +20,7 @@ return {
     ui_notifications_enabled = true, -- disable notifications when toggling UI elements
     resession_enabled = false,       -- enable experimental resession.nvim session management (will be default in AstroNvim v4)
   },
-}
---
+} ]] --
 -- If you need more control, you can use the function()...end notation
 -- return function(local_vim)
 --   local_vim.opt.relativenumber = true
@@ -32,24 +31,41 @@ return {
 --   return local_vim
 -- end
 --
---return function(local_vim)
--- local keymap = vim.api.nvim_set_keymap
---local opts = { noremap = true };
+return function(local_vim)
+    -- local keymap = vim.api.nvim_set_keymap
+    -- local opts = { noremap = true };
 
---local_vim.opt.relativenumber = false;
---local_vim.opt.number = true;
---local_vim.opt.guifont = "Hack Nerd Font Mono:h12";
+    local_vim.opt.relativenumber = false;
+    local_vim.opt.number = true;
+    local_vim.opt.guifont = "Hack Nerd Font Mono:h12";
 
---  vim.api.nvim_command('SOMECOMMAND')
--- vim.api.nvim_command("<leader>e");
--- vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<leader>Sl', true, true, true), 'n', true);
--- local termcodes = vim.api.nvim_replace_termcodes('<Space>', true, true, true);
--- vim.api.nvim_feedkeys(termcodes, 'n', true);
+    -- Custom theme for harpoon
 
--- termcodes = vim.api.nvim_replace_termcodes('e', true, true, true);
--- vim.api.nvim_feedkeys(termcodes, 'n', true);
+    -- DEFAULT VALUES:
+    --[[ vim.api.nvim_set_hl(0, "TelescopeBorder", {fg = oxocarbon.blend, bg = oxocarbon.blend})
+vim.api.nvim_set_hl(0, "TelescopePromptBorder", {fg = oxocarbon.base02, bg = oxocarbon.base02})
+vim.api.nvim_set_hl(0, "TelescopePromptNormal", {fg = oxocarbon.base05, bg = oxocarbon.base02})
+vim.api.nvim_set_hl(0, "TelescopePromptPrefix", {fg = oxocarbon.base08, bg = oxocarbon.base02})
+vim.api.nvim_set_hl(0, "TelescopeNormal", {fg = oxocarbon.none, bg = oxocarbon.blend})
+vim.api.nvim_set_hl(0, "TelescopePreviewTitle", {fg = oxocarbon.base02, bg = oxocarbon.base12})
+vim.api.nvim_set_hl(0, "TelescopePromptTitle", {fg = oxocarbon.base02, bg = oxocarbon.base11})
+vim.api.nvim_set_hl(0, "TelescopeResultsTitle", {fg = oxocarbon.blend, bg = oxocarbon.blend})
+vim.api.nvim_set_hl(0, "TelescopeSelection", {fg = oxocarbon.none, bg = oxocarbon.base02})
+vim.api.nvim_set_hl(0, "TelescopePreviewLine", {fg = oxocarbon.none, bg = oxocarbon.base01})
+vim.api.nvim_set_hl(0, "TelescopeMatching", {fg = oxocarbon.base08, bg = oxocarbon.none, bold = true, italic = true}) ]]
 
---[[ local prettier = require("prettier")
+    -- END
+
+    --  vim.api.nvim_command('SOMECOMMAND')
+    -- vim.api.nvim_command("<leader>e");
+    -- vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<leader>Sl', true, true, true), 'n', true);
+    -- local termcodes = vim.api.nvim_replace_termcodes('<Space>', true, true, true);
+    -- vim.api.nvim_feedkeys(termcodes, 'n', true);
+
+    -- termcodes = vim.api.nvim_replace_termcodes('e', true, true, true);
+    -- vim.api.nvim_feedkeys(termcodes, 'n', true);
+
+    --[[ local prettier = require("prettier")
 
   prettier.setup({
     bin = 'prettierd', -- or `'prettierd'` (v0.23.3+)
@@ -88,7 +104,7 @@ return {
       vue_indent_script_and_style = false,
     },
   }) ]]
---
+    --
 
---  return local_vim;
---end
+    return local_vim;
+end

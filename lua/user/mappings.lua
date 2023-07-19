@@ -1,7 +1,7 @@
 return {
   -- first key is the mode
   n = {
-    ["<leader>b"] = false,
+    --[[  ["<leader>b"] = false, ]]
     ["<leader>bb"] = false,
     ["<leader>bd"] = false,
     ["<leader>b\\"] = false,
@@ -15,16 +15,18 @@ return {
     ["<S-tab>"] = { ":lua require('harpoon.ui').nav_prev() <cr>" },
     --[[   ["<leader>to"] = { ":split term://bash <cr>", desc = "Open terminal in split view" },
     ["<leader>td"] = { ":bdelete! <cr>", desc = "Close (delete) terminal in split view" }, ]]
+    ["<leader>d"] = { ":lua require'lir.float'.toggle() <cr>" },
+
     -- Git
     ["<leader>gc"] = { ":!git fetch <cr> :!git add * <cr> :!git commit -m main <cr> :!git push <cr> <cr>", desc =
     "Commit all (*) changes to (main branch)" },
     -- Aerial Toggle
     ["<leader>a"] = { ":AerialToggle <cr>", desc = "Toggle Aerial Window" },
     -- Code Action Menu Toggle
-    ["<leader>i"] = { ':CodeActionMenu <cr>',
+    ["<C-.>"] = { ':CodeActionMenu <cr>',
       desc = "Toggle Code Action Menu", },
     ["<leader>e"] = { name = "󱡀 Harpoon" },
-    ["<leader>ee"] = { ':lua require("harpoon.ui").toggle_quick_menu() <cr>', desc = "Toggle Harpoon" },
+    ["<leader>ee"] = { ':Telescope harpoon marks <cr>', desc = "Toggle Harpoon" },
     ["<leader>ea"] = { ':lua require("harpoon.mark").add_file() <cr>', desc = "Add marker to Harpoon" },
     ["<leader>et"] = {
       ':lua require("harpoon.term").gotoTerminal(1) <cr> i bash <cr> clear <cr>', desc =
