@@ -22,5 +22,9 @@
 - Do this on second nvim run with this cmdline run code:
 
 ```sh
-#nvim -c "MasonUninstallAll" -c "MasonInstall csharpier csharp-language-server omnisharp omnisharp-mono css-lsp eslint-lsp eslint_d json-lsp jsonld-lsp jsonlint lua-language-server markdown-toc marksman #markdownlint prettier prettierd rust-analyzer stylelint stylelint-lsp tailwindcss-language-server ts-standard typescript-language-server svelte-language-server prisma-language-server" -c "TSInstall javascript tsx #jsx typescript lua rust svelte prisma css"
+#--// nvim -c "MasonUninstallAll" -c "MasonInstall csharpier csharp-language-server omnisharp omnisharp-mono css-lsp eslint-lsp eslint_d json-lsp jsonld-lsp jsonlint lua-language-server markdown-toc marksman #markdownlint prettier prettierd rust-analyzer stylelint stylelint-lsp tailwindcss-language-server ts-standard typescript-language-server svelte-language-server prisma-language-server" -c "TSInstall javascript tsx #jsx typescript lua rust svelte prisma css"
 ```
+
+### Install these Mason packages
+
+[Mason Packages](https://ibb.co/NSkV3hS)
