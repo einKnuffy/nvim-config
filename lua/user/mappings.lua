@@ -15,7 +15,8 @@ return {
     -- Buffer
     -- ["<leader>b"] = { name = "Buffers" },
     -- REMOVE THE TABS ABOVE
-    -- ["<tab>"] = { ":bnext!<cr>", desc = "Next Tab" },
+    ["<tab>"] = { ":bnext! <cr>", desc = "Next Tab" },
+    ["<S-tab>"] = { ":bprev! <cr>", desc = "Prev Tab" },
     --  ["<tab>"] = { ":lua require('harpoon.ui').nav_next() <cr>" },
     --  ["<S-tab>"] = { ":lua require('harpoon.ui').nav_prev() <cr>" },
     --[[   ["<leader>to"] = { ":split term://bash <cr>", desc = "Open terminal in split view" },
@@ -23,12 +24,12 @@ return {
     --[[     ["<leader>d"] = { ":lua require'lir.float'.toggle() <cr>" }, ]]
 
     -- Git
-    ["<leader>gc"] = { ":!git fetch <cr> :!git add * <cr> :!git commit -m main <cr> :!git push <cr> <cr>", desc =
-    "Commit all (*) changes to (main branch)" },
+    --[[     ["<leader>gc"] = { ":!git fetch <cr> :!git add * <cr> :!git commit -m main <cr> :!git push <cr> <cr>", desc =
+    "Commit all (*) changes to (main branch)" }, ]]
     -- Aerial Toggle
     ["<leader>a"] = { ":AerialToggle <cr>", desc = "Toggle Aerial Window" },
     -- Toggle Term
-    ["<leader>t"] = { ":ToggleTerm <cr>", desc = "Toggle Terminal" },
+    ["<leader>t"] = { ":ToggleTerm <cr> i <cr>", desc = "Toggle Terminal" },
 
     -- Code Action Menu Toggle
     ["<C-.>"] = { ':CodeActionMenu <cr>',

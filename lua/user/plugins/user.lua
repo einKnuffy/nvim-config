@@ -15,11 +15,11 @@ return {
   {
     "nvim-neo-tree/neo-tree.nvim",
     enabled = true,
-    dependencies = {
+    --[[    dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
       "MunifTanjim/nui.nvim",
-    },
+    }, ]]
     config = function()
       -- If you want icons for diagnostic errors, you'll need to define them somewhere:
       vim.fn.sign_define("DiagnosticSignError",
