@@ -40,6 +40,9 @@ return {
         open_files_do_not_replace_types = { "terminal", "trouble", "qf" }, -- when opening files, do not use windows containing these filetypes or buftypes
         sort_case_insensitive = false,                                     -- used when sorting files and directories in the tree
         sort_function = nil,                                               -- use a custom function for sorting files and directories in the tree
+        --[[    source_selector = {
+          winbar = true,
+        }, ]] --
         -- sort_function = function (a,b)
         --       if a.type == b.type then
         --           return a.path > b.path
@@ -86,8 +89,8 @@ return {
           git_status = {
             symbols = {
               -- Change type
-              added     = "",  -- or "✚", but this is redundant info if you use git_status_colors on the name
-              modified  = "",  -- or "", but this is redundant info if you use git_status_colors on the name
+              added     = "", -- or "✚", but this is redundant info if you use git_status_colors on the name
+              modified  = "", -- or "", but this is redundant info if you use git_status_colors on the name
               deleted   = "✖", -- this can only be used in the git_status source
               renamed   = "󰁕", -- this can only be used in the git_status source
               -- Status type
@@ -118,7 +121,7 @@ return {
             ["<2-LeftMouse>"] = "open",
             ["<cr>"] = "open",
             ["<esc>"] = "cancel", -- close preview or floating neo-tree window
-            ["P"] = { "toggle_preview", config = { use_float = true } },
+            ["P"] = { "toggle_preview", config = { use_float = true }, },
             ["l"] = "focus_preview",
             ["S"] = "open_split",
             ["s"] = "open_vsplit",
@@ -165,16 +168,18 @@ return {
         nesting_rules = {},
         filesystem = {
           filtered_items = {
-            visible = false, -- when true, they will just be displayed differently than normal items
+            visible = true, -- when true, they will just be displayed differently than normal items
             hide_dotfiles = true,
             hide_gitignored = true,
             hide_hidden = true, -- only works on Windows for hidden files/directories
             hide_by_name = {
               --"node_modules"
+              ".git"
             },
             hide_by_pattern = { -- uses glob style patterns
               --"*.meta",
               --"*/src/*/tsconfig.json",
+              "*/.git/*"
             },
             always_show = { -- remains visible even if other settings would normally hide it
               --".gitignored",
