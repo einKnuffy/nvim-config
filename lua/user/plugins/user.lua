@@ -56,7 +56,7 @@ return {
           },
           indent = {
             indent_size = 2,
-            padding = 1, -- extra padding on left hand side
+            padding = 2, -- extra padding on left hand side
             -- indent guides
             with_markers = true,
             indent_marker = "│",
@@ -422,7 +422,7 @@ return {
         },
       })
     end
-  }, --[[ {
+  }, --[[  {
   "CRAG666/code_runner.nvim",
   event = "VimEnter",
   config = function()
