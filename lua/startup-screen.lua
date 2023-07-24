@@ -2,7 +2,7 @@
 
 local intro_logo = require("ascii.no-place-like-home") -- require("ascii.roblox-robux")
 
-local PLUGIN_NAME = "minintro"
+local PLUGIN_NAME = "Home"
 local DEFAULT_COLOR = "#98c379"
 local INTRO_LOGO_HEIGHT = #intro_logo
 local INTRO_LOGO_WIDTH = 51 --- CHANGE THIS
@@ -43,6 +43,7 @@ local function draw_minintro(buf, logo_width, logo_height)
   unlock_buf(buf)
   vim.api.nvim_buf_set_lines(buf, 1, 1, true, top_space)
   vim.api.nvim_buf_set_lines(buf, start_row, start_row, true, adjusted_logo)
+  vim.api.nvim_buf_set_lines(buf, start_row + logo_height, start_row + logo_height, true, top_space)
   lock_buf(buf)
 
   vim.api.nvim_buf_set_extmark(buf, highlight_ns_id, start_row, start_col, {
@@ -56,7 +57,7 @@ local function create_and_set_minintro_buf(default_buff)
   vim.api.nvim_buf_set_name(intro_buff, PLUGIN_NAME)
   vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = intro_buff })
   vim.api.nvim_set_option_value("buftype", "nofile", { buf = intro_buff })
-  vim.api.nvim_set_option_value("filetype", "minintro", { buf = intro_buff })
+  vim.api.nvim_set_option_value("filetype", PLUGIN_NAME, { buf = intro_buff })
   vim.api.nvim_set_option_value("swapfile", false, { buf = intro_buff })
 
   vim.api.nvim_set_current_buf(intro_buff)

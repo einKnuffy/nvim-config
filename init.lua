@@ -134,19 +134,7 @@ require('lazy').setup({                      -- NOTE: First, some plugins that d
   config = function()
     vim.cmd.colorscheme 'oxocarbon'
   end
-}, {
-  -- Set lualine as statusline
-  'nvim-lualine/lualine.nvim',
-  -- See `:help lualine.txt`
-  opts = {
-    options = {
-      icons_enabled = false,
-      theme = 'onedark',
-      component_separators = '|',
-      section_separators = ''
-    }
-  }
-}, {
+}, require("statusbar"), {
   -- Add indentation guides even on blank lines
   'lukas-reineke/indent-blankline.nvim',
   -- Enable `lukas-reineke/indent-blankline.nvim`
@@ -272,6 +260,9 @@ vim.o.completeopt = 'menuone,noselect'
 
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
+
+-- Tabline customization
+vim.o.statusline = "%<%f\\ %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%)\\ %P"
 
 -- Set default startup directory
 --[[ pcall(vim.cmd, "cd") ]]
