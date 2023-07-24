@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-fields
 --[[
 
 =====================================================================
@@ -210,7 +211,12 @@ require('lazy').setup({                      -- NOTE: First, some plugins that d
         },
       })
     end
-  }, --  require 'debug',
+  },
+  {
+    'weilbith/nvim-code-action-menu',
+    cmd = 'CodeActionMenu',
+  },
+  --  require 'debug',
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    You can use this folder to prevent any conflicts with this init.lua if you're interested in keeping
   --    up-to-date with whatever is in the kickstart repo.
@@ -218,7 +224,7 @@ require('lazy').setup({                      -- NOTE: First, some plugins that d
   --
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
   -- { import = 'custom.plugins' },
-}, {})
+})
 
 -- [[ Setting options ]]
 -- Last write. See `:help vim.o`
@@ -278,6 +284,8 @@ vim.keymap.set({ "n", "v" }, "<leader>t", ":ToggleTerm <cr> i", { silent = true 
 
 -- Blur terminal focus (Minimize it, when active)
 vim.keymap.set("t", "<Esc>", "<C-\\><C-N> :ToggleTerm <cr>", { silent = true })
+
+vim.keymap.set({ "i", "n" }, "<C-.>", ":CodeActionMenu <cr>", { silent = true })
 
 -- [[ Basic Keymaps ]]
 
