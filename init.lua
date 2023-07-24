@@ -210,7 +210,7 @@ require('lazy').setup({                      -- NOTE: First, some plugins that d
         },
       })
     end
-  } --  require 'debug',
+  }, --  require 'debug',
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    You can use this folder to prevent any conflicts with this init.lua if you're interested in keeping
   --    up-to-date with whatever is in the kickstart repo.
@@ -262,7 +262,7 @@ vim.o.completeopt = 'menuone,noselect'
 vim.o.termguicolors = true
 
 -- Tabline customization
-vim.o.statusline = "%<%f\\ %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%)\\ %P"
+--vim.o.statusline = "%<%f\\ %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%)\\ %P"
 
 -- Set default startup directory
 --[[ pcall(vim.cmd, "cd") ]]
@@ -372,7 +372,7 @@ require('nvim-treesitter.configs').setup({
   ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim', "svelte" },
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
-  auto_install = false,
+  auto_install = true,
 
   highlight = {
     enable = true
@@ -511,7 +511,7 @@ local servers = {
   rust_analyzer = {},
   tsserver = {},
   svelte = {},
-
+  marksman = {},
   lua_ls = {
     Lua = {
       workspace = {

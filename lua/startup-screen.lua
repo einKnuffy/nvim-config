@@ -1,11 +1,11 @@
 -- local minintro_opened = false
 
-local intro_logo = require("ascii.no-place-like-home") -- require("ascii.roblox-robux")
+local intro_logo = require("ascii.no-place-like-home") --require("ascii.numbers") -- require("ascii.no-place-like-home") -- require("ascii.roblox-robux")
 
 local PLUGIN_NAME = "Home"
 local DEFAULT_COLOR = "#98c379"
 local INTRO_LOGO_HEIGHT = #intro_logo
-local INTRO_LOGO_WIDTH = 51 --- CHANGE THIS
+local INTRO_LOGO_WIDTH = 60 -- 43 for clock --- CHANGE THIS
 
 local autocmd_group = vim.api.nvim_create_augroup(PLUGIN_NAME, {})
 local highlight_ns_id = vim.api.nvim_create_namespace(PLUGIN_NAME)
@@ -57,7 +57,7 @@ local function create_and_set_minintro_buf(default_buff)
   vim.api.nvim_buf_set_name(intro_buff, PLUGIN_NAME)
   vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = intro_buff })
   vim.api.nvim_set_option_value("buftype", "nofile", { buf = intro_buff })
-  vim.api.nvim_set_option_value("filetype", PLUGIN_NAME, { buf = intro_buff })
+  vim.api.nvim_set_option_value("filetype", "md", { buf = intro_buff })
   vim.api.nvim_set_option_value("swapfile", false, { buf = intro_buff })
 
   vim.api.nvim_set_current_buf(intro_buff)
