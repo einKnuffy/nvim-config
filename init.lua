@@ -183,6 +183,11 @@ require('lazy').setup({                      -- NOTE: First, some plugins that d
     end
   },
   {
+    'windwp/nvim-autopairs',
+    event = "InsertEnter",
+    opts = {} -- this is equalent to setup({}) function
+  },
+  {
     'akinsho/toggleterm.nvim',
     config = function()
       require("toggleterm").setup({
@@ -193,28 +198,38 @@ require('lazy').setup({                      -- NOTE: First, some plugins that d
         shell = "bash",
         shade_terminals = false,
         start_in_insert = true,
-        highlights = {
-          -- highlights which map to a highlight group name and a table of it's values
-          -- NOTE: this is only a subset of values, any group placed here will be set for the terminal window split
-          --[[  Normal = {
-            guibg = "#0fffff",
-          }, ]]
-          --[[   NormalFloat = {
-            --  link = 'Normal'
-            guibg = "#0fffff"
-          },
-          FloatBorder = {
-            guibg = "#aaafff",
-          },
-          StatusLine = {
-            guibg = "#0ee000" }, ]]
-        },
+        autochdir = true
       })
     end
   },
   {
     'weilbith/nvim-code-action-menu',
     cmd = 'CodeActionMenu',
+  },
+  {
+    'JellyApple102/flote.nvim',
+    config = function()
+      -- defaults
+      require('flote').setup {
+        q_to_quit = true,
+        window_style = 'minimal',
+        window_border = 'solid',
+        window_title = true,
+        notes_dir = vim.fn.stdpath('cache') .. '/flote',
+        files = {
+          global = 'flote-global.md',
+          cwd = function()
+            return vim.fn.getcwd()
+          end,
+          file_name = function(cwd)
+            local base_name = vim.fs.basename(cwd)
+            --   local parent_base_name = vim.fs.basename(vim.fs.dirname(cwd))
+            return base_name .. '.md'
+          end
+        }
+
+      }
+    end
   },
   --  require 'debug',
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
@@ -274,18 +289,21 @@ vim.o.termguicolors = true
 --[[ pcall(vim.cmd, "cd") ]]
 
 -- [[ Custom Keybinds ]]
+
 -- Saves with <C-s> keystroke. Yes it does!
-vim.keymap.set({ "n", "v", "i" }, "<C-s>", ":w <cr>",
-  { silent = true })
+vim.keymap.set({ "n", "v", "i" }, "<C-s>", function()
+  pcall(vim.cmd, "w")
+end, { silent = true })
 
--- First Start The Terminal with special command "bash"
--- If it was created... simply toggle
-vim.keymap.set({ "n", "v" }, "<leader>t", ":ToggleTerm <cr> i", { silent = true })
+-- ToggleTerm
+vim.keymap.set({ "n", "v", "i", "t" }, "<C-t>", function()
+  pcall(vim.cmd, "ToggleTerm")
+end, { silent = true })
 
--- Blur terminal focus (Minimize it, when active)
-vim.keymap.set("t", "<Esc>", "<C-\\><C-N> :ToggleTerm <cr>", { silent = true })
-
-vim.keymap.set({ "i", "n" }, "<C-.>", ":CodeActionMenu <cr>", { silent = true })
+-- CodeActionMenu
+vim.keymap.set({ "i", "n" }, "<C-.>", function()
+  pcall(vim.cmd, "CodeActionMenu")
+end, { silent = true })
 
 -- [[ Basic Keymaps ]]
 

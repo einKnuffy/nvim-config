@@ -3,9 +3,9 @@
 local intro_logo = require("ascii.no-place-like-home") --require("ascii.numbers") -- require("ascii.no-place-like-home") -- require("ascii.roblox-robux")
 
 local PLUGIN_NAME = "Home"
-local DEFAULT_COLOR = "#98c379"
+local DEFAULT_COLOR = "#7e9cd8" --"#98c379"
 local INTRO_LOGO_HEIGHT = #intro_logo
-local INTRO_LOGO_WIDTH = 60 -- 43 for clock --- CHANGE THIS
+local INTRO_LOGO_WIDTH = 60     -- 43 for clock --- CHANGE THIS
 
 local autocmd_group = vim.api.nvim_create_augroup(PLUGIN_NAME, {})
 local highlight_ns_id = vim.api.nvim_create_namespace(PLUGIN_NAME)
