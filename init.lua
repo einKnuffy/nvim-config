@@ -115,7 +115,7 @@ require('lazy').setup({                      -- NOTE: First, some plugins that d
           text = '~'
         }
       },
-      on_attach = function(bufnr)
+      --[[    on_attach = function(bufnr)
         vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk, {
           buffer = bufnr,
           desc = '[G]o to [P]revious Hunk'
@@ -128,7 +128,7 @@ require('lazy').setup({                      -- NOTE: First, some plugins that d
           buffer = bufnr,
           desc = '[P]review [H]unk'
         })
-      end
+      end ]]
     }
   },
   {
@@ -230,13 +230,12 @@ require('lazy').setup({                      -- NOTE: First, some plugins that d
   {
     'JellyApple102/flote.nvim',
     config = function()
-      -- defaults
-      require('flote').setup {
+      require('flote').setup({
         q_to_quit = true,
         window_style = 'minimal',
         window_border = 'solid',
         window_title = true,
-        notes_dir = vim.fn.stdpath('cache') .. '/flote',
+        notes_dir = vim.fn.getenv("appdata"), --vim.fn.getenv("temp"),
         files = {
           global = 'flote-global.md',
           cwd = function()
@@ -244,15 +243,35 @@ require('lazy').setup({                      -- NOTE: First, some plugins that d
           end,
           file_name = function(cwd)
             local base_name = vim.fs.basename(cwd)
-            --   local parent_base_name = vim.fs.basename(vim.fs.dirname(cwd))
-            return base_name .. '.md'
+            local parent_base_name = vim.fs.basename(vim.fs.dirname(cwd))
+            return parent_base_name .. '_' .. base_name .. '.md'
           end
         }
-
-      }
+      })
     end
   },
-  --  require 'debug',
+  {
+    "Dhanus3133/LeetBuddy.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
+    event = "VimEnter",
+    config = function()
+      require("leetbuddy").setup({
+        language = "ts", -- change default language
+      })
+
+      vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#ffffff", bg = nil })
+    end,
+    keys = {
+      { "<leader>lq", "<cmd>LBQuestions<cr>", desc = "List Questions" },
+      { "<leader>ll", "<cmd>LBQuestion<cr>",  desc = "View Question" },
+      { "<leader>lr", "<cmd>LBReset<cr>",     desc = "Reset Code" },
+      { "<leader>lt", "<cmd>LBTest<cr>",      desc = "Run Code" },
+      { "<leader>ls", "<cmd>LBSubmit<cr>",    desc = "Submit Code" },
+    },
+  }, --  require 'debug',
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    You can use this folder to prevent any conflicts with this init.lua if you're interested in keeping
   --    up-to-date with whatever is in the kickstart repo.
