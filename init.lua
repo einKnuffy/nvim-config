@@ -80,71 +80,91 @@ require('lazy').setup({                      -- NOTE: First, some plugins that d
         opts = {}
       }, -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim' }
-  }, {
-  -- Autocompletion
-  'hrsh7th/nvim-cmp',
-  dependencies = {                                  -- Snippet Engine & its associated nvim-cmp source
-    'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip', -- Adds LSP completion capabilities
-    'hrsh7th/cmp-nvim-lsp',                         -- Adds a number of user-friendly snippets
-    'rafamadriz/friendly-snippets' }
-},                                                  -- Useful plugin to show you pending keybinds.
+  },
+  {
+    -- Autocompletion
+    'hrsh7th/nvim-cmp',
+    dependencies = {                                  -- Snippet Engine & its associated nvim-cmp source
+      'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip', -- Adds LSP completion capabilities
+      'hrsh7th/cmp-nvim-lsp',                         -- Adds a number of user-friendly snippets
+      'rafamadriz/friendly-snippets' }
+  },                                                  -- Useful plugin to show you pending keybinds.
   {
     'folke/which-key.nvim',
     opts = {}
-  }, {
-  -- Adds git releated signs to the gutter, as well as utilities for managing changes
-  'lewis6991/gitsigns.nvim',
-  opts = {
-    -- See `:help gitsigns.txt`
-    signs = {
-      add = {
-        text = '+'
+  },
+  {
+    -- Adds git releated signs to the gutter, as well as utilities for managing changes
+    'lewis6991/gitsigns.nvim',
+    opts = {
+      -- See `:help gitsigns.txt`
+      signs = {
+        add = {
+          text = '+'
+        },
+        change = {
+          text = '~'
+        },
+        delete = {
+          text = '_'
+        },
+        topdelete = {
+          text = '‾'
+        },
+        changedelete = {
+          text = '~'
+        }
       },
-      change = {
-        text = '~'
-      },
-      delete = {
-        text = '_'
-      },
-      topdelete = {
-        text = '‾'
-      },
-      changedelete = {
-        text = '~'
-      }
-    },
-    on_attach = function(bufnr)
-      vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk, {
-        buffer = bufnr,
-        desc = '[G]o to [P]revious Hunk'
-      })
-      vim.keymap.set('n', '<leader>gn', require('gitsigns').next_hunk, {
-        buffer = bufnr,
-        desc = '[G]o to [N]ext Hunk'
-      })
-      vim.keymap.set('n', '<leader>ph', require('gitsigns').preview_hunk, {
-        buffer = bufnr,
-        desc = '[P]review [H]unk'
-      })
+      on_attach = function(bufnr)
+        vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk, {
+          buffer = bufnr,
+          desc = '[G]o to [P]revious Hunk'
+        })
+        vim.keymap.set('n', '<leader>gn', require('gitsigns').next_hunk, {
+          buffer = bufnr,
+          desc = '[G]o to [N]ext Hunk'
+        })
+        vim.keymap.set('n', '<leader>ph', require('gitsigns').preview_hunk, {
+          buffer = bufnr,
+          desc = '[P]review [H]unk'
+        })
+      end
+    }
+  },
+  {
+    -- Theme inspired by Atom
+    'nyoom-engineering/oxocarbon.nvim',
+    priority = 1000,
+    config = function()
+      vim.cmd.colorscheme 'oxocarbon'
+      local oxocarbon = require("oxocarbon.colorutils")
+
+      vim.api.nvim_set_hl(0, "TelescopeBorder", { fg = "#ffffff", bg = nil })
+      vim.api.nvim_set_hl(0, "TelescopePromptBorder", { fg = oxocarbon.base02, bg = oxocarbon.base02 })
+      vim.api.nvim_set_hl(0, "TelescopePromptNormal", { fg = oxocarbon.base05, bg = oxocarbon.base02 })
+      vim.api.nvim_set_hl(0, "TelescopePromptPrefix", { fg = oxocarbon.base08, bg = oxocarbon.base02 })
+      vim.api.nvim_set_hl(0, "TelescopeNormal", { fg = oxocarbon.none, bg = oxocarbon.blend })
+      vim.api.nvim_set_hl(0, "TelescopePreviewTitle", { fg = oxocarbon.base02, bg = oxocarbon.base12 })
+      vim.api.nvim_set_hl(0, "TelescopePromptTitle", { fg = oxocarbon.base02, bg = oxocarbon.base11 })
+      vim.api.nvim_set_hl(0, "TelescopeResultsTitle", { fg = oxocarbon.blend, bg = oxocarbon.blend })
+      vim.api.nvim_set_hl(0, "TelescopeSelection", { fg = oxocarbon.none, bg = oxocarbon.base02 })
+      vim.api.nvim_set_hl(0, "TelescopePreviewLine", { fg = oxocarbon.none, bg = oxocarbon.base01 })
+      vim.api.nvim_set_hl(0, "TelescopeMatching",
+        { fg = oxocarbon.base08, bg = oxocarbon.none, bold = true, italic = true })
     end
-  }
-}, {
-  -- Theme inspired by Atom
-  'nyoom-engineering/oxocarbon.nvim',
-  priority = 1000,
-  config = function()
-    vim.cmd.colorscheme 'oxocarbon'
-  end
-}, require("statusbar"), {
-  -- Add indentation guides even on blank lines
-  'lukas-reineke/indent-blankline.nvim',
-  -- Enable `lukas-reineke/indent-blankline.nvim`
-  -- See `:help indent_blankline.txt`
-  opts = {
-    char = '┊',
-    show_trailing_blankline_indent = false
-  }
-}, -- "gc" to comment visual regions/lines
+  },
+  require("statusbar"),
+  {
+    -- Add indentation guides even on blank lines
+    'lukas-reineke/indent-blankline.nvim',
+    -- Enable `lukas-reineke/indent-blankline.nvim`
+    -- See `:help indent_blankline.txt`
+    opts = {
+      char = '┊',
+      show_trailing_blankline_indent = false
+    }
+  },
+  -- "gc" to comment visual regions/lines
   {
     'numToStr/Comment.nvim',
     opts = {}
@@ -156,7 +176,7 @@ require('lazy').setup({                      -- NOTE: First, some plugins that d
   }, -- Fuzzy Finder Algorithm which requires local dependencies to be built.
   -- Only load if `make` is available. Make sure you have the system
   -- requirements installed.
-  {
+  --[[ {
     'nvim-telescope/telescope-fzf-native.nvim',
     -- NOTE: If you are having trouble with this installation,
     --       refer to the README for telescope-fzf-native for more instructions.
@@ -164,12 +184,13 @@ require('lazy').setup({                      -- NOTE: First, some plugins that d
     cond = function()
       return vim.fn.executable 'make' == 1
     end
-  }, {
-  -- Highlight, edit, and navigate code
-  'nvim-treesitter/nvim-treesitter',
-  dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects' },
-  build = ':TSUpdate'
-}, -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
+  }, ]]
+  {
+    -- Highlight, edit, and navigate code
+    'nvim-treesitter/nvim-treesitter',
+    dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects' },
+    build = ':TSUpdate'
+  }, -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
   require 'autoformat',
@@ -395,7 +416,7 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, {
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup({
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim', "svelte" },
+  ensure_installed = { 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim', "svelte", "json" },
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = true,
@@ -538,6 +559,8 @@ local servers = {
   tsserver = {},
   svelte = {},
   marksman = {},
+  pylsp = {},
+  jsonls = {},
   lua_ls = {
     Lua = {
       workspace = {
