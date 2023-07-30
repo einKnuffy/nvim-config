@@ -60,10 +60,22 @@ vim.opt.rtp:prepend(lazypath)
 --
 --  You can also configure plugins after the setup call,
 --    as they will be available in your neovim runtime.
-require('lazy').setup({                      -- NOTE: First, some plugins that don't require any configuration
+require('lazy').setup({ -- NOTE: First, some plugins that don't require any configuration
   -- Git related plugins
-  'tpope/vim-fugitive', 'tpope/vim-rhubarb', -- Detect tabstop and shiftwidth automatically
-  'tpope/vim-sleuth',                        -- NOTE: This is where your plugins related to LSP can be installed.
+  {
+    'tpope/vim-fugitive',
+    config = function()
+      -- set more keymaps
+      --[[   vim.keymap.set({ "n", "v", "i" }, "<leader>gc", function()
+        -- Add git commit
+      end, { silent = true })
+
+      vim.keymap.set({ "n", "v", "i" }, "<C-s>", function()
+        pcall(vim.cmd, "w")
+      end, { silent = true }) ]]
+    end
+  }, 'tpope/vim-rhubarb', -- Detect tabstop and shiftwidth automatically
+  'tpope/vim-sleuth',     -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
   {
     -- LSP Configuration & Plugins
@@ -100,22 +112,22 @@ require('lazy').setup({                      -- NOTE: First, some plugins that d
       -- See `:help gitsigns.txt`
       signs = {
         add = {
-          text = '+'
+          text = ''
         },
         change = {
-          text = '~'
+          text = ''
         },
         delete = {
-          text = '_'
+          text = ''
         },
         topdelete = {
-          text = '‾'
+          text = "󰃆" -- or 󱒼
         },
         changedelete = {
-          text = '~'
+          text = '󰷭'
         }
       },
-      --[[    on_attach = function(bufnr)
+      on_attach = function(bufnr)
         vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk, {
           buffer = bufnr,
           desc = '[G]o to [P]revious Hunk'
@@ -128,7 +140,7 @@ require('lazy').setup({                      -- NOTE: First, some plugins that d
           buffer = bufnr,
           desc = '[P]review [H]unk'
         })
-      end ]]
+      end
     }
   },
   {
