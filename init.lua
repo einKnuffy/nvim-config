@@ -209,6 +209,7 @@ require('lazy').setup({                      -- NOTE: First, some plugins that d
     opts = {} -- this is equalent to setup({}) function
   },
   {
+    -- MAYBE REPLACE WITH:  'voldikss/vim-floaterm'
     'akinsho/toggleterm.nvim',
     config = function()
       require("toggleterm").setup({
@@ -271,7 +272,15 @@ require('lazy').setup({                      -- NOTE: First, some plugins that d
       { "<leader>lt", "<cmd>LBTest<cr>",      desc = "Run Code" },
       { "<leader>ls", "<cmd>LBSubmit<cr>",    desc = "Submit Code" },
     },
-  }, --  require 'debug',
+  },
+  {
+    'nagy135/typebreak.nvim',
+    dependencie = { 'nvim-lua/plenary.nvim', },
+    config = function()
+      vim.keymap.set('n', '<leader>tb', require('typebreak').start, { desc = "Typebreak" })
+    end
+  },
+  --  require 'debug',
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    You can use this folder to prevent any conflicts with this init.lua if you're interested in keeping
   --    up-to-date with whatever is in the kickstart repo.
@@ -333,6 +342,7 @@ vim.o.termguicolors = true
 -- Saves with <C-s> keystroke. Yes it does!
 vim.keymap.set({ "n", "v", "i" }, "<C-s>", function()
   pcall(vim.cmd, "w")
+  --  pcall(vim.cmd, "Format")
 end, { silent = true })
 
 -- ToggleTerm
