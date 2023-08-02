@@ -1,4 +1,3 @@
----@diagnostic disable: missing-fields
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
@@ -10,16 +9,16 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local nmap = function(modes, keys, func, desc)
+--[[ local nmap = function(modes, keys, func, desc)
   --[[   if desc then
     desc = 'LSP: ' .. desc
-  end ]]
+  end
 
   vim.keymap.set(modes, keys, func, {
     desc = desc,
     silent = true
   })
-end
+end ]]
 
 require('lazy').setup({ -- NOTE: First, some plugins that don't require any configuration
   -- Git related plugins
@@ -97,10 +96,13 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
 
       vim.api.nvim_set_hl(0, "MsgArea",
         { fg = "#525252", --[[  bold = true, italic = true  ]] })
+
+      pcall(vim.cmd, "set noruler")
     end
   },
   {
     'lukas-reineke/indent-blankline.nvim',
+    event = "VeryLazy",
     opts = {
       char = '┊',
       show_trailing_blankline_indent = false
@@ -114,7 +116,7 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
         sticky = true,
         toggler = {
           ---Line-comment toggle keymap
-          line = 'gcc',
+          line = 'gg',
           ---Block-comment toggle keymap
           block = 'gb',
         },
@@ -147,6 +149,7 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
   },
   {
     'brenoprata10/nvim-highlight-colors',
+    event = "VeryLazy",
     config = function()
       require('nvim-highlight-colors').setup({
         enable_tailwind = true,
@@ -188,37 +191,38 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
       }
 
       -- Setup keymaps
-      vim.keymap.set("n", "K", require("hover").hover, { desc = "hover.nvim" })
-      vim.keymap.set("n", "gK", require("hover").hover_select, { desc = "hover.nvim (select)" })
+      vim.keymap.set({ "n", "i" }, "<C-k>", require("hover").hover, { desc = "hover.nvim" })
+      vim.keymap.set({ "n", "i" }, "<C-d>", require("hover").hover_select, { desc = "hover.nvim (select)" })
     end
-  }, {
-  'einKnuffy/betterpresence.nvim',
-  config = function()
-    require("presence").setup({
-      -- General options
-      auto_update         = true,                 -- Update activity based on autocmd events (if `false`, map or manually execute `:lua package.loaded.presence:update()`)
-      neovim_image_text   = "It's neovim fr",     -- Text displayed when hovered over the Neovim image
-      main_image          = "programming-1",      -- Main image display (either "neovim" or "file")
-      client_id           = "992075159097843753", --"793271441293967371",       -- Use your own Discord application client id (not recommended)
-      log_level           = "debug",              -- Log messages at or above this level (one of the following: "debug", "info", "warn", "error")
-      debounce_timeout    = 10,                   -- Number of seconds to debounce events (or calls to `:lua package.loaded.presence:update(<filename>, true)`)
-      enable_line_number  = false,                -- Displays the current line number instead of the current project
-      blacklist           = {},                   -- A list of strings or Lua patterns that disable Rich Presence if the current file name, path, or workspace matches
-      buttons             = true,                 -- Configure Rich Presence button(s), either a boolean to enable/disable, a static table (`{{ label = "<label>", url = "<url>" }, ...}`, or a function(buffer: string, repo_url: string|nil): table)
-      file_assets         = {},                   -- Custom file asset definitions keyed by file names and extensions (see default config at `lua/presence/file_assets.lua` for reference)
-      show_time           = true,                 -- Show the timer
+  },
+  {
+    'einKnuffy/betterpresence.nvim',
+    config = function()
+      require("presence").setup({
+        -- General options
+        auto_update         = true,                 -- Update activity based on autocmd events (if `false`, map or manually execute `:lua package.loaded.presence:update()`)
+        neovim_image_text   = "It's neovim fr",     -- Text displayed when hovered over the Neovim image
+        main_image          = "programming-1",      -- Main image display (either "neovim" or "file")
+        client_id           = "992075159097843753", -- Custom sauce
+        log_level           = "debug",              -- Log messages at or above this level (one of the following: "debug", "info", "warn", "error")
+        debounce_timeout    = 10,                   -- Number of seconds to debounce events (or calls to `:lua package.loaded.presence:update(<filename>, true)`)
+        enable_line_number  = false,                -- Displays the current line number instead of the current project
+        blacklist           = {},                   -- A list of strings or Lua patterns that disable Rich Presence if the current file name, path, or workspace matches
+        buttons             = true,                 -- Configure Rich Presence button(s), either a boolean to enable/disable, a static table (`{{ label = "<label>", url = "<url>" }, ...}`, or a function(buffer: string, repo_url: string|nil): table)
+        file_assets         = {},                   -- Custom file asset definitions keyed by file names and extensions (see default config at `lua/presence/file_assets.lua` for reference)
+        show_time           = true,                 -- Show the timer
 
-      -- Rich Presence text options
-      editing_text        = "Editing %s",         -- Format string rendered when an editable file is loaded in the buffer (either string or function(filename: string): string)
-      file_explorer_text  = "Browsing %s",        -- Format string rendered when browsing a file explorer (either string or function(file_explorer_name: string): string)
-      git_commit_text     = "Committing changes", -- Format string rendered when committing changes in git (either string or function(filename: string): string)
-      plugin_manager_text = "Managing plugins",   -- Format string rendered when managing plugins (either string or function(plugin_manager_name: string): string)
-      reading_text        = "Reading %s",         -- Format string rendered when a read-only or unmodifiable file is loaded in the buffer (either string or function(filename: string): string)
-      workspace_text      = "Working on %s",      -- Format string rendered when in a git repository (either string or function(project_name: string|nil, filename: string): string)
-      line_number_text    = "Line %s out of %s",  -- Format string rendered when `enable_line_number` is set to true (either string or function(line_number: number, line_count: number): string)
-    })
-  end
-},
+        -- Rich Presence text options
+        editing_text        = "Editing %s",         -- Format string rendered when an editable file is loaded in the buffer (either string or function(filename: string): string)
+        file_explorer_text  = "Browsing %s",        -- Format string rendered when browsing a file explorer (either string or function(file_explorer_name: string): string)
+        git_commit_text     = "Committing changes", -- Format string rendered when committing changes in git (either string or function(filename: string): string)
+        plugin_manager_text = "Managing plugins",   -- Format string rendered when managing plugins (either string or function(plugin_manager_name: string): string)
+        reading_text        = "Reading %s",         -- Format string rendered when a read-only or unmodifiable file is loaded in the buffer (either string or function(filename: string): string)
+        workspace_text      = "Working on %s",      -- Format string rendered when in a git repository (either string or function(project_name: string|nil, filename: string): string)
+        line_number_text    = "Line %s out of %s",  -- Format string rendered when `enable_line_number` is set to true (either string or function(line_number: number, line_count: number): string)
+      })
+    end
+  },
   --[[  {
     'weilbith/nvim-code-action-menu',
     cmd = 'CodeActionMenu',
@@ -310,22 +314,39 @@ vim.o.completeopt = 'menuone,noselect'
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
 
--- Set default startup directory
---[[ pcall(vim.cmd, "cd") ]]
-
 -- [[ Custom Keybinds ]]
 
-nmap({ "n", "i" }, "<C-s>", function() pcall(vim.cmd, "write") end, "Saves Buffer")
+-- Save buffer
+vim.keymap.set({ "n", "i" }, "<C-s>", function() pcall(vim.cmd, "write") end, { silent = true })
 
--- CodeActionMenu
---[[ vim.keymap.set({ "i", "n" }, "<C-CR>", function()
-  pcall(vim.cmd, "CodeActionMenu")
-end, { silent = true }) ]]
+-- Automcompletion Keybinds Reminder
+-- C-n = Select next item
+-- C-p = Select prev item
+-- C-d = Scroll docs up
+-- C-f = Scroll docs down
+-- Tab or S-Tab for selecting next/prev item
 
--- [[ Basic Keymaps ]]
+-- Fuzzy finder
+vim.keymap.set({ "n", "i" }, "<C-f>", function()
+  require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+    winblend = 10,
+    previewer = false -- maybe true
+  })
+end, { silent = true })
 
+-- Go to definition
+vim.keymap.set({ "n", "i" }, '<C-q>', vim.lsp.buf.definition, { silent = true })
+
+-- Diagnostics
+vim.keymap.set({ "n", "i" }, "<C-x>", require('telescope.builtin').diagnostics, { silent = true })
+
+-- Delete buffer
+vim.keymap.set("n", "q", function()
+  pcall(vim.cmd, "bd")
+end, { silent = true })
+
+-- ADDITIONAL (DO NOT CHANGE)
 -- Keymaps for better default experience
--- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', {
   silent = true
 })
@@ -355,7 +376,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
---[[ require('telescope').setup {
+require('telescope').setup {
   defaults = {
     mappings = {
       i = {
@@ -367,10 +388,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 }
 
 -- Enable telescope fzf native, if installed
-pcall(require('telescope').load_extension, 'fzf')
+-- pcall(require('telescope').load_extension, 'fzf')
 
 -- See `:help telescope.builtin`
-vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, {
+--[[ vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, {
   desc = '[?] Find recently opened files'
 })
 vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, {

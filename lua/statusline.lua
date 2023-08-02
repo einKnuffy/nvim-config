@@ -1,4 +1,5 @@
 local theme = function()
+  pcall(vim.cmd, "set noshowmode")
   local colors = {
     darkgray = "#16161d",
     gray = "#525252",
@@ -43,15 +44,16 @@ local theme = function()
       c = { fg = colors.gray, bg = colors.innerbg },
     },
     terminal = {
-      a = { fg = colors.darkgray, bg = colors.terminal, gui = "bold" },
+      --[[    a = { fg = colors.darkgray, bg = colors.terminal, gui = "bold" },
       b = { fg = colors.gray, bg = colors.outerbg },
-      c = { fg = colors.gray, bg = colors.innerbg },
+      c = { fg = colors.gray, bg = colors.innerbg }, ]]
+      a = { fg = nil, bg = nil, },
+      b = { fg = nil, bg = nil, },
+      c = { fg = nil, bg = nil, },
     },
 
   }
 end
-
-pcall(vim.cmd, "set noshowmode")
 
 return {
   -- Set lualine as statusline
@@ -74,7 +76,7 @@ return {
         statusline = 1000,
         tabline = 1000,
         winbar = 1000,
-      }
+      },
     },
     sections = {
       lualine_a = { 'mode' },
@@ -87,8 +89,8 @@ return {
     inactive_sections = {
       lualine_a = {},
       lualine_b = {},
-      lualine_c = { 'filename' },
-      lualine_x = { 'location' },
+      lualine_c = { --[[  'filename' ]] },
+      lualine_x = { --[[  'location'  ]] },
       lualine_y = {},
       lualine_z = {}
     },
