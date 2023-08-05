@@ -191,8 +191,7 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
       }
 
       -- Setup keymaps
-      vim.keymap.set({ "n", "i" }, "<C-k>", require("hover").hover, { desc = "hover.nvim" })
-      vim.keymap.set({ "n", "i" }, "<C-d>", require("hover").hover_select, { desc = "hover.nvim (select)" })
+      --      vim.keymap.set({ "n", "i" }, "<C-d>", require("hover").hover_select, { desc = "hover.nvim (select)" })
     end
   },
   {
@@ -223,11 +222,10 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
       })
     end
   },
-  --[[  {
+  {
     'weilbith/nvim-code-action-menu',
     cmd = 'CodeActionMenu',
-  }, ]]
-  --[[ {
+  }, --[[ {
     'JellyApple102/flote.nvim',
     config = function()
       require('flote').setup({
@@ -250,6 +248,14 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
       })
     end
   }, ]]
+  { 'wakatime/vim-wakatime' },
+  {
+    "smjonas/inc-rename.nvim",
+    config = function()
+      require("inc_rename").setup()
+    end,
+  },
+  { 'tikhomirov/vim-glsl' }, -- for glsl (vert, frag shader) highlighting (semantic is more complex)
   {
     "Dhanus3133/LeetBuddy.nvim",
     dependencies = {
@@ -335,15 +341,24 @@ vim.keymap.set({ "n", "i" }, "<C-f>", function()
 end, { silent = true })
 
 -- Go to definition
-vim.keymap.set({ "n", "i" }, '<C-q>', vim.lsp.buf.definition, { silent = true })
+vim.keymap.set({ "n", "i" }, '<C-g>', vim.lsp.buf.definition, { silent = true })
 
 -- Diagnostics
-vim.keymap.set({ "n", "i" }, "<C-x>", require('telescope.builtin').diagnostics, { silent = true })
+vim.keymap.set({ "n", "i" }, "<C-d>", require('telescope.builtin').diagnostics, { silent = true })
+
+-- Code Action Fix
+vim.keymap.set({ "n", "i" }, "<C-c>", "<cmd>CodeActionMenu<cr>", { silent = true })
+
+-- Hover Menu with LSP Information
+vim.keymap.set({ "n", "i" }, "<C-k>", require("hover").hover, { silent = true })
 
 -- Delete buffer
 vim.keymap.set("n", "q", function()
   pcall(vim.cmd, "bd")
 end, { silent = true })
+
+-- rename
+vim.keymap.set({ "n", "i" }, "<C-r>", ":IncRename ")
 
 -- ADDITIONAL (DO NOT CHANGE)
 -- Keymaps for better default experience
