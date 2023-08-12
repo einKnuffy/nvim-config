@@ -1,3 +1,7 @@
+-- WELCOME VISITORY!
+--
+-- BY einknuffy
+
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
