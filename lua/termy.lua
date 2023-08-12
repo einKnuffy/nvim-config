@@ -8,30 +8,28 @@ return {
       pcall(vim.cmd, "FloatermToggle")
     end, { silent = true })
 
-    -- Please delete all buffer before switching
-    vim.keymap.set({ "i", "n", "t" }, "<C-e>", function()
-      --[[   pcall(vim.cmd, "FloatermShow")
-      -- redo last terminal operation
-      -- pcall(vim.cmd, "execute 'normal <C-n> <C-p>'")
-      vim.api.nvim_feedkeys(vim.api.nvim_eval('"\\<Up>"'), 'i', true)
+    vim.keymap.set({ "t" }, "<C-q>", function()
+      pcall(vim.cmd, "FloatermSend clear")
+    end)
 
-      pcall(vim.cmd, "FloatermHide") ]]
+    -- needs existing terminal.. and will execute only current file
+    vim.keymap.set({ "i", "n" }, "<C-e>", function()
+      local extension = vim.bo.ft;
+      local cmd = "";
 
-      --[[     local extension = vim.cmd("buffers") --vim.bo.ft; --expand("%:e")
-      local cmd = "";                      --expand("%:e")
-
-
-      if (string.find(extension, ".ts") or string.find(extension, ".tsx") or string.find(extension, ".jsx")) then
+      if extension == "typescript" or extension == "typescriptreact" or extension == "javascriptreact" then
         cmd = "pnpm dev"
-      elseif (string.find(extension, ".rs")) then
+      elseif extension == "rust" then
         cmd = "cargo run"
+      elseif extension == "cpp" then
+        -- clang required (llvm)
+        cmd = "clang++ " .. vim.fn.expand("%:t") .. " -o main.exe && ./main.exe"
       else
         return
       end
 
-      print("Full cmd: " .. cmd)
-
-      pcall(vim.cmd, "FloatermSend " .. cmd) ]]
+      pcall(vim.cmd, "FloatermSend " .. cmd)
+      pcall(vim.cmd, "FloatermShow")
     end, { silent = true })
 
     vim.g.floaterm_shell = "bash"
