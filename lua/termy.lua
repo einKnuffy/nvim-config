@@ -14,18 +14,22 @@ return {
 
     -- needs existing terminal.. and will execute only current file
     vim.keymap.set({ "i", "n" }, "<C-e>", function()
-      local extension = vim.bo.ft;
+      local extension = vim.fn.expand("%:e");
+      local filename = vim.fn.expand("%:t")
       local cmd = "";
 
-      if extension == "typescript" or extension == "typescriptreact" or extension == "javascriptreact" then
+      if extension == "ts" or extension == "tsx" or extension == "jsx" then
         cmd = "pnpm dev"
-      elseif extension == "rust" then
+      elseif extension == "rs" then
         cmd = "cargo run"
       elseif extension == "cpp" then
         -- clang required (llvm)
-        cmd = "clang++ " .. vim.fn.expand("%:t") .. " -o main.exe && ./main.exe"
-      else
-        return
+        cmd = "clang++ " .. filename .. " -o main.exe && ./main.exe"
+      elseif extension == "h" then
+        local actualFile = string.sub(filename, 0, #filename - 2)
+        cmd = "clang++ " ..
+            actualFile .. ".cpp" ..
+            " -o main.exe && ./main.exe"
       end
 
       pcall(vim.cmd, "FloatermSend " .. cmd)
