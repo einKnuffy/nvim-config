@@ -39,8 +39,10 @@ return {
         local client = vim.lsp.get_client_by_id(client_id)
         local bufnr = args.buf
 
+        local bufname = vim.fn.expand("%:e")
+
         -- Only attach to clients that support document formatting
-        if not client.server_capabilities.documentFormattingProvider then
+        if not client.server_capabilities.documentFormattingProvider or bufname == "in" then
           return
         end
 
@@ -56,7 +58,7 @@ return {
           group = get_augroup(client),
           buffer = bufnr,
           callback = function()
-            if not format_is_enabled then
+            if not format_is_enabled or bufname == "in" then
               return
             end
 
