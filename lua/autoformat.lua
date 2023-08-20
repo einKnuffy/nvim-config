@@ -31,7 +31,7 @@ return {
     vim.api.nvim_exec([[
             augroup KickstartAutoFormatTxt
                 autocmd!
-                autocmd BufWritePre *.txt normal! ggVG=
+                autocmd BufWritePre *.txt normal! =G
             augroup END
         ]], false)
 
