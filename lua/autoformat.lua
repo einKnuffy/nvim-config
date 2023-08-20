@@ -28,6 +28,13 @@ return {
       return _augroups[client.id]
     end
 
+    vim.api.nvim_exec([[
+            augroup KickstartAutoFormatTxt
+                autocmd!
+                autocmd BufWritePre *.txt normal! ggVG=
+            augroup END
+        ]], false)
+
     -- Whenever an LSP attaches to a buffer, we will run this function.
     --
     -- See `:help LspAttach` for more information about this autocmd event.
@@ -39,10 +46,9 @@ return {
         local client = vim.lsp.get_client_by_id(client_id)
         local bufnr = args.buf
 
-        local bufname = vim.fn.expand("%:e")
 
         -- Only attach to clients that support document formatting
-        if not client.server_capabilities.documentFormattingProvider or bufname == "in" then
+        if not client.server_capabilities.documentFormattingProvider --[[ or bufname == "in" ]] then
           return
         end
 
@@ -58,6 +64,8 @@ return {
           group = get_augroup(client),
           buffer = bufnr,
           callback = function()
+            local bufname = vim.fn.expand("%:e")
+
             if not format_is_enabled or bufname == "in" then
               return
             end
