@@ -70,6 +70,7 @@ local function set_options()
   vim.opt_local.number = false
   vim.opt_local.list = false
   vim.opt_local.colorcolumn = "0"
+  vim.opt_local.foldmethod = "manual"
 end
 
 local function redraw()
