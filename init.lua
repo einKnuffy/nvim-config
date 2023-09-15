@@ -239,7 +239,12 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
   {
     'weilbith/nvim-code-action-menu',
     cmd = 'CodeActionMenu',
-  }, --[[ {
+  },
+  {
+    'Exafunction/codeium.vim',
+    event = 'BufEnter'
+  },
+  --[[ {
     'JellyApple102/flote.nvim',
     config = function()
       require('flote').setup({
@@ -263,12 +268,12 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
     end
   }, ]]
   { 'wakatime/vim-wakatime' },
-  {
+  --[[ {
     "smjonas/inc-rename.nvim",
     config = function()
       require("inc_rename").setup()
     end,
-  },
+  },]]
   { 'tikhomirov/vim-glsl' }, -- for glsl (vert, frag shader) highlighting (semantic is more complex)
   {
     "Dhanus3133/LeetBuddy.nvim",
@@ -408,13 +413,13 @@ vim.keymap.set({ "n", "i" }, "<C-c>", "<cmd>CodeActionMenu<cr>", { silent = true
 -- Hover Menu with LSP Information
 vim.keymap.set({ "n", "i" }, "<C-k>", require("hover").hover, { silent = true })
 
+vim.keymap.set({ "n", "i" }, "<C-Tab>", "<cmd>bnext<cr>", { silent = true })
+
 -- Delete buffer
-vim.keymap.set("n", "q", function()
-  pcall(vim.cmd, "bd")
-end, { silent = true })
+vim.keymap.set("n", "q", "<cmd>bd<cr>", { silent = true })
 
 -- rename
-vim.keymap.set({ "n", "i" }, "<C-r>", ":IncRename ")
+--[[ vim.keymap.set({ "n", "i" }, "<C-r>", ":IncRename ") ]]
 
 -- ADDITIONAL (DO NOT CHANGE)
 -- Keymaps for better default experience
