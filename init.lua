@@ -372,7 +372,7 @@ vim.o.completeopt = 'menuone,noselect'
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
 
-vim.o.foldmethod = "indent"
+vim.o.foldmethod = "manual" --"indent"
 vim.o.foldexpr = "nvim_treesitter#foldindent()"
 -- vim.cmd("autocmd FileType markdown setlocal foldmethod=manual")
 
