@@ -1,5 +1,4 @@
 -- WELCOME VISITORY!
---
 -- BY einknuffy
 
 vim.g.mapleader = ' '
