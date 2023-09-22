@@ -191,8 +191,8 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
           require('hover.providers.gh')
           require('hover.providers.gh_user')
           -- require('hover.providers.jira')
-          require('hover.providers.man')
-          require('hover.providers.dictionary')
+          -- require('hover.providers.man')
+          -- require('hover.providers.dictionary')
         end,
         preview_opts = {
           border = nil
@@ -241,7 +241,10 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
   },
   {
     'Exafunction/codeium.vim',
-    event = 'BufEnter'
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "hrsh7th/nvim-cmp",
+    },
   },
   --[[ {
     'JellyApple102/flote.nvim',
@@ -273,7 +276,7 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
       require("inc_rename").setup()
     end,
   },]]
-  { 'tikhomirov/vim-glsl' }, -- for glsl (vert, frag shader) highlighting (semantic is more complex)
+  --[[ { 'tikhomirov/vim-glsl' },  ]] -- for glsl (vert, frag shader) highlighting (semantic is more complex)
   {
     "Dhanus3133/LeetBuddy.nvim",
     dependencies = {
@@ -393,6 +396,13 @@ vim.keymap.set({ "n", "i" }, "<C-s>", function() pcall(vim.cmd, "write") end, { 
 -- Tab or S-Tab for selecting next/prev item
 
 -- Fuzzy finder
+vim.keymap.set({ "n", "i" }, "<C-f>", function()
+  require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+    winblend = 10,
+    previewer = false -- maybe true
+  })
+end, { silent = true })
+
 vim.keymap.set({ "n", "i" }, "<C-f>", function()
   require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
     winblend = 10,
@@ -707,7 +717,8 @@ cmp.setup {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true
     },
-    ['<Tab>'] = cmp.mapping(function(fallback)
+
+    --[[ ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
       elseif luasnip.expand_or_locally_jumpable() then
@@ -716,6 +727,7 @@ cmp.setup {
         fallback()
       end
     end, { 'i', 's' }),
+
     ['<S-Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
@@ -724,7 +736,7 @@ cmp.setup {
       else
         fallback()
       end
-    end, { 'i', 's' })
+    end, { 'i', 's' }) ]] --
   },
   sources = { {
     name = 'nvim_lsp'
