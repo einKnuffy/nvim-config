@@ -108,6 +108,7 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
 
       vim.api.nvim_set_hl(0, "MsgArea",
         { fg = "#525252", --[[  bold = true, italic = true  ]] })
+      vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#ffffff", bg = "#ffffff" })
 
       pcall(vim.cmd, "set noruler")
     end
@@ -403,12 +404,12 @@ vim.keymap.set({ "n", "i" }, "<C-f>", function()
   })
 end, { silent = true })
 
-vim.keymap.set({ "n", "i" }, "<C-f>", function()
+--[[ vim.keymap.set({ "n", "i" }, "<C-f>", function()
   require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
     winblend = 10,
     previewer = false -- maybe true
   })
-end, { silent = true })
+end, { silent = true }) ]]
 
 -- Go to definition
 vim.keymap.set({ "n", "i" }, '<C-g>', vim.lsp.buf.definition, { silent = true })
@@ -742,6 +743,8 @@ cmp.setup {
     name = 'nvim_lsp'
   }, {
     name = 'luasnip'
+  }, {
+    name = "friendly"
   } }
 }
 
