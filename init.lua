@@ -90,7 +90,7 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
     'nyoom-engineering/oxocarbon.nvim',
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'oxocarbon'
+      --[[ vim.cmd.colorscheme 'oxocarbon'
       local oxocarbon = require("oxocarbon.colorutils")
 
       vim.api.nvim_set_hl(0, "TelescopeBorder", { fg = "#ffffff", bg = nil })
@@ -107,20 +107,31 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
         { fg = oxocarbon.base08, bg = oxocarbon.none, bold = true, italic = true })
 
       vim.api.nvim_set_hl(0, "MsgArea",
-        { fg = "#525252", --[[  bold = true, italic = true  ]] })
-      vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#ffffff", bg = "#ffffff" })
+        { fg = "#525252" })
+      vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#ffffff", bg = "#ffffff" }) ]]
 
       pcall(vim.cmd, "set noruler")
     end
   },
   {
-    'lukas-reineke/indent-blankline.nvim',
-    event = "VeryLazy",
-    opts = {
-      char = '┊',
-      show_trailing_blankline_indent = false
-    }
-  },
+    'projekt0n/github-nvim-theme',
+    lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+    priority = 1000, -- make sure to load this before all the other start plugins
+    config = function()
+      require('github-theme').setup({
+      })
+
+      -- vim.cmd('colorscheme github_dark_high_contrast')
+      vim.cmd('colorscheme github_dark_tritanopia')
+    end,
+  }, {
+  'lukas-reineke/indent-blankline.nvim',
+  event = "VeryLazy",
+  opts = {
+    char = '┊',
+    show_trailing_blankline_indent = false
+  }
+},
   {
     'numToStr/Comment.nvim',
     config = function()
