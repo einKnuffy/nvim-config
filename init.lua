@@ -51,7 +51,10 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
     dependencies = {                                  -- Snippet Engine & its associated nvim-cmp source
       'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip', -- Adds LSP completion capabilities
       'hrsh7th/cmp-nvim-lsp',                         -- Adds a number of user-friendly snippets
-      'rafamadriz/friendly-snippets' }
+      'rafamadriz/friendly-snippets', 'hrsh7th/cmp-nvim-lsp'
+    , 'hrsh7th/cmp-buffer'
+    , 'hrsh7th/cmp-path'
+    , 'hrsh7th/cmp-cmdline' }
   },
   --[[   {
     'puremourning/vimspector',
@@ -769,49 +772,6 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, {
 --
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
-local servers = {
-  clangd = {},
-  -- gopls = {},
-  -- pyright = {},
-  rust_analyzer = {},
-  tsserver = {},
-  svelte = {},
-  marksman = {},
-  pylsp = {},
-  jsonls = {},
-  lua_ls = {
-    Lua = {
-      workspace = {
-        checkThirdParty = false
-      },
-      telemetry = {
-        enable = false
-      }
-    }
-  }
-}
-
--- Setup neovim lua configuration
-require('neodev').setup()
-
--- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-
--- Ensure the servers above are installed
-local mason_lspconfig = require 'mason-lspconfig'
-
-mason_lspconfig.setup {
-  ensure_installed = vim.tbl_keys(servers)
-}
-
-mason_lspconfig.setup_handlers { function(server_name)
-  require('lspconfig')[server_name].setup {
-    capabilities = capabilities,
-    on_attach = on_attach,
-    settings = servers[server_name]
-  }
-end }
 
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
@@ -882,10 +842,34 @@ cmp.setup {
     name = 'nvim_lsp'
   }, {
     name = 'luasnip'
-  }, {
-    name = "friendly"
-  } }
+  }, { name = 'buffer' } }
 }
+
+cmp.setup.filetype('gitcommit', {
+  sources = cmp.config.sources({
+    { name = 'git' }, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
+  }, {
+    { name = 'buffer' },
+  })
+})
+
+-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline({ '/', '?' }, {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = {
+    { name = 'buffer' }
+  }
+})
+
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = 'path' }
+  }, {
+    { name = 'cmdline' }
+  })
+})
 
 -- Set custom highlight group for nvim-cmp menu
 -- vim.cmd([[highlight CmpMenu guibg=#1d1f21 guifg=#c5c8c6]])
@@ -900,6 +884,52 @@ vim.cmd([[highlight PmenuSel guibg=#2d2d2d]])
 -- Set borders for the menu
 -- vim.cmd([[highlight PmenuBorder guifg=#ffffff guibg=#1d1f21]])
 -- vim.cmd([[set pmbc=]]) -- popup menu border color
+
+
+
+local servers = {
+  clangd = {},
+  -- gopls = {},
+  -- pyright = {},
+  rust_analyzer = {},
+  tsserver = {},
+  svelte = {},
+  marksman = {},
+  pylsp = {},
+  jsonls = {},
+  lua_ls = {
+    Lua = {
+      workspace = {
+        checkThirdParty = false
+      },
+      telemetry = {
+        enable = false
+      }
+    }
+  }
+}
+
+-- Setup neovim lua configuration
+require('neodev').setup()
+
+-- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+
+-- Ensure the servers above are installed
+local mason_lspconfig = require 'mason-lspconfig'
+
+mason_lspconfig.setup {
+  ensure_installed = vim.tbl_keys(servers)
+}
+
+mason_lspconfig.setup_handlers { function(server_name)
+  require('lspconfig')[server_name].setup {
+    capabilities = capabilities,
+    on_attach = on_attach,
+    settings = servers[server_name]
+  }
+end }
 
 -- Load start screen
 require "startup-screen"
