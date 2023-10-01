@@ -1,4 +1,3 @@
--- WELCOME VISITORY!
 -- BY einknuffy
 
 vim.g.mapleader = ' '
@@ -309,7 +308,7 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
     'nyoom-engineering/oxocarbon.nvim',
     priority = 1000,
     config = function()
-      --[[ vim.cmd.colorscheme 'oxocarbon'
+      vim.cmd.colorscheme 'oxocarbon'
       local oxocarbon = require("oxocarbon.colorutils")
 
       vim.api.nvim_set_hl(0, "TelescopeBorder", { fg = "#ffffff", bg = nil })
@@ -327,7 +326,8 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
 
       vim.api.nvim_set_hl(0, "MsgArea",
         { fg = "#525252" })
-      vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#ffffff", bg = "#ffffff" }) ]]
+      vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#ffffff", bg = "#ffffff" })
+
 
       pcall(vim.cmd, "set noruler")
     end
@@ -453,10 +453,10 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
       vim.api.nvim_set_hl(0, "MsgArea",
         { fg = "#525252" })
       vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#ffffff", bg = "#ffffff" })
-      vim.api.nvim_set_hl(0, "@variable", { fg = "#3c3c3c" })
+      -- vim.api.nvim_set_hl(0, "@variable", { fg = "#3c3c3c" })
 
       -- setup must be called before loading
-      vim.cmd("colorscheme carbonfox")
+      -- vim.cmd("colorscheme carbonfox")
     end
   },
 
@@ -791,8 +791,9 @@ cmp.setup {
       -- scrollbar = '║',
     },
     documentation = { -- no border; native-style scrollbar
-      border = "rounded",
+      border = 'rounded',
       scrollbar = false,
+      -- winhighlight = "CmpMenu"
       -- other options
     },
   },
@@ -818,6 +819,24 @@ cmp.setup {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true
     },
+    ['<Down>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_locally_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+    ['<Up>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.locally_jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end, { 'i', 's' })
     --[[ ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
@@ -950,8 +969,6 @@ end }
 
 -- Load start screen
 require "startup-screen"
-
-
 
 vim.o.autoindent = true
 vim.o.expandtab = true
