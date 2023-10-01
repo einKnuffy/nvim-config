@@ -1,5 +1,4 @@
 -- BY einknuffy
-
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
@@ -244,7 +243,7 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
         language = "ts", -- change default language
       })
 
-      vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#ffffff", bg = nil })
+      --[[ vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#ffffff", bg = nil }) ]]
     end,
     keys = {
       { "<leader>lq", "<cmd>LBQuestions<cr>", desc = "List Questions" },
@@ -326,8 +325,9 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
 
       vim.api.nvim_set_hl(0, "MsgArea",
         { fg = "#525252" })
-      vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#ffffff", bg = "#ffffff" })
-
+      vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#262626" --[[ bg = "#ffffff" ]] })
+      vim.cmd([[highlight Pmenu guibg=#161616 guifg=#262626]])
+      vim.cmd([[highlight PmenuSel guibg=#2d2d2d]])
 
       pcall(vim.cmd, "set noruler")
     end
@@ -436,7 +436,7 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
       })
 
 
-      local oxocarbon = require("oxocarbon.colorutils")
+      --[[  local oxocarbon = require("oxocarbon.colorutils")
       vim.api.nvim_set_hl(0, "TelescopeBorder", { fg = "#ffffff", bg = nil })
       vim.api.nvim_set_hl(0, "TelescopePromptBorder", { fg = oxocarbon.base02, bg = oxocarbon.base02 })
       vim.api.nvim_set_hl(0, "TelescopePromptNormal", { fg = oxocarbon.base05, bg = oxocarbon.base02 })
@@ -452,7 +452,7 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
 
       vim.api.nvim_set_hl(0, "MsgArea",
         { fg = "#525252" })
-      vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#ffffff", bg = "#ffffff" })
+      vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#ffffff", bg = "#ffffff" }) ]]
       -- vim.api.nvim_set_hl(0, "@variable", { fg = "#3c3c3c" })
 
       -- setup must be called before loading
@@ -781,29 +781,34 @@ require('luasnip.loaders.from_vscode').lazy_load()
 luasnip.config.setup {}
 
 cmp.setup {
-  --[[  format = {
-    border = '─', -- Use a horizontal line as the border
+  --[[  window = {
+    documentation = cmp.config.window.bordered({
+      border = 'rounded',
+      scrollbar = false,
+    }),
+    completion = cmp.config.window.bordered({
+      border = 'rounded',
+      scrollbar = false,
+    }),
   }, ]]
   window = {
     completion = { -- rounded border; thin-style scrollbar
       border = 'rounded',
       scrollbar = false,
+      winhighlight = 'Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None',
       -- scrollbar = '║',
     },
     documentation = { -- no border; native-style scrollbar
       border = 'rounded',
       scrollbar = false,
+      winhighlight = 'Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None',
       -- winhighlight = "CmpMenu"
       -- other options
+      --[[ documentation = {
+        border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+      }, ]]
     },
   },
-  --[[  menu = {
-    highlight = { 'CmpMenu', 'Normal' }, -- Set the menu highlight group
-  }, ]]
-  --[[   window = {
-    border = "-",
-    documentation = cmp.
-  }, ]]
   snippet = {
     expand = function(args)
       luasnip.lsp_expand(args.body)
@@ -819,7 +824,7 @@ cmp.setup {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true
     },
-    ['<Down>'] = cmp.mapping(function(fallback)
+    --[[   ['<Down>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
       elseif luasnip.expand_or_locally_jumpable() then
@@ -836,7 +841,7 @@ cmp.setup {
       else
         fallback()
       end
-    end, { 'i', 's' })
+    end, { 'i', 's' }) ]]
     --[[ ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
@@ -912,8 +917,8 @@ cmp.setup.cmdline(':', {
 
 -- Set border for the menu
 -- vim.cmd([[set pumblend=20]]) -- Set transparency for popup menu
-vim.cmd([[highlight Pmenu guibg=#161616 guifg=#262626]])
-vim.cmd([[highlight PmenuSel guibg=#2d2d2d]])
+-- vim.cmd([[highlight Pmenu guibg=#161616 guifg=#262626]])
+-- vim.cmd([[highlight PmenuSel guibg=#2d2d2d]])
 -- vim.cmd([[highlight PmenuSbar guibg=#1d1f21 guifg=#373b41]])
 -- vim.cmd([[highlight PmenuThumb guibg=#707880 guifg=#1d1f21]])
 
@@ -944,7 +949,6 @@ local servers = {
     }
   }
 }
-
 -- Setup neovim lua configuration
 require('neodev').setup()
 
