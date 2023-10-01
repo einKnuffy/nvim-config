@@ -322,144 +322,16 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
       vim.api.nvim_set_hl(0, "TelescopePreviewLine", { fg = oxocarbon.none, bg = oxocarbon.base01 })
       vim.api.nvim_set_hl(0, "TelescopeMatching",
         { fg = oxocarbon.base08, bg = oxocarbon.none, bold = true, italic = true })
-
       vim.api.nvim_set_hl(0, "MsgArea",
         { fg = "#525252" })
       vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#262626" --[[ bg = "#ffffff" ]] })
+      vim.api.nvim_set_hl(0, "FloatermBorder", { fg = "#262626" })
       vim.cmd([[highlight Pmenu guibg=#161616 guifg=#262626]])
       vim.cmd([[highlight PmenuSel guibg=#2d2d2d]])
 
       pcall(vim.cmd, "set noruler")
     end
   },
-  {
-    'projekt0n/github-nvim-theme',
-    lazy = false,    -- make sure we load this during startup if it is your main colorscheme
-    priority = 1000, -- make sure to load this before all the other start plugins
-    config = function()
-      require('github-theme').setup({
-        options = {
-          -- Compiled file's destination location
-          compile_path = vim.fn.stdpath('cache') .. '/github-theme',
-          compile_file_suffix = '_compiled', -- Compiled file suffix
-          hide_end_of_buffer = true,         -- Hide the '~' character at the end of the buffer for a cleaner look
-          hide_nc_statusline = true,         -- Override the underline style for non-active statuslines
-          transparent = false,               -- Disable setting background
-          terminal_colors = true,            -- Set terminal colors (vim.g.terminal_color_*) used in `:terminal`
-          dim_inactive = false,              -- Non focused panes set to alternative background
-          module_default = true,             -- Default enable value for modules
-          styles = {                         -- Style to be applied to different syntax groups
-            comments = 'NONE',               -- Value is any valid attr-list value `:help attr-list`
-            functions = 'italic',
-            keywords = 'NONE',
-            variables = 'NONE',
-            conditionals = 'NONE',
-            constants = 'NONE',
-            numbers = 'NONE',
-            operators = 'NONE',
-            strings = 'NONE',
-            types = 'NONE',
-
-            --  types = 'italic,bold',
-          },
-          inverse = { -- Inverse highlight for different types
-            match_paren = false,
-            visual = false,
-            search = false,
-          },
-          darken = { -- Darken floating windows and sidebar-like windows
-            floats = false,
-            sidebars = {
-              enabled = true,
-              list = {}, -- Apply dark background to specific windows
-            },
-          },
-          modules = { -- List of various plugins and additional options
-            -- ...
-          },
-        },
-        palettes = {},
-        specs = {},
-        groups = {},
-      })
-
-      -- vim.cmd('colorscheme github_dark_high_contrast')
-      -- vim.cmd('colorscheme github_dark_tritanopia')
-    end,
-  },
-  {
-    "EdenEast/nightfox.nvim",
-    lazy = false,
-    config = function()
-      require('nightfox').setup({
-        options = {
-          -- Compiled file's destination location
-          compile_path = vim.fn.stdpath("cache") .. "/nightfox",
-          compile_file_suffix = "_compiled", -- Compiled file suffix
-          transparent = false,               -- Disable setting background
-          terminal_colors = true,            -- Set terminal colors (vim.g.terminal_color_*) used in `:terminal`
-          dim_inactive = false,              -- Non focused panes set to alternative background
-          module_default = true,             -- Default enable value for modules
-          colorblind = {
-            enable = false,                  -- Enable colorblind support
-            simulate_only = false,           -- Only show simulated colorblind colors and not diff shifted
-            severity = {
-              protan = 0,                    -- Severity [0,1] for protan (red)
-              deutan = 0,                    -- Severity [0,1] for deutan (green)
-              tritan = 0,                    -- Severity [0,1] for tritan (blue)
-            },
-          },
-          styles = {           -- Style to be applied to different syntax groups
-            comments = "NONE", -- Value is any valid attr-list value `:help attr-list`
-            conditionals = "NONE",
-            constants = "bold",
-            functions = "italic",
-            keywords = "NONE",
-            numbers = "NONE",
-            operators = "bold",
-            strings = "NONE",
-            types = "NONE",
-            variables = "NONE",
-          },
-          inverse = { -- Inverse highlight for different types
-            match_paren = false,
-            visual = false,
-            search = false,
-          },
-          modules = { -- List of various plugins and additional options
-            -- ...
-          },
-        },
-        palettes = {},
-        specs = {},
-        groups = {},
-      })
-
-
-      --[[  local oxocarbon = require("oxocarbon.colorutils")
-      vim.api.nvim_set_hl(0, "TelescopeBorder", { fg = "#ffffff", bg = nil })
-      vim.api.nvim_set_hl(0, "TelescopePromptBorder", { fg = oxocarbon.base02, bg = oxocarbon.base02 })
-      vim.api.nvim_set_hl(0, "TelescopePromptNormal", { fg = oxocarbon.base05, bg = oxocarbon.base02 })
-      vim.api.nvim_set_hl(0, "TelescopePromptPrefix", { fg = oxocarbon.base08, bg = oxocarbon.base02 })
-      vim.api.nvim_set_hl(0, "TelescopeNormal", { fg = oxocarbon.none, bg = oxocarbon.blend })
-      vim.api.nvim_set_hl(0, "TelescopePreviewTitle", { fg = oxocarbon.base02, bg = oxocarbon.base12 })
-      vim.api.nvim_set_hl(0, "TelescopePromptTitle", { fg = oxocarbon.base02, bg = oxocarbon.base11 })
-      vim.api.nvim_set_hl(0, "TelescopeResultsTitle", { fg = oxocarbon.blend, bg = oxocarbon.blend })
-      vim.api.nvim_set_hl(0, "TelescopeSelection", { fg = oxocarbon.none, bg = oxocarbon.base02 })
-      vim.api.nvim_set_hl(0, "TelescopePreviewLine", { fg = oxocarbon.none, bg = oxocarbon.base01 })
-      vim.api.nvim_set_hl(0, "TelescopeMatching",
-        { fg = oxocarbon.base08, bg = oxocarbon.none, bold = true, italic = true })
-
-      vim.api.nvim_set_hl(0, "MsgArea",
-        { fg = "#525252" })
-      vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#ffffff", bg = "#ffffff" }) ]]
-      -- vim.api.nvim_set_hl(0, "@variable", { fg = "#3c3c3c" })
-
-      -- setup must be called before loading
-      -- vim.cmd("colorscheme carbonfox")
-    end
-  },
-
 })
 
 -- [[ Setting options ]]
