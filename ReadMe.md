@@ -1,4 +1,4 @@
-# Personal nvim configuration
+# Personal nvim configuration - einknuffy
 
 ## Let's get started
 
