@@ -3,7 +3,7 @@
 local intro_logo = require("ascii.no-place-like-home") --require("ascii.numbers") -- require("ascii.no-place-like-home") -- require("ascii.roblox-robux")
 
 local PLUGIN_NAME = "Home"
-local DEFAULT_COLOR = "#7e9cd8" --"#98c379"
+local DEFAULT_COLOR = "#be95ff" --"#7e9cd8" --"#98c379"
 local INTRO_LOGO_HEIGHT = #intro_logo
 local INTRO_LOGO_WIDTH = 60     -- 43 for clock --- CHANGE THIS
 
