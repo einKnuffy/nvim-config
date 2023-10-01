@@ -1,51 +1,13 @@
-local minintro_opened = false
-local intro_logo = require("ascii.no-place-like-home")
-local intro_logo_2 = require("ascii.no-place-like-home-2")
+local intro_logo = require("ascii.no-place-like-home") --require("ascii.numbers") -- require("ascii.no-place-like-home") -- require("ascii.roblox-robux")
+
 local PLUGIN_NAME = "Home"
-local DEFAULT_COLOR = "#be95ff"
+local DEFAULT_COLOR = "#be95ff" --"#7e9cd8" --"#98c379"
 local INTRO_LOGO_HEIGHT = #intro_logo
-local INTRO_LOGO_WIDTH = 60
+local INTRO_LOGO_WIDTH = 60     -- 43 for clock --- CHANGE THIS
+
 local autocmd_group = vim.api.nvim_create_augroup(PLUGIN_NAME, {})
 local highlight_ns_id = vim.api.nvim_create_namespace(PLUGIN_NAME)
 local minintro_buff = -1
-local current_color = DEFAULT_COLOR
-local TARGET_COLOR = "#95FFBE"  -- Change this to your desired target color
-local target_color = TARGET_COLOR
-local animation_duration = 2000 -- Duration in milliseconds for the color animation
-local animation_step = 100      -- Duration between color changes in milliseconds
-
-local function interpolate_color(start_color, end_color, progress)
-  local function hex_to_rgb(hex)
-    hex = hex:gsub("#", "")
-    return tonumber(hex:sub(1, 2), 16), tonumber(hex:sub(3, 4), 16), tonumber(hex:sub(5, 6), 16)
-  end
-
-  local function rgb_to_hex(r, g, b)
-    return string.format("#%02x%02x%02x", r, g, b)
-  end
-
-  local start_r, start_g, start_b = hex_to_rgb(start_color)
-  local end_r, end_g, end_b = hex_to_rgb(end_color)
-
-  local interpolated_r = math.floor(start_r + (end_r - start_r) * progress)
-  local interpolated_g = math.floor(start_g + (end_g - start_g) * progress)
-  local interpolated_b = math.floor(start_b + (end_b - start_b) * progress)
-
-  return rgb_to_hex(interpolated_r, interpolated_g, interpolated_b)
-end
-
-
-local function update_intro_color()
-  --[[ current_color = interpolate_color(current_color, target_color, animation_step / animation_duration) ]]
-  vim.api.nvim_set_hl(highlight_ns_id, "Default", { fg = current_color })
-  vim.api.nvim_set_hl_ns(highlight_ns_id)
-
-  --[[  if current_color == target_color then
-    target_color = (current_color == DEFAULT_COLOR) and TARGET_COLOR or DEFAULT_COLOR
-  end ]]
-
-  vim.defer_fn(update_intro_color, animation_step)
-end
 
 local function unlock_buf(buf)
   vim.api.nvim_set_option_value("modifiable", true, { buf = buf })
@@ -86,8 +48,6 @@ local function draw_minintro(buf, logo_width, logo_height)
     end_row = start_row + INTRO_LOGO_HEIGHT,
     hl_group = "Default"
   })
-
-  update_intro_color()
 end
 
 local function create_and_set_minintro_buf(default_buff)
@@ -142,8 +102,10 @@ end
 
 local function setup(options)
   options = options or {}
+  -- Color Support
   vim.api.nvim_set_hl(highlight_ns_id, "Default", { fg = options.color or DEFAULT_COLOR })
   vim.api.nvim_set_hl_ns(highlight_ns_id)
+
   vim.api.nvim_create_autocmd("VimEnter", {
     group = autocmd_group,
     callback = display_minintro,
@@ -151,4 +113,7 @@ local function setup(options)
   })
 end
 
+--[[ return {
+  setup = setup
+} ]]
 setup()

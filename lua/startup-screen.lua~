@@ -1,0 +1,83 @@
+local minintro_opened = false
+local intro_logo = require("ascii.no-place-like-home")
+local intro_logo_2 = require("ascii.no-place-like-home-2")
+local PLUGIN_NAME = "Home"
+local INTRO_LOGO_HEIGHT = #intro_logo
+local INTRO_LOGO_HEIGHT_2 = #intro_logo_2
+local INTRO_LOGO_WIDTH = 60
+local autocmd_group = vim.api.nvim_create_augroup(PLUGIN_NAME, {})
+local minintro_buff = -1
+local current_logo = 1          -- 1 for intro_logo, 2 for intro_logo_2
+local animation_duration = 2000 -- Duration in milliseconds for switching logos
+
+local function draw_minintro(buf, logo_data, logo_height)
+  local window = vim.fn.bufwinid(buf)
+  local screen_width = vim.api.nvim_win_get_width(window)
+  local screen_height = vim.api.nvim_win_get_height(window) - vim.opt.cmdheight:get()
+
+  local start_col = math.floor((screen_width - INTRO_LOGO_WIDTH) / 2)
+  local start_row = math.floor((screen_height - logo_height) / 2)
+  if (start_col < 0 or start_row < 0) then return end
+
+  local top_space = {}
+  for _ = 1, start_row do table.insert(top_space, "") end
+
+  local col_offset_spaces = {}
+  for _ = 1, start_col do table.insert(col_offset_spaces, " ") end
+  local col_offset = table.concat(col_offset_spaces, '')
+
+  local adjusted_logo = {}
+  for _, line in ipairs(logo_data) do
+    table.insert(adjusted_logo, col_offset .. line)
+  end
+
+  vim.api.nvim_buf_set_lines(buf, 1, 1, true, top_space)
+  vim.api.nvim_buf_set_lines(buf, start_row, start_row, true, adjusted_logo)
+  vim.api.nvim_buf_set_lines(buf, start_row + logo_height, start_row + logo_height, true, top_space)
+
+  current_logo = (current_logo == 1) and 2 or 1 -- Switch between 1 and 2
+end
+
+local function create_and_set_minintro_buf()
+  local intro_buff = vim.api.nvim_create_buf("nobuflisted", "unlisted")
+  vim.api.nvim_buf_set_name(intro_buff, PLUGIN_NAME)
+  vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = intro_buff })
+  vim.api.nvim_set_option_value("buftype", "nofile", { buf = intro_buff })
+  vim.api.nvim_set_option_value("filetype", "md", { buf = intro_buff })
+  vim.api.nvim_set_option_value("swapfile", false, { buf = intro_buff })
+
+  vim.api.nvim_set_current_buf(intro_buff)
+
+  return intro_buff
+end
+
+local function set_options()
+  vim.opt_local.number = false
+  vim.opt_local.list = false
+  vim.opt_local.colorcolumn = "0"
+  vim.opt_local.foldmethod = "manual"
+end
+
+local function display_minintro()
+  minintro_buff = create_and_set_minintro_buf()
+  set_options()
+
+  local logo_data = (current_logo == 1) and intro_logo or intro_logo_2
+  draw_minintro(minintro_buff, logo_data, (current_logo == 1) and INTRO_LOGO_HEIGHT or INTRO_LOGO_HEIGHT_2)
+
+  vim.api.nvim_command("redraw!")
+end
+
+vim.api.nvim_create_autocmd("VimEnter", {
+  group = autocmd_group,
+  callback = display_minintro,
+  once = true
+})
+
+-- Periodically switch logos every 2 seconds
+local function switch_logos()
+  display_minintro()
+  vim.defer_fn(switch_logos, animation_duration)
+end
+
+vim.defer_fn(switch_logos, animation_duration)
