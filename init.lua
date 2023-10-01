@@ -51,10 +51,10 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
     dependencies = {                                  -- Snippet Engine & its associated nvim-cmp source
       'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip', -- Adds LSP completion capabilities
       'hrsh7th/cmp-nvim-lsp',                         -- Adds a number of user-friendly snippets
-      'rafamadriz/friendly-snippets', 'hrsh7th/cmp-nvim-lsp'
-    , 'hrsh7th/cmp-buffer'
-    , 'hrsh7th/cmp-path'
-    , 'hrsh7th/cmp-cmdline' }
+      'rafamadriz/friendly-snippets', 'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-cmdline', "hrsh7th/cmp-nvim-lsp-signature-help", "uga-rosa/cmp-dictionary" }
   },
   --[[   {
     'puremourning/vimspector',
@@ -842,8 +842,25 @@ cmp.setup {
     name = 'nvim_lsp'
   }, {
     name = 'luasnip'
-  }, { name = 'buffer' } }
+  }, { name = 'buffer' }, { name = 'nvim_lsp_signature_help' }, {
+    name = "dictionary",
+    keyword_length = 2,
+  }, }
 }
+
+local dict = require("cmp_dictionary")
+
+dict.setup({
+  -- The following are default values.
+  exact = 2,
+  first_case_insensitive = false,
+  document = false,
+  document_command = "wn %s -over",
+  sqlite = false,
+  max_items = -1,
+  capacity = 5,
+  debug = false,
+})
 
 cmp.setup.filetype('gitcommit', {
   sources = cmp.config.sources({
