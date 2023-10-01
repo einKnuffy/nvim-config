@@ -43,6 +43,8 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
       }, -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim' }
   },
+  require("nvimtreesitter"),
+  require("dap-debug"),
   {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
@@ -62,10 +64,8 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
   -- Useful plugin to show you pending keybinds.
   --[[ { 'folke/which-key.nvim', opts = {} }, ]]
   {
-    -- Adds git releated signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
     opts = {
-      -- See `:help gitsigns.txt`
       signs = {
         add = {
           text = ''
@@ -86,95 +86,17 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
     }
   },
   {
-    -- Theme inspired by Atom
-    'nyoom-engineering/oxocarbon.nvim',
-    priority = 1000,
+    'lukas-reineke/indent-blankline.nvim',
+    event = "VeryLazy",
     config = function()
-      --[[ vim.cmd.colorscheme 'oxocarbon'
-      local oxocarbon = require("oxocarbon.colorutils")
-
-      vim.api.nvim_set_hl(0, "TelescopeBorder", { fg = "#ffffff", bg = nil })
-      vim.api.nvim_set_hl(0, "TelescopePromptBorder", { fg = oxocarbon.base02, bg = oxocarbon.base02 })
-      vim.api.nvim_set_hl(0, "TelescopePromptNormal", { fg = oxocarbon.base05, bg = oxocarbon.base02 })
-      vim.api.nvim_set_hl(0, "TelescopePromptPrefix", { fg = oxocarbon.base08, bg = oxocarbon.base02 })
-      vim.api.nvim_set_hl(0, "TelescopeNormal", { fg = oxocarbon.none, bg = oxocarbon.blend })
-      vim.api.nvim_set_hl(0, "TelescopePreviewTitle", { fg = oxocarbon.base02, bg = oxocarbon.base12 })
-      vim.api.nvim_set_hl(0, "TelescopePromptTitle", { fg = oxocarbon.base02, bg = oxocarbon.base11 })
-      vim.api.nvim_set_hl(0, "TelescopeResultsTitle", { fg = oxocarbon.blend, bg = oxocarbon.blend })
-      vim.api.nvim_set_hl(0, "TelescopeSelection", { fg = oxocarbon.none, bg = oxocarbon.base02 })
-      vim.api.nvim_set_hl(0, "TelescopePreviewLine", { fg = oxocarbon.none, bg = oxocarbon.base01 })
-      vim.api.nvim_set_hl(0, "TelescopeMatching",
-        { fg = oxocarbon.base08, bg = oxocarbon.none, bold = true, italic = true })
-
-      vim.api.nvim_set_hl(0, "MsgArea",
-        { fg = "#525252" })
-      vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#ffffff", bg = "#ffffff" }) ]]
-
-      pcall(vim.cmd, "set noruler")
+      require("ibl").setup({
+        indent = {
+          char = '┊',
+          show_trailing_blankline_indent = false
+        }
+      })
     end
   },
-  {
-    'projekt0n/github-nvim-theme',
-    lazy = false,    -- make sure we load this during startup if it is your main colorscheme
-    priority = 1000, -- make sure to load this before all the other start plugins
-    config = function()
-      require('github-theme').setup({
-        options = {
-          -- Compiled file's destination location
-          compile_path = vim.fn.stdpath('cache') .. '/github-theme',
-          compile_file_suffix = '_compiled', -- Compiled file suffix
-          hide_end_of_buffer = true,         -- Hide the '~' character at the end of the buffer for a cleaner look
-          hide_nc_statusline = true,         -- Override the underline style for non-active statuslines
-          transparent = false,               -- Disable setting background
-          terminal_colors = true,            -- Set terminal colors (vim.g.terminal_color_*) used in `:terminal`
-          dim_inactive = false,              -- Non focused panes set to alternative background
-          module_default = true,             -- Default enable value for modules
-          styles = {                         -- Style to be applied to different syntax groups
-            comments = 'NONE',               -- Value is any valid attr-list value `:help attr-list`
-            functions = 'NONE',
-            keywords = 'NONE',
-            variables = 'NONE',
-            conditionals = 'NONE',
-            constants = 'NONE',
-            numbers = 'NONE',
-            operators = 'NONE',
-            strings = 'NONE',
-            types = 'NONE',
-
-            --  types = 'italic,bold',
-          },
-          inverse = { -- Inverse highlight for different types
-            match_paren = false,
-            visual = false,
-            search = false,
-          },
-          darken = { -- Darken floating windows and sidebar-like windows
-            floats = false,
-            sidebars = {
-              enabled = true,
-              list = {}, -- Apply dark background to specific windows
-            },
-          },
-          modules = { -- List of various plugins and additional options
-            -- ...
-          },
-        },
-        palettes = {},
-        specs = {},
-        groups = {},
-      })
-
-      -- vim.cmd('colorscheme github_dark_high_contrast')
-      vim.cmd('colorscheme github_dark_tritanopia')
-    end,
-  }, {
-  'lukas-reineke/indent-blankline.nvim',
-  event = "VeryLazy",
-  opts = {
-    char = '┊',
-    show_trailing_blankline_indent = false
-  }
-},
   {
     'numToStr/Comment.nvim',
     config = function()
@@ -182,60 +104,36 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
         padding = true,
         sticky = true,
         toggler = {
-          ---Line-comment toggle keymap
           line = 'gg',
-          ---Block-comment toggle keymap
           block = 'gb',
         },
-        ---LHS of operator-pending mappings in NORMAL and VISUAL mode
         opleader = {
-          ---Line-comment keymap
           line = 'gc',
-          ---Block-comment keymap
           block = 'gb',
         },
         ---LHS of extra mappings
         extra = {
-          ---Add comment on the line above
           above = 'gcO',
-          ---Add comment on the line below
           below = 'gco',
-          ---Add comment at the end of line
           eol = 'gcA',
         },
-        ---Enable keybindings
-        ---NOTE: If given `false` then the plugin won't create any mappings
         mappings = {
-          ---Operator-pending mapping; `gcc` `gbc` `gc[count]{motion}` `gb[count]{motion}`
           basic = true,
-          ---Extra mapping; `gco`, `gcO`, `gcA`
           extra = true,
         },
       })
     end
   },
   {
-    'brenoprata10/nvim-highlight-colors',
-    event = "VeryLazy",
-    config = function()
-      require('nvim-highlight-colors').setup({
-        enable_tailwind = true,
-        render = "background" --"first_column" --"background"
-      })
-    end
-  },
-  {
     'windwp/nvim-autopairs',
     event = "InsertEnter",
-    opts = {} -- this is equalent to setup({}) function
+    opts = {}
   },
 
   require("teleconfig"),
-  require("nvimtreesitter"),
   require("statusline"),
   require('autoformat'),
   require("termy"),
-  require("dap-debug"),
   {
     "lewis6991/hover.nvim",
     config = function()
@@ -393,6 +291,172 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
   }, ]]
   --[[ { 'puremourning/vimspector', event = "VimEnter" } ]]
   --  require 'debug',
+  {
+    'brenoprata10/nvim-highlight-colors',
+    event = "VeryLazy",
+    config = function()
+      require('nvim-highlight-colors').setup({
+        enable_tailwind = true,
+        render = "background" --"first_column" --"background"
+      })
+    end
+  },
+  {
+    -- Theme inspired by Atom
+    'nyoom-engineering/oxocarbon.nvim',
+    priority = 1000,
+    config = function()
+      --[[ vim.cmd.colorscheme 'oxocarbon'
+      local oxocarbon = require("oxocarbon.colorutils")
+
+      vim.api.nvim_set_hl(0, "TelescopeBorder", { fg = "#ffffff", bg = nil })
+      vim.api.nvim_set_hl(0, "TelescopePromptBorder", { fg = oxocarbon.base02, bg = oxocarbon.base02 })
+      vim.api.nvim_set_hl(0, "TelescopePromptNormal", { fg = oxocarbon.base05, bg = oxocarbon.base02 })
+      vim.api.nvim_set_hl(0, "TelescopePromptPrefix", { fg = oxocarbon.base08, bg = oxocarbon.base02 })
+      vim.api.nvim_set_hl(0, "TelescopeNormal", { fg = oxocarbon.none, bg = oxocarbon.blend })
+      vim.api.nvim_set_hl(0, "TelescopePreviewTitle", { fg = oxocarbon.base02, bg = oxocarbon.base12 })
+      vim.api.nvim_set_hl(0, "TelescopePromptTitle", { fg = oxocarbon.base02, bg = oxocarbon.base11 })
+      vim.api.nvim_set_hl(0, "TelescopeResultsTitle", { fg = oxocarbon.blend, bg = oxocarbon.blend })
+      vim.api.nvim_set_hl(0, "TelescopeSelection", { fg = oxocarbon.none, bg = oxocarbon.base02 })
+      vim.api.nvim_set_hl(0, "TelescopePreviewLine", { fg = oxocarbon.none, bg = oxocarbon.base01 })
+      vim.api.nvim_set_hl(0, "TelescopeMatching",
+        { fg = oxocarbon.base08, bg = oxocarbon.none, bold = true, italic = true })
+
+      vim.api.nvim_set_hl(0, "MsgArea",
+        { fg = "#525252" })
+      vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#ffffff", bg = "#ffffff" }) ]]
+
+      pcall(vim.cmd, "set noruler")
+    end
+  },
+  {
+    'projekt0n/github-nvim-theme',
+    lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+    priority = 1000, -- make sure to load this before all the other start plugins
+    config = function()
+      require('github-theme').setup({
+        options = {
+          -- Compiled file's destination location
+          compile_path = vim.fn.stdpath('cache') .. '/github-theme',
+          compile_file_suffix = '_compiled', -- Compiled file suffix
+          hide_end_of_buffer = true,         -- Hide the '~' character at the end of the buffer for a cleaner look
+          hide_nc_statusline = true,         -- Override the underline style for non-active statuslines
+          transparent = false,               -- Disable setting background
+          terminal_colors = true,            -- Set terminal colors (vim.g.terminal_color_*) used in `:terminal`
+          dim_inactive = false,              -- Non focused panes set to alternative background
+          module_default = true,             -- Default enable value for modules
+          styles = {                         -- Style to be applied to different syntax groups
+            comments = 'NONE',               -- Value is any valid attr-list value `:help attr-list`
+            functions = 'italic',
+            keywords = 'NONE',
+            variables = 'NONE',
+            conditionals = 'NONE',
+            constants = 'NONE',
+            numbers = 'NONE',
+            operators = 'NONE',
+            strings = 'NONE',
+            types = 'NONE',
+
+            --  types = 'italic,bold',
+          },
+          inverse = { -- Inverse highlight for different types
+            match_paren = false,
+            visual = false,
+            search = false,
+          },
+          darken = { -- Darken floating windows and sidebar-like windows
+            floats = false,
+            sidebars = {
+              enabled = true,
+              list = {}, -- Apply dark background to specific windows
+            },
+          },
+          modules = { -- List of various plugins and additional options
+            -- ...
+          },
+        },
+        palettes = {},
+        specs = {},
+        groups = {},
+      })
+
+      -- vim.cmd('colorscheme github_dark_high_contrast')
+      -- vim.cmd('colorscheme github_dark_tritanopia')
+    end,
+  },
+  {
+    "EdenEast/nightfox.nvim",
+    lazy = false,
+    config = function()
+      require('nightfox').setup({
+        options = {
+          -- Compiled file's destination location
+          compile_path = vim.fn.stdpath("cache") .. "/nightfox",
+          compile_file_suffix = "_compiled", -- Compiled file suffix
+          transparent = false,               -- Disable setting background
+          terminal_colors = true,            -- Set terminal colors (vim.g.terminal_color_*) used in `:terminal`
+          dim_inactive = false,              -- Non focused panes set to alternative background
+          module_default = true,             -- Default enable value for modules
+          colorblind = {
+            enable = false,                  -- Enable colorblind support
+            simulate_only = false,           -- Only show simulated colorblind colors and not diff shifted
+            severity = {
+              protan = 0,                    -- Severity [0,1] for protan (red)
+              deutan = 0,                    -- Severity [0,1] for deutan (green)
+              tritan = 0,                    -- Severity [0,1] for tritan (blue)
+            },
+          },
+          styles = {           -- Style to be applied to different syntax groups
+            comments = "NONE", -- Value is any valid attr-list value `:help attr-list`
+            conditionals = "NONE",
+            constants = "bold",
+            functions = "italic",
+            keywords = "NONE",
+            numbers = "NONE",
+            operators = "bold",
+            strings = "NONE",
+            types = "NONE",
+            variables = "NONE",
+          },
+          inverse = { -- Inverse highlight for different types
+            match_paren = false,
+            visual = false,
+            search = false,
+          },
+          modules = { -- List of various plugins and additional options
+            -- ...
+          },
+        },
+        palettes = {},
+        specs = {},
+        groups = {},
+      })
+
+
+      local oxocarbon = require("oxocarbon.colorutils")
+      vim.api.nvim_set_hl(0, "TelescopeBorder", { fg = "#ffffff", bg = nil })
+      vim.api.nvim_set_hl(0, "TelescopePromptBorder", { fg = oxocarbon.base02, bg = oxocarbon.base02 })
+      vim.api.nvim_set_hl(0, "TelescopePromptNormal", { fg = oxocarbon.base05, bg = oxocarbon.base02 })
+      vim.api.nvim_set_hl(0, "TelescopePromptPrefix", { fg = oxocarbon.base08, bg = oxocarbon.base02 })
+      vim.api.nvim_set_hl(0, "TelescopeNormal", { fg = oxocarbon.none, bg = oxocarbon.blend })
+      vim.api.nvim_set_hl(0, "TelescopePreviewTitle", { fg = oxocarbon.base02, bg = oxocarbon.base12 })
+      vim.api.nvim_set_hl(0, "TelescopePromptTitle", { fg = oxocarbon.base02, bg = oxocarbon.base11 })
+      vim.api.nvim_set_hl(0, "TelescopeResultsTitle", { fg = oxocarbon.blend, bg = oxocarbon.blend })
+      vim.api.nvim_set_hl(0, "TelescopeSelection", { fg = oxocarbon.none, bg = oxocarbon.base02 })
+      vim.api.nvim_set_hl(0, "TelescopePreviewLine", { fg = oxocarbon.none, bg = oxocarbon.base01 })
+      vim.api.nvim_set_hl(0, "TelescopeMatching",
+        { fg = oxocarbon.base08, bg = oxocarbon.none, bold = true, italic = true })
+
+      vim.api.nvim_set_hl(0, "MsgArea",
+        { fg = "#525252" })
+      vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#ffffff", bg = "#ffffff" })
+      vim.api.nvim_set_hl(0, "@variable", { fg = "#3c3c3c" })
+
+      -- setup must be called before loading
+      vim.cmd("colorscheme carbonfox")
+    end
+  },
+
 })
 
 -- [[ Setting options ]]
@@ -580,7 +644,7 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, {
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup({
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim', "svelte", "json" },
+  ensure_installed = { 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim', "svelte", "json", "cpp" },
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = true,
@@ -706,7 +770,7 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, {
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
-  -- clangd = {},
+  clangd = {},
   -- gopls = {},
   -- pyright = {},
   rust_analyzer = {},
@@ -757,6 +821,28 @@ require('luasnip.loaders.from_vscode').lazy_load()
 luasnip.config.setup {}
 
 cmp.setup {
+  --[[  format = {
+    border = '─', -- Use a horizontal line as the border
+  }, ]]
+  window = {
+    completion = { -- rounded border; thin-style scrollbar
+      border = 'rounded',
+      scrollbar = false,
+      -- scrollbar = '║',
+    },
+    documentation = { -- no border; native-style scrollbar
+      border = "rounded",
+      scrollbar = false,
+      -- other options
+    },
+  },
+  --[[  menu = {
+    highlight = { 'CmpMenu', 'Normal' }, -- Set the menu highlight group
+  }, ]]
+  --[[   window = {
+    border = "-",
+    documentation = cmp.
+  }, ]]
   snippet = {
     expand = function(args)
       luasnip.lsp_expand(args.body)
@@ -772,7 +858,6 @@ cmp.setup {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true
     },
-
     --[[ ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
@@ -802,8 +887,24 @@ cmp.setup {
   } }
 }
 
+-- Set custom highlight group for nvim-cmp menu
+-- vim.cmd([[highlight CmpMenu guibg=#1d1f21 guifg=#c5c8c6]])
+
+-- Set border for the menu
+-- vim.cmd([[set pumblend=20]]) -- Set transparency for popup menu
+vim.cmd([[highlight Pmenu guibg=#161616 guifg=#262626]])
+vim.cmd([[highlight PmenuSel guibg=#2d2d2d]])
+-- vim.cmd([[highlight PmenuSbar guibg=#1d1f21 guifg=#373b41]])
+-- vim.cmd([[highlight PmenuThumb guibg=#707880 guifg=#1d1f21]])
+
+-- Set borders for the menu
+-- vim.cmd([[highlight PmenuBorder guifg=#ffffff guibg=#1d1f21]])
+-- vim.cmd([[set pmbc=]]) -- popup menu border color
+
 -- Load start screen
 require "startup-screen"
+
+
 
 vim.o.autoindent = true
 vim.o.expandtab = true
