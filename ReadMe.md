@@ -4,6 +4,8 @@
 
 - C++ Cheating Tutorial: [UnknownCheats](https://www.unknowncheats.me/forum/c-and-c-/113642-useful-gamehacking-programming-threads-mega-thread.html)
 
+- Cheat Engine Pointers: [CE](https://www.unknowncheats.me/forum/programming-for-beginners/110375-cheat-engine-finding-base-address-pointer-scan.html)
+
 ## Let's get started
 
 ### Needed before being able to run Neovim
