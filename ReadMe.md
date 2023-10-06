@@ -6,6 +6,8 @@
 
 - Cheat Engine Pointers: [CE](https://www.unknowncheats.me/forum/programming-for-beginners/110375-cheat-engine-finding-base-address-pointer-scan.html)
 
+- SoT: [TUTORIALS](https://www.unknowncheats.me/forum/sea-of-thieves/436708-sea-thieves-complete-hack-tool-list.html)
+
 ## Let's get started
 
 - ![lets-get-started-rh01o6](https://github.com/einKnuffy/radon/assets/66639485/2823c10e-2d8e-4e4c-ab82-861963129b84)
