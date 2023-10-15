@@ -1,10 +1,10 @@
 local theme = function()
   pcall(vim.cmd, "set noshowmode")
   local colors = {
-    darkgray = "#16161d",
-    gray = "#525252",
+    darkgray = "#333333",
+    gray = "#888888",
     innerbg = nil,
-    outerbg = "#242424",
+    outerbg = "#333333",
     normal = "#be95ff", --"#7e9cd8",
     insert = "#98bb6c",
     terminal = "#98bb6c",
@@ -44,9 +44,6 @@ local theme = function()
       c = { fg = colors.gray, bg = colors.innerbg },
     },
     terminal = {
-      --[[    a = { fg = colors.darkgray, bg = colors.terminal, gui = "bold" },
-      b = { fg = colors.gray, bg = colors.outerbg },
-      c = { fg = colors.gray, bg = colors.innerbg }, ]]
       a = { fg = nil, bg = nil, },
       b = { fg = nil, bg = nil, },
       c = { fg = nil, bg = nil, },

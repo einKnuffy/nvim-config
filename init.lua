@@ -75,7 +75,8 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
       },
     }
   },
-  {
+
+  --[[ {
     'lukas-reineke/indent-blankline.nvim',
     event = "VeryLazy",
     config = function()
@@ -86,7 +87,7 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
         }
       })
     end
-  },
+  }, ]]
   {
     'numToStr/Comment.nvim',
     config = function()
@@ -114,6 +115,7 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
       })
     end
   },
+
   {
     'windwp/nvim-autopairs',
     event = "InsertEnter",
@@ -261,6 +263,7 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
       })
     end
   },
+  'danilamihailov/beacon.nvim',
   {
     -- Theme inspired by Atom
     'nyoom-engineering/oxocarbon.nvim',
@@ -282,15 +285,41 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
       vim.api.nvim_set_hl(0, "TelescopeMatching",
         { fg = oxocarbon.base08, bg = oxocarbon.none, bold = true, italic = true })
       vim.api.nvim_set_hl(0, "MsgArea",
-        { fg = "#525252" })
-      vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#262626" --[[ bg = "#ffffff" ]] })
-      vim.api.nvim_set_hl(0, "FloatermBorder", { fg = "#262626" })
-      vim.cmd([[highlight Pmenu guibg=#161616 guifg=#262626]])
-      vim.cmd([[highlight PmenuSel guibg=#2d2d2d]])
+        { fg = "#ffffff", bg = nil })
+      vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#ffffff", bg = nil })
+      vim.api.nvim_set_hl(0, "FloatermBorder", { fg = "#ffffff", bg = nil })
+      vim.api.nvim_set_hl(0, "Pmenu", { bg = "#ffffff", fg = "#efefef" })
+      vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#efefef" })
+
+      local secondary = "#909090"
+
+      vim.api.nvim_set_hl(0, "Comment", { fg = secondary })
+      vim.api.nvim_set_hl(0, "LineNr", { fg = secondary })
+      vim.api.nvim_set_hl(0, "EndOfBuffer", { fg = secondary })
+      vim.api.nvim_set_hl(0, "VertSplit", { fg = "#ffffff", bg = nil })
 
       pcall(vim.cmd, "set noruler")
+      pcall(vim.cmd, "set laststatus=3")
     end
   },
+  {
+    "xiyaowong/transparent.nvim",
+    config = function()
+      local transparent = require("transparent")
+      transparent.setup({ -- Optional, you don't have to run setup.
+        groups = {        -- table: default groups
+          'Normal', 'NormalNC', 'Comment', 'Constant', 'Special', 'Identifier',
+          'Statement', 'PreProc', 'Type', 'Underlined', 'Todo', 'String', 'Function',
+          'Conditional', 'Repeat', 'Operator', 'Structure', 'LineNr', 'NonText',
+          'SignColumn', 'CursorLineNr', 'EndOfBuffer',
+        },
+        extra_groups = {},   -- table: additional groups that should be cleared
+        exclude_groups = {}, -- table: groups you don't want to clear
+      })
+
+      transparent.clear_prefix("NvimTree")
+    end
+  }
 })
 
 -- [[ Setting options ]]
