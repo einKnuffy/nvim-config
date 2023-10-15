@@ -10,17 +10,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
---[[ local nmap = function(modes, keys, func, desc)
-  --[[   if desc then
-    desc = 'LSP: ' .. desc
-  end
-
-  vim.keymap.set(modes, keys, func, {
-    desc = desc,
-    silent = true
-  })
-end ]]
-
 require('lazy').setup({ -- NOTE: First, some plugins that don't require any configuration
   -- Git related plugins
   'tpope/vim-fugitive',
@@ -93,7 +82,7 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
       require("ibl").setup({
         indent = {
           char = '┊',
-          show_trailing_blankline_indent = false
+          -- show_trailing_blankline_indent = false
         }
       })
     end
@@ -224,12 +213,21 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
     end
   }, ]]
   { 'wakatime/vim-wakatime' },
-  --[[ {
-    "smjonas/inc-rename.nvim",
+  {
+    'stevearc/overseer.nvim',
+    opts = {},
+  },
+  {
+    'pwntester/octo.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
+      'nvim-tree/nvim-web-devicons',
+    },
     config = function()
-      require("inc_rename").setup()
-    end,
-  },]]
+      require "octo".setup()
+    end
+  },
   --[[ { 'tikhomirov/vim-glsl' },  ]] -- for glsl (vert, frag shader) highlighting (semantic is more complex)
   {
     "Dhanus3133/LeetBuddy.nvim",
@@ -253,45 +251,6 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
       { "<leader>ls", "<cmd>LBSubmit<cr>",    desc = "Submit Code" },
     },
   },
-  --[[  {
-    'kevinhwang91/nvim-ufo',
-    dependencies = { 'kevinhwang91/promise-async' },
-    config = function()
-      require('ufo').setup({
-        provider_selector = function(bufnr, filetype, buftype)
-          return { 'treesitter', 'indent' }
-        end
-      })
-    end
-  }, ]]
-
-
-  --[[   {
-    "nvim-neorg/neorg",
-    build = ":Neorg sync-parsers",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-      require("neorg").setup {
-        load = {
-          ["core.defaults"] = {}, -- Loads default behaviour
-           -- ["core.completion"] = {
-            -- engine = "nvim-cmp",
-            -- name = "[Neorg]"
-          -- },
-          ["core.concealer"] = {}, -- Adds pretty icons to your documents
-          ["core.dirman"] = {      -- Manages Neorg workspaces
-            config = {
-              workspaces = {
-                notes = "~/notes",
-              },
-            },
-          },
-        },
-      }
-    end,
-  }, ]]
-  --[[ { 'puremourning/vimspector', event = "VimEnter" } ]]
-  --  require 'debug',
   {
     'brenoprata10/nvim-highlight-colors',
     event = "VeryLazy",

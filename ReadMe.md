@@ -12,6 +12,8 @@
 
 - ![lets-get-started-rh01o6](https://github.com/einKnuffy/radon/assets/66639485/2823c10e-2d8e-4e4c-ab82-861963129b84)
 
+- [Useful Nvim Packages](https://github.com/catppuccin/nvim#Integrations)
+
 ### Needed before being able to run Neovim
 
 - Zig, Rust, Luarocks, Python, LLVM (Clang compiler) 
