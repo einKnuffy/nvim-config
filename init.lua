@@ -58,7 +58,7 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
     opts = {
       signs = {
         add = {
-          text = ''
+          text = ''
         },
         change = {
           text = ''
@@ -216,10 +216,6 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
   }, ]]
   { 'wakatime/vim-wakatime' },
   {
-    'stevearc/overseer.nvim',
-    opts = {},
-  },
-  {
     'pwntester/octo.nvim',
     requires = {
       'nvim-lua/plenary.nvim',
@@ -317,7 +313,7 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
         exclude_groups = {}, -- table: groups you don't want to clear
       })
 
-      transparent.clear_prefix("NvimTree")
+      -- transparent.clear_prefix("NvimTree")
     end
   }
 })
