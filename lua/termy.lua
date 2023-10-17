@@ -36,7 +36,7 @@ return {
       pcall(vim.cmd, "FloatermShow")
     end, { silent = true })
 
-    vim.g.floaterm_shell = "bash"
+    -- vim.g.floaterm_shell = "shell"
     vim.g.floaterm_title = " Experience is the name everyone gives to their mistakes. "
     vim.g.floaterm_titleposition = "center"
   end,
