@@ -835,8 +835,7 @@ vim.o.expandtab = true
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 
-vim.o.cmdheight = 2 -- customizing bottom padding
-
+vim.cmd("set cmdheight=2") -- customizing bottom padding
 vim.cmd("set fillchars=fold:\\ ,vert:\\│,eob:\\ ,msgsep:‾")
 
 -- The line beneath this is called `modeline`. See `:help modeline`
