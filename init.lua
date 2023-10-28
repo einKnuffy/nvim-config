@@ -125,7 +125,7 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
   require("teleconfig"),
   require("statusline"),
   require('autoformat'),
-  require("termy"),
+  -- require("termy"),
   {
     "lewis6991/hover.nvim",
     config = function()
@@ -293,6 +293,7 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
       vim.api.nvim_set_hl(0, "LineNr", { fg = secondary })
       vim.api.nvim_set_hl(0, "EndOfBuffer", { fg = secondary })
       vim.api.nvim_set_hl(0, "VertSplit", { fg = "#ffffff", bg = nil })
+      vim.api.nvim_set_hl(0, "NormalFloat", { bg = nil })
 
       pcall(vim.cmd, "set noruler")
       pcall(vim.cmd, "set laststatus=3")
@@ -376,7 +377,6 @@ vim.keymap.set({ "n", "i" }, "<C-s>", function() pcall(vim.cmd, "write") end, { 
 -- Fuzzy finder
 vim.keymap.set({ "n", "i" }, "<C-f>", function()
   require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-    winblend = 10,
     previewer = false -- maybe true
   })
 end, { silent = true })
