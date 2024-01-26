@@ -184,13 +184,15 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
     'weilbith/nvim-code-action-menu',
     cmd = 'CodeActionMenu',
   },
-  {
+    -- Codeium Disabled For now
+  --[[ {
     'Exafunction/codeium.vim',
     dependencies = {
       "nvim-lua/plenary.nvim",
       "hrsh7th/nvim-cmp",
     },
-  },
+  }, ]]--
+    
   --[[ {
     'JellyApple102/flote.nvim',
     config = function()
