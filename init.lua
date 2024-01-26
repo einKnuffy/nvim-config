@@ -125,7 +125,7 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
   require("teleconfig"),
   require("statusline"),
   require('autoformat'),
-  -- require("termy"),
+  require("termy"),
   {
     "lewis6991/hover.nvim",
     config = function()
@@ -732,12 +732,12 @@ local dict = require("cmp_dictionary")
 
 dict.setup({
   -- The following are default values.
-  exact = 2,
+  exact_length = 2,
   first_case_insensitive = false,
   document = false,
   document_command = "wn %s -over",
   sqlite = false,
-  max_items = -1,
+  max_number_items = -1,
   capacity = 5,
   debug = false,
 })
