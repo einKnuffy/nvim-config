@@ -217,7 +217,7 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
     end
   }, ]]
   { 'wakatime/vim-wakatime' },
-  {
+ --[[  {
     'pwntester/octo.nvim',
     requires = {
       'nvim-lua/plenary.nvim',
@@ -227,7 +227,7 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
     config = function()
       require "octo".setup()
     end
-  },
+  }, ]]--
   --[[ { 'tikhomirov/vim-glsl' },  ]] -- for glsl (vert, frag shader) highlighting (semantic is more complex)
   {
     "Dhanus3133/LeetBuddy.nvim",
