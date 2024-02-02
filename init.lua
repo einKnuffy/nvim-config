@@ -125,7 +125,7 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
   require("teleconfig"),
   require("statusline"),
   require('autoformat'),
-  require("termy"),
+  -- require("termy"),
   {
     "lewis6991/hover.nvim",
     config = function()
@@ -184,15 +184,40 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
     'weilbith/nvim-code-action-menu',
     cmd = 'CodeActionMenu',
   },
-    -- Codeium Disabled For now
+  {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function(self, opts)
+      local harpoon = require("harpoon")
+
+      -- REQUIRED
+      harpoon:setup({
+      })
+      -- REQUIRED
+
+      vim.keymap.set("n", "<C-a>", function() harpoon:list():append() end)
+      vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+
+      vim.keymap.set("n", "<C-h>", function() harpoon:list():select(1) end)
+      vim.keymap.set("n", "<C-t>", function() harpoon:list():select(2) end)
+      vim.keymap.set("n", "<C-n>", function() harpoon:list():select(3) end)
+      vim.keymap.set("n", "<C-s>", function() harpoon:list():select(4) end)
+
+      -- Toggle previous & next buffers stored within Harpoon list
+      vim.keymap.set("n", "<C-S-P>", function() harpoon:list():prev() end)
+      vim.keymap.set("n", "<C-S-N>", function() harpoon:list():next() end)
+    end
+  },
+  -- Codeium Disabled For now
   --[[ {
     'Exafunction/codeium.vim',
     dependencies = {
       "nvim-lua/plenary.nvim",
       "hrsh7th/nvim-cmp",
     },
-  }, ]]--
-    
+  }, ]] --
+
   --[[ {
     'JellyApple102/flote.nvim',
     config = function()
@@ -217,7 +242,7 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
     end
   }, ]]
   { 'wakatime/vim-wakatime' },
- --[[  {
+  --[[  {
     'pwntester/octo.nvim',
     requires = {
       'nvim-lua/plenary.nvim',
@@ -227,7 +252,7 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
     config = function()
       require "octo".setup()
     end
-  }, ]]--
+  }, ]]                               --
   --[[ { 'tikhomirov/vim-glsl' },  ]] -- for glsl (vert, frag shader) highlighting (semantic is more complex)
   {
     "Dhanus3133/LeetBuddy.nvim",

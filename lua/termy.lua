@@ -2,6 +2,8 @@ return {
   'voldikss/vim-floaterm',
   name = "floaterm",
   config = function()
+    -- vim.o.shell = '"C:/Program Files/Git/bin/bash.exe"'
+    -- vim.o.shellcmdflag = '-c'
     --    pcall(vim.cmd, "filetype on")
 
     vim.keymap.set({ "i", "n", "t" }, "<C-t>", function()
@@ -36,8 +38,16 @@ return {
       pcall(vim.cmd, "FloatermShow")
     end, { silent = true })
 
-    -- vim.g.floaterm_shell = "shell"
+    -- vim.g.floaterm_shell = "C:/Program\\ Files/Git/bin/sh.exe"
     vim.g.floaterm_title = " Experience is the name everyone gives to their mistakes. "
     vim.g.floaterm_titleposition = "center"
+
+    -- vim.g.shell = 'bash.exe'
+    -- vim.g.shellcmdflag = '-c'
+    -- vim.g.shellredir = '>%s 2>&1'
+    -- vim.g.shellquote= shellxescape=
+    -- vim.g.noshelltemp
+    -- vim.g.shellxquote=
+    -- vim.g.shellpipe='2>&1| tee'
   end,
 }
