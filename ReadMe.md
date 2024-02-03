@@ -57,6 +57,7 @@ run '~/.tmux/plugins/tpm/tpm'
 
 - Implement a script like (.bat) for automatically installing all dependencies like the languages...
 - Make this config compelte and for Neovim make it an IDE
+- Have a look at [this](https://github.com/rockerBOO/awesome-neovim?tab=readme-ov-file#game)
 
 ## Links as a reminder
 

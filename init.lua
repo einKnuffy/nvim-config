@@ -29,8 +29,14 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
       }, -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim' }
   },
+
+  -- Enabling customized plugins
   require("nvimtreesitter"),
+  require("statusline"),
+  require('autoformat'),
   require("dap-debug"),
+
+  -- Git signs next to line number
   {
     'lewis6991/gitsigns.nvim',
     opts = {
@@ -91,6 +97,31 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
     end
   },
 
+  -- Enablign a Translator
+  {
+    "potamides/pantran.nvim",
+    config = function()
+      local pantran = require("pantran")
+
+      vim.keymap.set("n", "<C-t>", pantran.motion_translate, { noremap = true, silent = true, expr = true })
+      vim.keymap.set("v", "<C-t>", pantran.motion_translate, { noremap = true, silent = true, expr = true })
+      -- vim.keymap.set("n", "<leader>trr", function() return pantran.motion_translate() .. "_" end,
+      -- { noremap = true, silent = true, expr = true })
+      -- vim.keymap.set("x", "<leader>tr", pantran.motion_translate, { noremap = true, silent = true, expr = true })
+    end
+  },
+
+  -- Games
+  {
+    'jim-fx/sudoku.nvim',
+    cmd = "Sudoku",
+    config = function()
+      require("sudoku").setup({
+        -- configuration ...
+      })
+    end
+  },
+
   -- Enabling Comment modification
   {
     'numToStr/Comment.nvim',
@@ -134,8 +165,6 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
     dependencies = { 'nvim-lua/plenary.nvim' }
   },
 
-  require("statusline"),
-  require('autoformat'),
 
   -- Hover functionality
   {
@@ -189,10 +218,14 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
       })
     end
   },
+
+  -- Code Action Menu with Quickfixes
   {
     'weilbith/nvim-code-action-menu',
     cmd = 'CodeActionMenu',
   },
+
+  -- Quick Marked Buffer Switcher
   {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
@@ -371,7 +404,7 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
 -- [[ Setting options ]]
 
 -- Set highlight on search
-vim.o.hlsearch = false
+vim.o.hlsearch = true
 
 -- Make line numbers default
 vim.wo.number = true
