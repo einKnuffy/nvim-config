@@ -1,4 +1,26 @@
-# Personal nvim configuration - einknuffy
+#  Personal nvim configuration - einknuffy
+
+## Steps
+
+- Have Neovim-QT on Windows installed (won't be used as a GUI)
+- Have Cygwin-Terminal installed (Linux-like environment on windows)
+  - Install in the installation process the package `tmux`
+- Set the cygwin font to `Hack Nerd Font` with size 12
+- Set the cygwin theme to `Monokai Dimmed` and cursor type to `line`
+- Install my tmux configuration in cygwin-terminal
+- Install nvim configuration
+- Follow prerequisites and requirements to install dependencies
+
+```
+Use nvim inside cygwin with tmux to do programming projects under cygwin custom folders:
+`%CYGWIN INSTALLATION PATH%\dev\ ...` <-- new path for programming projects
+```
+
+## ToDo
+
+- Implement a script like (.bat) for automatically installing all dependencies like the languages...
+
+- MAKE A COMPLETE IDE (MINIMAL BUT AN IDE), including DEBUGGER and TESTS
 
 ## REMINDERS
 

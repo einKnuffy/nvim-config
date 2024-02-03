@@ -1,4 +1,3 @@
--- BY einknuffy
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
@@ -33,27 +32,6 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
   require("nvimtreesitter"),
   require("dap-debug"),
   {
-    -- Autocompletion
-    'hrsh7th/nvim-cmp',
-    dependencies = {                                  -- Snippet Engine & its associated nvim-cmp source
-      'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip', -- Adds LSP completion capabilities
-      'hrsh7th/cmp-nvim-lsp',                         -- Adds a number of user-friendly snippets
-      'rafamadriz/friendly-snippets', 'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-cmdline', "hrsh7th/cmp-nvim-lsp-signature-help", "uga-rosa/cmp-dictionary" }
-  },
-  --[[   {
-    'puremourning/vimspector',
-    name = "vimspector",
-    event = "VimEnter" --[[  "mfussenegger/nvim-dap",
-    config = function()
-      require("dap-config")
-    end
-  }, ]]
-  -- Useful plugin to show you pending keybinds.
-  --[[ { 'folke/which-key.nvim', opts = {} }, ]]
-  {
     'lewis6991/gitsigns.nvim',
     opts = {
       signs = {
@@ -76,7 +54,31 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
     }
   },
 
-  --[[ {
+  -- Enabling Vimspector (DEBUGGER)
+  {
+    'puremourning/vimspector',
+    name = "vimspector",
+    event = "VimEnter"
+    --[[  "mfussenegger/nvim-dap",
+    config = function()
+      require("dap-config")
+    end ]]
+  },
+
+  -- Enabling Snippets
+  {
+    'hrsh7th/nvim-cmp',
+    dependencies = {                                  -- Snippet Engine & its associated nvim-cmp source
+      'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip', -- Adds LSP completion capabilities
+      'hrsh7th/cmp-nvim-lsp',                         -- Adds a number of user-friendly snippets
+      'rafamadriz/friendly-snippets', 'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-cmdline', "hrsh7th/cmp-nvim-lsp-signature-help", "uga-rosa/cmp-dictionary" }
+  },
+
+  -- Enabling an indentation blankline for better visual
+  {
     'lukas-reineke/indent-blankline.nvim',
     event = "VeryLazy",
     config = function()
@@ -87,10 +89,12 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
         }
       })
     end
-  }, ]]
+  },
+
+  -- Enabling Comment modification
   {
     'numToStr/Comment.nvim',
-    config = function()
+    config = function(self)
       require("Comment").setup({
         padding = true,
         sticky = true,
@@ -116,16 +120,24 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
     end
   },
 
+  -- Nvim Autopairs
   {
     'windwp/nvim-autopairs',
     event = "InsertEnter",
     opts = {}
   },
 
-  require("teleconfig"),
+  -- Telescope
+  {
+    'nvim-telescope/telescope.nvim',
+    -- branch = '0.1.x',
+    dependencies = { 'nvim-lua/plenary.nvim' }
+  },
+
   require("statusline"),
   require('autoformat'),
-  -- require("termy"),
+
+  -- Hover functionality
   {
     "lewis6991/hover.nvim",
     config = function()
@@ -135,15 +147,10 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
           require("hover.providers.lsp")
           require('hover.providers.gh')
           require('hover.providers.gh_user')
-          -- require('hover.providers.jira')
-          -- require('hover.providers.man')
-          -- require('hover.providers.dictionary')
         end,
         preview_opts = {
           border = nil
         },
-        -- Whether the contents of a currently open hover window should be moved
-        -- to a :h preview-window when pressing the hover keymap.
         preview_window = false,
         title = true
       }
@@ -152,31 +159,33 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
       --      vim.keymap.set({ "n", "i" }, "<C-d>", require("hover").hover_select, { desc = "hover.nvim (select)" })
     end
   },
+
+  -- Discord integration
   {
     'einKnuffy/betterpresence.nvim',
     config = function()
       require("presence").setup({
         -- General options
-        auto_update         = true,                 -- Update activity based on autocmd events (if `false`, map or manually execute `:lua package.loaded.presence:update()`)
-        neovim_image_text   = "It's neovim fr",     -- Text displayed when hovered over the Neovim image
-        main_image          = "programming-1",      -- Main image display (either "neovim" or "file")
-        client_id           = "992075159097843753", -- Custom sauce
-        log_level           = "error",              -- Log messages at or above this level (one of the following: "debug", "info", "warn", "error")
-        debounce_timeout    = 10,                   -- Number of seconds to debounce events (or calls to `:lua package.loaded.presence:update(<filename>, true)`)
-        enable_line_number  = true,                 -- Displays the current line number instead of the current project
-        blacklist           = {},                   -- A list of strings or Lua patterns that disable Rich Presence if the current file name, path, or workspace matches
-        buttons             = true,                 -- Configure Rich Presence button(s), either a boolean to enable/disable, a static table (`{{ label = "<label>", url = "<url>" }, ...}`, or a function(buffer: string, repo_url: string|nil): table)
-        file_assets         = {},                   -- Custom file asset definitions keyed by file names and extensions (see default config at `lua/presence/file_assets.lua` for reference)
-        show_time           = true,                 -- Show the timer
+        auto_update = true,
+        neovim_image_text = "It's neovim fr",
+        main_image = "programming-1",
+        client_id = "992075159097843753", -- CUSTOM ID
+        log_level = "warn",
+        debounce_timeout = 10,
+        enable_line_number = true,
+        blacklist = {},
+        buttons = true,
+        file_assets = {},
+        show_time = true,
 
         -- Rich Presence text options
-        editing_text        = "Editing %s",         -- Format string rendered when an editable file is loaded in the buffer (either string or function(filename: string): string)
-        file_explorer_text  = "Browsing %s",        -- Format string rendered when browsing a file explorer (either string or function(file_explorer_name: string): string)
-        git_commit_text     = "Committing changes", -- Format string rendered when committing changes in git (either string or function(filename: string): string)
-        plugin_manager_text = "Managing plugins",   -- Format string rendered when managing plugins (either string or function(plugin_manager_name: string): string)
-        reading_text        = "Reading %s",         -- Format string rendered when a read-only or unmodifiable file is loaded in the buffer (either string or function(filename: string): string)
-        workspace_text      = "Working on %s",      -- Format string rendered when in a git repository (either string or function(project_name: string|nil, filename: string): string)
-        line_number_text    = "Line %s out of %s",  -- Format string rendered when `enable_line_number` is set to true (either string or function(line_number: number, line_count: number): string)
+        editing_text = "Editing %s",
+        file_explorer_text = "Browsing %s",
+        git_commit_text = "Committing changes",
+        plugin_manager_text = "Managing plugins",
+        reading_text = "Reading %s",
+        workspace_text = "Working on %s",
+        line_number_text = "Line %s out of %s",
       })
     end
   },
@@ -188,12 +197,11 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
     dependencies = { "nvim-lua/plenary.nvim" },
-    config = function(self, opts)
+    config = function()
       local harpoon = require("harpoon")
 
       -- REQUIRED
-      harpoon:setup({
-      })
+      harpoon:setup({})
       -- REQUIRED
 
       vim.keymap.set("n", "<C-a>", function() harpoon:list():append() end)
@@ -209,6 +217,7 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
       vim.keymap.set("n", "<C-S-N>", function() harpoon:list():next() end)
     end
   },
+
   -- Codeium Disabled For now
   --[[ {
     'Exafunction/codeium.vim',
@@ -218,6 +227,7 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
     },
   }, ]] --
 
+  -- Taking Notes disabled
   --[[ {
     'JellyApple102/flote.nvim',
     config = function()
@@ -241,7 +251,12 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
       })
     end
   }, ]]
+
+
+  -- WakaTime integration
   { 'wakatime/vim-wakatime' },
+
+  -- Github editing and reviewing disabled
   --[[  {
     'pwntester/octo.nvim',
     requires = {
@@ -252,8 +267,12 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
     config = function()
       require "octo".setup()
     end
-  }, ]]                               --
+  }, ]]
+
+  -- GLSL Syntax Support
   --[[ { 'tikhomirov/vim-glsl' },  ]] -- for glsl (vert, frag shader) highlighting (semantic is more complex)
+
+  -- LeetBuddy integration (coding in Neovim)
   {
     "Dhanus3133/LeetBuddy.nvim",
     dependencies = {
@@ -265,8 +284,6 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
       require("leetbuddy").setup({
         language = "ts", -- change default language
       })
-
-      --[[ vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#ffffff", bg = nil }) ]]
     end,
     keys = {
       { "<leader>lq", "<cmd>LBQuestions<cr>", desc = "List Questions" },
@@ -276,6 +293,8 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
       { "<leader>ls", "<cmd>LBSubmit<cr>",    desc = "Submit Code" },
     },
   },
+
+  -- Color preview
   {
     'brenoprata10/nvim-highlight-colors',
     event = "VeryLazy",
@@ -286,9 +305,12 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
       })
     end
   },
+
+  -- Cursor line highlighter
   'danilamihailov/beacon.nvim',
+
+  -- Theme (customized by myself)
   {
-    -- Theme inspired by Atom
     'nyoom-engineering/oxocarbon.nvim',
     priority = 1000,
     config = function()
@@ -326,6 +348,8 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
       pcall(vim.cmd, "set laststatus=3")
     end
   },
+
+  -- Enabling Transparency
   {
     "xiyaowong/transparent.nvim",
     config = function()
@@ -340,8 +364,6 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
         extra_groups = {},   -- table: additional groups that should be cleared
         exclude_groups = {}, -- table: groups you don't want to clear
       })
-
-      -- transparent.clear_prefix("NvimTree")
     end
   }
 })
@@ -408,17 +430,11 @@ vim.keymap.set({ "n", "i" }, "<C-f>", function()
   })
 end, { silent = true })
 
---[[ vim.keymap.set({ "n", "i" }, "<C-f>", function()
-  require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-    winblend = 10,
-    previewer = false -- maybe true
-  })
-end, { silent = true }) ]]
-
 -- Go to definition
 vim.keymap.set({ "n", "i" }, '<C-g>', vim.lsp.buf.definition, { silent = true })
 
 -- Diagnostics
+-- ToDo: Use something better
 vim.keymap.set({ "n", "i" }, "<C-d>", require('telescope.builtin').diagnostics, { silent = true })
 
 -- Code Action Fix
@@ -427,7 +443,8 @@ vim.keymap.set({ "n", "i" }, "<C-c>", "<cmd>CodeActionMenu<cr>", { silent = true
 -- Hover Menu with LSP Information
 vim.keymap.set({ "n", "i" }, "<C-k>", require("hover").hover, { silent = true })
 
-vim.keymap.set({ "n", "i" }, "<C-Tab>", "<cmd>bnext<cr>", { silent = true })
+-- Next buffer switch
+-- vim.keymap.set({ "n", "i" }, "<C-Tab>", "<cmd>bnext<cr>", { silent = true })
 
 -- Delete buffer
 vim.keymap.set("n", "q", "<cmd>bd<cr>", { silent = true })
@@ -451,18 +468,7 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", {
   silent = true
 })
 
---[[ vim.o.foldcolumn = '1' -- '0' is not bad
-vim.o.foldlevel = 99   -- Using ufo provider need a large value, feel free to decrease the value
-vim.o.foldlevelstart = 99
-vim.o.foldenable = true
-
--- Using ufo provider need remap `zR` and `zM`. If Neovim is 0.6.1, remap yourself
-vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
-vim.keymap.set('n', 'zM', require('ufo').closeAllFolds) ]]
-
-
 -- [[ Highlight on yank ]]
--- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', {
   clear = true
 })
@@ -488,7 +494,7 @@ require('telescope').setup {
 }
 
 -- Enable telescope fzf native, if installed
--- pcall(require('telescope').load_extension, 'fzf')
+pcall(require('telescope').load_extension, 'fzf')
 
 -- See `:help telescope.builtin`
 --[[ vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, {
