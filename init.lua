@@ -60,16 +60,12 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
     }
   },
 
-  -- Enabling Vimspector (DEBUGGER)
-  {
+  -- Disabling Vimspector (DEBUGGER) due to having nvim-dap
+  --[[ {
     'puremourning/vimspector',
     name = "vimspector",
     event = "VimEnter"
-    --[[  "mfussenegger/nvim-dap",
-    config = function()
-      require("dap-config")
-    end ]]
-  },
+   }, ]]
 
   -- Enabling Snippets
   {
@@ -81,6 +77,13 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline', "hrsh7th/cmp-nvim-lsp-signature-help", "uga-rosa/cmp-dictionary" }
+  },
+
+  -- Hardtime adapting best practices
+  {
+    "m4xshen/hardtime.nvim",
+    dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
+    opts = {}
   },
 
   -- Enabling an indentation blankline for better visual
@@ -112,7 +115,7 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
   },
 
   -- Games
-  {
+  --[[ {
     'jim-fx/sudoku.nvim',
     cmd = "Sudoku",
     config = function()
@@ -120,7 +123,7 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
         -- configuration ...
       })
     end
-  },
+  }, ]]
 
   -- Enabling Comment modification
   {
@@ -341,6 +344,12 @@ require('lazy').setup({ -- NOTE: First, some plugins that don't require any conf
 
   -- Cursor line highlighter
   'danilamihailov/beacon.nvim',
+
+  -- Virtual Text support
+  {
+    "theHamsta/nvim-dap-virtual-text",
+    opts = {},
+  },
 
   -- Theme (customized by myself)
   {
@@ -903,6 +912,7 @@ vim.o.shiftwidth = 4
 
 vim.cmd("set cmdheight=2") -- customizing bottom padding
 vim.cmd("set fillchars=fold:\\ ,vert:\\│,eob:\\ ,msgsep:‾")
+vim.cmd("set number")
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

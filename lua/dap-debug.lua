@@ -22,37 +22,18 @@ return {
     --[[   'leoluz/nvim-dap-go', ]]
   },
   config = function()
-    local dap = require 'dap'
-    local dapui = require 'dapui'
+    local dap = require('dap')
+    local dapui = require('dapui')
 
-    require('mason-nvim-dap').setup {
-      -- Makes a best effort to setup the various debuggers with
-      -- reasonable debug configurations
+    require('mason-nvim-dap').setup({
       automatic_setup = true,
-
-      -- You can provide additional configuration to the handlers,
-      -- see mason-nvim-dap README for more information
       handlers = {},
-
-      -- You'll need to check that you have the required things installed
-      -- online, please don't ask me how to install them :)
       ensure_installed = {
         -- Update this to ensure that you have the debuggers for the langs you want
-        'delve',
         "cpp",
         "lua"
       },
-    }
-
-    -- Basic debugging keymaps, feel free to change to your liking!
-    vim.keymap.set('n', '<F5>', dap.continue, { desc = 'Debug: Start/Continue' })
-    vim.keymap.set('n', '<F1>', dap.step_into, { desc = 'Debug: Step Into' })
-    vim.keymap.set('n', '<F2>', dap.step_over, { desc = 'Debug: Step Over' })
-    vim.keymap.set('n', '<F3>', dap.step_out, { desc = 'Debug: Step Out' })
-    vim.keymap.set('n', '<leader>b', dap.toggle_breakpoint, { desc = 'Debug: Toggle Breakpoint' })
-    vim.keymap.set('n', '<leader>B', function()
-      dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ')
-    end, { desc = 'Debug: Set Breakpoint' })
+    })
 
     -- Dap UI setup
     -- For more information, see |:help nvim-dap-ui|
@@ -76,9 +57,6 @@ return {
       },
     }
 
-    -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
-    vim.keymap.set('n', '<F7>', dapui.toggle, { desc = 'Debug: See last session result.' })
-
     dap.listeners.after.event_initialized['dapui_config'] = dapui.open
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
@@ -88,26 +66,45 @@ return {
       port = "${port}",
       executable = {
         -- CHANGE THIS to your path!
-        command = '/absolute/path/to/codelldb/extension/adapter/codelldb',
+        -- command = 'C:/Users/kjell/AppData/Local/nvim-data/mason/packages/codelldb/extension/adapter/codelldb.exe',
+        command = 'C:/Users/kjell/AppData/Local/nvim-data/mason/packages/codelldb/extension/adapter/codelldb.exe',
+
         args = { "--port", "${port}" },
 
         -- On windows you may have to uncomment this:
         -- detached = false,
       }
     }
+
     dap.configurations.cpp = {
       {
         name = "Launch file",
         type = "codelldb",
         request = "launch",
-        program = function()
+        program = 'C:/Users/kjell/AppData/Local/nvim-data/mason/packages/codelldb/extension/adapter/codelldb.exe',
+        --[[ function()
           return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-        end,
+        end, ]]
         cwd = '${workspaceFolder}',
         stopOnEntry = false,
       },
     }
     -- Install golang specific config
     -- require('dap-go').setup()
+
+
+    -- Keymaps
+    -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
+    vim.keymap.set('n', '<C-t>', require("dapui").toggle, { desc = 'Debug: See last session result.' })
+
+    -- Basic debugging keymaps, feel free to change to your liking!
+    vim.keymap.set('n', '<C-r>', dap.continue, { desc = 'Debug: Start/Continue' })
+    vim.keymap.set('n', '<C-S-1>', dap.step_into, { desc = 'Debug: Step Into' })
+    vim.keymap.set('n', '<C-S-2>', dap.step_over, { desc = 'Debug: Step Over' })
+    vim.keymap.set('n', '<C-S-3>', dap.step_out, { desc = 'Debug: Step Out' })
+    vim.keymap.set('n', '<C-b>', dap.toggle_breakpoint, { desc = 'Debug: Toggle Breakpoint' })
+    vim.keymap.set('n', '<C-S-B>', function()
+      dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ')
+    end, { desc = 'Debug: Set Breakpoint' })
   end,
 }
