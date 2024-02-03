@@ -1,3 +1,5 @@
+
+
 #  Personal nvim configuration - einknuffy
 
 ## Steps
@@ -11,43 +13,29 @@
 - Install nvim configuration
 - Follow prerequisites and requirements to install dependencies
 
-```
-Use nvim inside cygwin with tmux to do programming projects under cygwin custom folders:
-`%CYGWIN INSTALLATION PATH%\dev\ ...` <-- new path for programming projects
-```
+> **Use nvim inside cygwin with tmux to do programming projects under cygwin custom folders:   `%CYGWIN INSTALLATION PATH%\dev\ ...`**
 
 ## ToDo
 
 - Implement a script like (.bat) for automatically installing all dependencies like the languages...
-
-- MAKE A COMPLETE IDE (MINIMAL BUT AN IDE), including DEBUGGER and TESTS
+- Make this config compelte and for Neovim make it an IDE
 
 ## REMINDERS
 
 - C++ Cheating Tutorial: [UnknownCheats](https://www.unknowncheats.me/forum/c-and-c-/113642-useful-gamehacking-programming-threads-mega-thread.html)
-
 - Cheat Engine Pointers: [CE](https://www.unknowncheats.me/forum/programming-for-beginners/110375-cheat-engine-finding-base-address-pointer-scan.html)
-
 - SoT: [TUTORIALS](https://www.unknowncheats.me/forum/sea-of-thieves/436708-sea-thieves-complete-hack-tool-list.html)
+- [Useful Nvim Package List]([https://github.com/catppuccin/nvim#Integrations](https://github.com/rockerBOO/awesome-neovim))
 
+### Dependencies
 
-- [Useful Nvim Packages](https://github.com/catppuccin/nvim#Integrations)
-## Let's get started
+- Rust, Luarocks, Python, LLVM (Clang compiler)
 
-![lets-get-started-rh01o6](https://github.com/einKnuffy/radon/assets/66639485/2823c10e-2d8e-4e4c-ab82-861963129b84)
-
-### Needed before being able to run Neovim
-
-- Zig, Rust, Luarocks, Python, LLVM (Clang compiler) 
-
+> Is this yet needed?
 - Ascii-Image-Converter: [GitHub](https://github.com/TheZoraiz/ascii-image-converter#windows)
-
   - Add the path to its folder in user env variables.
 
-- Git Bash
-
-  - Add the path to /bin folder to user env variables.
-
+> Deprecated
 ### Aftermath
 
 - Install all mason packages needed, such as:
