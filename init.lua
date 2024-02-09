@@ -1,6 +1,7 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- Lazy check for updates
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   vim.fn
@@ -8,6 +9,8 @@ if not vim.loop.fs_stat(lazypath) then
         lazypath }
 end
 vim.opt.rtp:prepend(lazypath)
+
+-- ToDo: Just run fetch and pull (checkout main to this repo) to get newest updates, and if any of them "fail" then just say that the user needs to stash all changes he locally made...
 
 require('lazy').setup({ -- NOTE: First, some plugins that don't require any configuration
   -- Git related plugins
