@@ -11,7 +11,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- ToDo: Just run fetch and pull (checkout main to this repo) to get newest updates, and if any of them "fail" then just say that the user needs to stash all changes he locally made...
-vim.api.nvim_create_user_command("UpdateConfig", function()
+vim.api.nvim_create_user_command("ConfigSync", function()
   print("This will remove all local changes, and sync local config to lastest, online.")
   print(vim.fn.system("git stash && git fetch && git pull && git checkout"))
 end, {})

@@ -1,5 +1,7 @@
 #  Personal nvim configuration - einknuffy
 
+> For neovim, a function `ConfigSync` will be provided for you to manually get the latest config from this repository, stashing all local changes
+
 ## Steps
 - Have Neovim-QT on Windows installed (won't be used as a GUI)
 - Have Cygwin-Terminal installed (Linux-like environment on windows)
