@@ -4,16 +4,16 @@ vim.g.maplocalleader = ' '
 -- Lazy check for updates
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
-  print("This will remove all local changes, and sync local config to lastest, online.")
-  print(vim.fn
+  vim.fn
       .system { 'git', 'clone', '--filter=blob:none', 'https://github.com/folke/lazy.nvim.git', '--branch=stable', -- latest stable release
-        lazypath })
+        lazypath }
 end
 vim.opt.rtp:prepend(lazypath)
 
 -- ToDo: Just run fetch and pull (checkout main to this repo) to get newest updates, and if any of them "fail" then just say that the user needs to stash all changes he locally made...
 vim.api.nvim_create_user_command("UpdateConfig", function()
-  vim.fn.system("git stash && git branch main && git fetch && git pull && git checkout")
+  print("This will remove all local changes, and sync local config to lastest, online.")
+  print(vim.fn.system("git stash && git branch main && git fetch && git pull && git checkout"))
 end, {})
 
 require('lazy').setup({ -- NOTE: First, some plugins that don't require any configuration
