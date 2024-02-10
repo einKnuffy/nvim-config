@@ -99,4 +99,4 @@ Easiest replacing by "programming" it yourself:
 
 - `%s/color\.r/color.r()/g` for replacing `color.r` with `color.r()`
 
-Let's now have some fun coding! 😅😀
+That is it...
