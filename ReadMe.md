@@ -100,3 +100,4 @@ Easiest replacing by "programming" it yourself:
 - `%s/color\.r/color.r()/g` for replacing `color.r` with `color.r()`
 
 That is it...
+Has it updated, yet?
