@@ -1,7 +1,6 @@
 #  Personal nvim configuration - einknuffy
 
 ## Steps
-
 - Have Neovim-QT on Windows installed (won't be used as a GUI)
 - Have Cygwin-Terminal installed (Linux-like environment on windows)
   - Install in the installation process the package `tmux`
