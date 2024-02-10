@@ -4,9 +4,10 @@ vim.g.maplocalleader = ' '
 -- Lazy check for updates
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn
+  print("This will remove all local changes, and sync local config to lastest, online.")
+  print(vim.fn
       .system { 'git', 'clone', '--filter=blob:none', 'https://github.com/folke/lazy.nvim.git', '--branch=stable', -- latest stable release
-        lazypath }
+        lazypath })
 end
 vim.opt.rtp:prepend(lazypath)
 
